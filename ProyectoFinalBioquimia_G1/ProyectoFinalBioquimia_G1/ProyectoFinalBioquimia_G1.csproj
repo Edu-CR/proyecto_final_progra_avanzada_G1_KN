@@ -224,7 +224,6 @@
     <Compile Include="EF\TB_Usuario.cs">
       <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmpresaModel.cs" />
     <Compile Include="Models\IngredienteModel.cs" />
     <Compile Include="Models\PrototipoConsultaModel.cs" />
     <Compile Include="Global.asax.cs">

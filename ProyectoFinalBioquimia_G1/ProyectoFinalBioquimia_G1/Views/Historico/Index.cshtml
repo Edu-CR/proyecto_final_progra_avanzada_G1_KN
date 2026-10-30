@@ -1,8 +1,20 @@
-﻿@using ProyectoFinalBioquimia_G1.Models
-@model List<PrototipoListaModel>
+﻿@using ProyectoFinalBioquimia_G1.EF
+@model List<TB_Prototipo>
 @{
     ViewData["Title"] = "Histórico de prototipos";
-    var filtro = ViewBag.Filtro as HistoricoFiltroModel ?? new HistoricoFiltroModel();
+
+    // Función local para determinar la clase de Bootstrap según el estado
+    string ObtenerClaseEstado(string estado)
+    {
+        switch (estado)
+        {
+            case "En trámite": return "bg-warning text-dark";
+            case "Aprobado": return "bg-success";
+            case "Devuelto": return "bg-danger";
+            case "En pruebas": return "bg-info text-dark";
+            default: return "bg-secondary";
+        }
+    }
 }
 
 <div class="app-content-header">
@@ -28,31 +40,29 @@
                 @using (Html.BeginForm("Index", "Historico", FormMethod.Get, new { @class = "row g-2 align-items-end" }))
                 {
                     <div class="col-lg-4 col-md-6">
-                        <label for="Buscar" class="form-label">Buscar</label>
-                        <input type="text" id="Buscar" name="Buscar" class="form-control"
-                               placeholder="Nombre o descripción" value="@filtro.Buscar" />
+                        <label for="buscar" class="form-label">Buscar</label>
+                        <input type="text" id="buscar" name="buscar" class="form-control"
+                               placeholder="Nombre o descripción" value="@ViewBag.Buscar" />
                     </div>
                     <div class="col-lg-2 col-md-6">
-                        <label for="IdEstado" class="form-label">Estado</label>
-                        @Html.DropDownList("IdEstado", (SelectList)ViewBag.Estados, "Todos", new { @class = "form-select" })
+                        <label for="idEstado" class="form-label">Estado</label>
+                        @Html.DropDownList("idEstado", (SelectList)ViewBag.Estados, "Todos", new { @class = "form-select" })
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <label for="IdCategoria" class="form-label">Categoría</label>
-                        @Html.DropDownList("IdCategoria", (SelectList)ViewBag.Categorias, "Todas", new { @class = "form-select" })
+                        <label for="idCategoria" class="form-label">Categoría</label>
+                        @Html.DropDownList("idCategoria", (SelectList)ViewBag.Categorias, "Todas", new { @class = "form-select" })
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <label for="IdQuimico" class="form-label">Químico</label>
-                        @Html.DropDownList("IdQuimico", (SelectList)ViewBag.Quimicos, "Todos", new { @class = "form-select" })
+                        <label for="idQuimico" class="form-label">Químico</label>
+                        @Html.DropDownList("idQuimico", (SelectList)ViewBag.Quimicos, "Todos", new { @class = "form-select" })
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <label for="Desde" class="form-label">Creado desde</label>
-                        <input type="date" id="Desde" name="Desde" class="form-control"
-                               value="@(filtro.Desde.HasValue ? filtro.Desde.Value.ToString("yyyy-MM-dd") : "")" />
+                        <label for="desde" class="form-label">Creado desde</label>
+                        <input type="date" id="desde" name="desde" class="form-control" value="@ViewBag.Desde" />
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <label for="Hasta" class="form-label">Creado hasta</label>
-                        <input type="date" id="Hasta" name="Hasta" class="form-control"
-                               value="@(filtro.Hasta.HasValue ? filtro.Hasta.Value.ToString("yyyy-MM-dd") : "")" />
+                        <label for="hasta" class="form-label">Creado hasta</label>
+                        <input type="date" id="hasta" name="hasta" class="form-control" value="@ViewBag.Hasta" />
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <button type="submit" class="btn btn-primary w-100">
@@ -93,13 +103,14 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
+                                    string nombreEstado = item.TB_EstadoPrototipo != null ? item.TB_EstadoPrototipo.NombreEstado : "";
                                     <tr>
                                         <td>@item.NombrePrototipo</td>
-                                        <td>@item.Categoria</td>
-                                        <td>@item.Quimico</td>
-                                        <td><span class="badge @PrototipoListaModel.ClaseEstado(item.Estado)">@item.Estado</span></td>
+                                        <td>@(item.TB_Categoria != null ? item.TB_Categoria.NombreCategoria : "—")</td>
+                                        <td>@(item.TB_Usuario != null ? item.TB_Usuario.NombreCompleto : "—")</td>
+                                        <td><span class="badge @ObtenerClaseEstado(nombreEstado)">@nombreEstado</span></td>
                                         <td>@item.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                                        <td>@item.UltimaActualizacion.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@(item.FechaModificacion.HasValue ? item.FechaModificacion.Value.ToString("dd/MM/yyyy HH:mm") : "—")</td>
                                         <td class="text-end">
                                             <a href="@Url.Action("Detalle", new { id = item.IdPrototipo })"
                                                class="btn btn-sm btn-outline-secondary">

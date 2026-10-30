@@ -1,8 +1,38 @@
-﻿@using ProyectoFinalBioquimia_G1.Models
-@model PrototipoDetalleModel
+﻿@using ProyectoFinalBioquimia_G1.EF
+@model TB_Prototipo
 @{
     ViewData["Title"] = "Detalle del prototipo";
-    decimal sumaFormula = Model.Formula.Sum(f => f.Porcentaje);
+
+    string estadoActual = Model.TB_EstadoPrototipo != null ? Model.TB_EstadoPrototipo.NombreEstado : "";
+
+    // Obtener la lista de fórmulas directamente de la navegación de EF
+    var formulaList = Model.TB_PrototipoIngrediente != null
+        ? Model.TB_PrototipoIngrediente.OrderByDescending(f => f.Porcentaje).ToList()
+        : new List<TB_PrototipoIngrediente>();
+
+    decimal sumaFormula = formulaList.Sum(f => f.Porcentaje);
+
+    // Obtener el historial ordenado por fecha de cambio
+    var historialList = Model.TB_HistorialEstado != null
+        ? Model.TB_HistorialEstado.OrderBy(h => h.FechaCambio).ToList()
+        : new List<TB_HistorialEstado>();
+
+    // Obtener las empresas asociadas a través de la relación de EF
+    var empresasList = Model.TB_Empresa != null
+        ? Model.TB_Empresa.OrderBy(e => e.NombreEmpresa).Select(e => e.NombreEmpresa).ToList()
+        : new List<string>();
+
+    string ObtenerClaseEstado(string estado)
+    {
+        switch (estado)
+        {
+            case "En trámite": return "bg-warning text-dark";
+            case "Aprobado": return "bg-success";
+            case "Devuelto": return "bg-danger";
+            case "En pruebas": return "bg-info text-dark";
+            default: return "bg-secondary";
+        }
+    }
 }
 
 <div class="app-content-header">
@@ -11,7 +41,7 @@
             <div class="col-sm-8">
                 <h3 class="mb-0">
                     @Model.NombrePrototipo
-                    <span class="badge @PrototipoListaModel.ClaseEstado(Model.Estado) fs-6 align-middle">@Model.Estado</span>
+                    <span class="badge @ObtenerClaseEstado(estadoActual) fs-6 align-middle">@estadoActual</span>
                 </h3>
             </div>
             <div class="col-sm-4 text-sm-end mt-2 mt-sm-0">
@@ -28,7 +58,7 @@
 
         @if (!string.IsNullOrEmpty(Model.ComentarioGerente))
         {
-            <div class="alert @(Model.Estado == "Devuelto" ? "alert-warning" : "alert-secondary")" role="alert">
+            <div class="alert @(estadoActual == "Devuelto" ? "alert-warning" : "alert-secondary")" role="alert">
                 <strong>Comentario del gerente:</strong> @Model.ComentarioGerente
             </div>
         }
@@ -40,9 +70,9 @@
                     <div class="card-body">
                         <dl class="row mb-0">
                             <dt class="col-sm-4">Categoría</dt>
-                            <dd class="col-sm-8">@Model.Categoria</dd>
+                            <dd class="col-sm-8">@(Model.TB_Categoria != null ? Model.TB_Categoria.NombreCategoria : "—")</dd>
                             <dt class="col-sm-4">Químico</dt>
-                            <dd class="col-sm-8">@Model.Quimico</dd>
+                            <dd class="col-sm-8">@(Model.TB_Usuario != null ? Model.TB_Usuario.NombreCompleto : "—")</dd>
                             <dt class="col-sm-4">Descripción</dt>
                             <dd class="col-sm-8">@Model.Descripcion</dd>
                             <dt class="col-sm-4">Envase</dt>
@@ -50,10 +80,10 @@
                             <dt class="col-sm-4">Creado</dt>
                             <dd class="col-sm-8">@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
                             <dt class="col-sm-4">Última actualización</dt>
-                            <dd class="col-sm-8">@Model.UltimaActualizacion.ToString("dd/MM/yyyy HH:mm")</dd>
+                            <dd class="col-sm-8">@(Model.FechaModificacion.HasValue ? Model.FechaModificacion.Value.ToString("dd/MM/yyyy HH:mm") : "—")</dd>
                             <dt class="col-sm-4">Empresas</dt>
                             <dd class="col-sm-8 mb-0">
-                                @(Model.Empresas.Any() ? string.Join(", ", Model.Empresas) : "Sin empresas relacionadas")
+                                @(empresasList.Any() ? string.Join(", ", empresasList) : "Sin empresas relacionadas")
                             </dd>
                         </dl>
                     </div>
@@ -80,7 +110,7 @@
         <div class="card mb-3">
             <div class="card-header"><strong>Fórmula</strong></div>
             <div class="card-body p-0">
-                @if (!Model.Formula.Any())
+                @if (!formulaList.Any())
                 {
                     <p class="text-secondary m-3">El prototipo no tiene ingredientes registrados.</p>
                 }
@@ -97,12 +127,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var f in Model.Formula)
+                                @foreach (var f in formulaList)
                                 {
                                     <tr>
-                                        <td>@f.NombreIngrediente</td>
-                                        <td>@f.Funcion</td>
-                                        <td>@f.UnidadBase</td>
+                                        <td>@(f.TB_Ingrediente != null ? f.TB_Ingrediente.NombreIngrediente : "—")</td>
+                                        <td>@(f.TB_Ingrediente != null ? f.TB_Ingrediente.Funcion : "—")</td>
+                                        <td>@(f.TB_Ingrediente != null ? f.TB_Ingrediente.UnidadBase : "—")</td>
                                         <td class="text-end">@f.Porcentaje.ToString("0.00") %</td>
                                     </tr>
                                 }
@@ -122,7 +152,7 @@
         <div class="card">
             <div class="card-header"><strong>Historial de estados</strong></div>
             <div class="card-body p-0">
-                @if (!Model.Historial.Any())
+                @if (!historialList.Any())
                 {
                     <p class="text-secondary m-3">No hay cambios de estado registrados.</p>
                 }
@@ -139,23 +169,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var h in Model.Historial)
+                                @foreach (var h in historialList)
                                 {
+                                    string estadoAnterior = h.TB_EstadoPrototipo != null ? h.TB_EstadoPrototipo.NombreEstado : null;
+                                    string estadoNuevo = h.TB_EstadoPrototipo1 != null ? h.TB_EstadoPrototipo1.NombreEstado : "";
+
                                     <tr>
                                         <td class="text-nowrap">@h.FechaCambio.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td class="text-nowrap">
-                                            @if (h.EstadoAnterior == null)
+                                            @if (string.IsNullOrEmpty(estadoAnterior))
                                             {
                                                 <span>Creado como</span>
                                             }
                                             else
                                             {
-                                                <span class="badge @PrototipoListaModel.ClaseEstado(h.EstadoAnterior)">@h.EstadoAnterior</span>
+                                                <span class="badge @ObtenerClaseEstado(estadoAnterior)">@estadoAnterior</span>
                                                 <i class="bi bi-arrow-right"></i>
                                             }
-                                            <span class="badge @PrototipoListaModel.ClaseEstado(h.EstadoNuevo)">@h.EstadoNuevo</span>
+                                            <span class="badge @ObtenerClaseEstado(estadoNuevo)">@estadoNuevo</span>
                                         </td>
-                                        <td>@h.Usuario</td>
+                                        <td>@(h.TB_Usuario != null ? h.TB_Usuario.NombreCompleto : "—")</td>
                                         <td>@(string.IsNullOrEmpty(h.Justificacion) ? "—" : h.Justificacion)</td>
                                     </tr>
                                 }

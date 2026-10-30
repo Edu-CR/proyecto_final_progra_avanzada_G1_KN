@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProyectoFinalBioquimia_G1.EF;
-using ProyectoFinalBioquimia_G1.Models;
+using System.Data.Entity;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -16,70 +16,62 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
 
         [HttpGet]
-        public ActionResult Index(HistoricoFiltroModel filtro)
+        public ActionResult Index(string buscar, int? idEstado, int? idCategoria, int? idQuimico, DateTime? desde, DateTime? hasta)
         {
-            filtro = filtro ?? new HistoricoFiltroModel();
-
             try
             {
                 using (var db = new BioquimiaDBEntities())
                 {
-                    CargarListas(db, filtro);
+                    CargarListasViewBag(db, buscar, idEstado, idCategoria, idQuimico, desde, hasta);
 
-                    if (filtro.Desde.HasValue && filtro.Hasta.HasValue && filtro.Desde > filtro.Hasta)
+                    if (desde.HasValue && hasta.HasValue && desde > hasta)
                     {
                         ViewBag.Advertencia = "La fecha \"Desde\" no puede ser mayor que la fecha \"Hasta\".";
-                        return View(new List<PrototipoListaModel>());
+                        return View(new List<TB_Prototipo>());
                     }
 
-                    var consulta = db.TB_Prototipo.AsQueryable();
+                    var consulta = db.TB_Prototipo
+                        .Include(p => p.TB_Categoria)
+                        .Include(p => p.TB_Usuario)
+                        .Include(p => p.TB_EstadoPrototipo)
+                        .AsQueryable();
 
-                    if (!string.IsNullOrWhiteSpace(filtro.Buscar))
+                    if (!string.IsNullOrWhiteSpace(buscar))
                     {
-                        string texto = filtro.Buscar.Trim();
+                        string texto = buscar.Trim();
                         consulta = consulta.Where(p => p.NombrePrototipo.Contains(texto)
                                                     || p.Descripcion.Contains(texto));
                     }
-                    if (filtro.IdEstado.HasValue)
+                    if (idEstado.HasValue)
                     {
-                        int idEstado = filtro.IdEstado.Value;
-                        consulta = consulta.Where(p => p.IdEstadoPrototipo == idEstado);
+                        int estadoVal = idEstado.Value;
+                        consulta = consulta.Where(p => p.IdEstadoPrototipo == estadoVal);
                     }
-                    if (filtro.IdCategoria.HasValue)
+                    if (idCategoria.HasValue)
                     {
-                        int idCategoria = filtro.IdCategoria.Value;
-                        consulta = consulta.Where(p => p.IdCategoria == idCategoria);
+                        int categoriaVal = idCategoria.Value;
+                        consulta = consulta.Where(p => p.IdCategoria == categoriaVal);
                     }
-                    if (filtro.IdQuimico.HasValue)
+                    if (idQuimico.HasValue)
                     {
-                        int idQuimico = filtro.IdQuimico.Value;
-                        consulta = consulta.Where(p => p.IdQuimico == idQuimico);
+                        int quimicoVal = idQuimico.Value;
+                        consulta = consulta.Where(p => p.IdQuimico == quimicoVal);
                     }
-                    if (filtro.Desde.HasValue)
+                    if (desde.HasValue)
                     {
-                        DateTime desde = filtro.Desde.Value.Date;
-                        consulta = consulta.Where(p => p.FechaCreacion >= desde);
+                        DateTime desdeVal = desde.Value.Date;
+                        consulta = consulta.Where(p => p.FechaCreacion >= desdeVal);
                     }
-                    if (filtro.Hasta.HasValue)
+                    if (hasta.HasValue)
                     {
                         // Incluye todo el día "Hasta".
-                        DateTime hastaExclusivo = filtro.Hasta.Value.Date.AddDays(1);
+                        DateTime hastaExclusivo = hasta.Value.Date.AddDays(1);
                         consulta = consulta.Where(p => p.FechaCreacion < hastaExclusivo);
                     }
 
+                    // Se retorna directamente la lista de entidades de EF (TB_Prototipo)
                     var lista = consulta
                         .OrderByDescending(p => p.FechaCreacion)
-                        .Select(p => new PrototipoListaModel
-                        {
-                            IdPrototipo = p.IdPrototipo,
-                            NombrePrototipo = p.NombrePrototipo,
-                            Categoria = p.TB_Categoria.NombreCategoria,
-                            Quimico = p.TB_Usuario.NombreCompleto,
-                            Estado = p.TB_EstadoPrototipo.NombreEstado,
-                            ComentarioGerente = p.ComentarioGerente,
-                            FechaCreacion = p.FechaCreacion,
-                            FechaModificacion = p.FechaModificacion
-                        })
                         .ToList();
 
                     return View(lista);
@@ -89,11 +81,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             {
                 // TODO: bitácora
                 TempData["Error"] = MensajeErrorGenerico;
-                ViewBag.Filtro = filtro;
                 ViewBag.Estados = new SelectList(new List<SelectListItem>());
                 ViewBag.Categorias = new SelectList(new List<SelectListItem>());
                 ViewBag.Quimicos = new SelectList(new List<SelectListItem>());
-                return View(new List<PrototipoListaModel>());
+                return View(new List<TB_Prototipo>());
             }
         }
 
@@ -104,90 +95,51 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             {
                 using (var db = new BioquimiaDBEntities())
                 {
-                    var p = db.TB_Prototipo.Find(id);
-                    if (p == null)
+                    var prototipo = db.TB_Prototipo
+                        .Include(p => p.TB_Categoria)
+                        .Include(p => p.TB_Usuario)
+                        .Include(p => p.TB_EstadoPrototipo)
+                        .Include(p => p.TB_Empresa)
+                        .Include(p => p.TB_PrototipoIngrediente.Select(pi => pi.TB_Ingrediente))
+                        .Include(p => p.TB_HistorialEstado.Select(h => h.TB_EstadoPrototipo))
+                        .Include(p => p.TB_HistorialEstado.Select(h => h.TB_EstadoPrototipo1))
+                        .Include(p => p.TB_HistorialEstado.Select(h => h.TB_Usuario))
+                        .SingleOrDefault(p => p.IdPrototipo == id);
+
+                    if (prototipo == null)
                     {
                         TempData["Error"] = "El prototipo no existe.";
                         return RedirectToAction("Index");
                     }
 
-                    var detalle = new PrototipoDetalleModel
-                    {
-                        IdPrototipo = p.IdPrototipo,
-                        NombrePrototipo = p.NombrePrototipo,
-                        Categoria = p.TB_Categoria.NombreCategoria,
-                        Quimico = p.TB_Usuario.NombreCompleto,
-                        Estado = p.TB_EstadoPrototipo.NombreEstado,
-                        ComentarioGerente = p.ComentarioGerente,
-                        FechaCreacion = p.FechaCreacion,
-                        FechaModificacion = p.FechaModificacion,
-                        Descripcion = p.Descripcion,
-                        CaracteristicasEnvase = p.CaracteristicasEnvase,
-                        ImagenRuta = p.ImagenRuta
-                    };
-
-                    detalle.Formula = db.TB_PrototipoIngrediente
-                        .Where(f => f.IdPrototipo == id)
-                        .OrderByDescending(f => f.Porcentaje)
-                        .Select(f => new IngredienteFormulaModel
-                        {
-                            NombreIngrediente = f.TB_Ingrediente.NombreIngrediente,
-                            Funcion = f.TB_Ingrediente.Funcion,
-                            UnidadBase = f.TB_Ingrediente.UnidadBase,
-                            Porcentaje = f.Porcentaje
-                        })
-                        .ToList();
-
-                    detalle.Empresas = p.TB_Empresa
-                        .OrderBy(e => e.NombreEmpresa)
-                        .Select(e => e.NombreEmpresa)
-                        .ToList();
-
-                    // Se une por Id para no depender de los nombres que EF le pone a las dos
-                    // relaciones con TB_EstadoPrototipo (estado anterior y estado nuevo).
-                    detalle.Historial = (from h in db.TB_HistorialEstado
-                                         where h.IdPrototipo == id
-                                         join nuevo in db.TB_EstadoPrototipo on h.IdEstadoNuevo equals nuevo.IdEstadoPrototipo
-                                         join anterior in db.TB_EstadoPrototipo on h.IdEstadoAnterior equals (int?)anterior.IdEstadoPrototipo into anteriores
-                                         from anterior in anteriores.DefaultIfEmpty()
-                                         orderby h.FechaCambio
-                                         select new CambioEstadoModel
-                                         {
-                                             FechaCambio = h.FechaCambio,
-                                             EstadoAnterior = anterior == null ? null : anterior.NombreEstado,
-                                             EstadoNuevo = nuevo.NombreEstado,
-                                             Usuario = h.TB_Usuario.NombreCompleto,
-                                             Justificacion = h.Justificacion
-                                         })
-                                        .ToList();
-
-                    return View(detalle);
+                    return View(prototipo);
                 }
             }
             catch (Exception)
             {
-                // TODO: bitácora
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index");
             }
         }
 
-        private void CargarListas(BioquimiaDBEntities db, HistoricoFiltroModel filtro)
+        private void CargarListasViewBag(BioquimiaDBEntities db, string buscar, int? idEstado, int? idCategoria, int? idQuimico, DateTime? desde, DateTime? hasta)
         {
-            ViewBag.Filtro = filtro;
+            ViewBag.Buscar = buscar;
+            ViewBag.Desde = desde?.ToString("yyyy-MM-dd");
+            ViewBag.Hasta = hasta?.ToString("yyyy-MM-dd");
 
             ViewBag.Estados = new SelectList(
                 db.TB_EstadoPrototipo.OrderBy(e => e.IdEstadoPrototipo).ToList(),
-                "IdEstadoPrototipo", "NombreEstado", filtro.IdEstado);
+                "IdEstadoPrototipo", "NombreEstado", idEstado);
 
             ViewBag.Categorias = new SelectList(
                 db.TB_Categoria.OrderBy(c => c.NombreCategoria).ToList(),
-                "IdCategoria", "NombreCategoria", filtro.IdCategoria);
+                "IdCategoria", "NombreCategoria", idCategoria);
 
             ViewBag.Quimicos = new SelectList(
                 db.TB_Usuario.Where(u => u.TB_Rol.NombreRol == "Quimico")
                              .OrderBy(u => u.NombreCompleto).ToList(),
-                "IdUsuario", "NombreCompleto", filtro.IdQuimico);
+                "IdUsuario", "NombreCompleto", idQuimico);
         }
     }
 }
