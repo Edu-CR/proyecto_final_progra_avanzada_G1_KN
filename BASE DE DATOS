@@ -315,12 +315,22 @@ GO
    8. DATOS DE PRUEBA DE ALGUNAS TABLAS
    ===================================================================== */
 
--- Usuarios de prueba. Cambie los correos por unos reales para probar el envío de correo.
---   Quimico: quimico@bioquimia.com / Quimico123
---   Gerente: gerente@bioquimia.com / Gerente123
+-- Usuarios de prueba activos principales, luego cambiar el correo por uno real
 INSERT INTO [dbo].[TB_Usuario] ([Identificacion], [NombreCompleto], [CorreoElectronico], [Contrasenna], [Estado], [IdRol]) VALUES
 (N'1-1111-1111', N'Laura Quimico Prueba', N'quimico@bioquimia.com', N'Quimico123', 1, (SELECT [IdRol] FROM [dbo].[TB_Rol] WHERE [NombreRol] = 'Quimico')),
 (N'2-2222-2222', N'Carlos Gerente Prueba', N'gerente@bioquimia.com', N'Gerente123', 1, (SELECT [IdRol] FROM [dbo].[TB_Rol] WHERE [NombreRol] = 'Gerente'));
+GO
+
+-- Más usuarios de prueba activos
+INSERT INTO [dbo].[TB_Usuario] ([Identificacion], [NombreCompleto], [CorreoElectronico], [Contrasenna], [Estado], [IdRol]) VALUES
+(N'1-2345-6789', N'María Pérez Química', N'maria.quimico@bioquimia.com', N'Quimico123', 1, (SELECT [IdRol] FROM [dbo].[TB_Rol] WHERE [NombreRol] = 'Quimico')),
+(N'3-9876-5432', N'Roberto Gómez Gerente', N'roberto.gerente@bioquimia.com', N'Gerente123', 1, (SELECT [IdRol] FROM [dbo].[TB_Rol] WHERE [NombreRol] = 'Gerente'));
+GO
+
+-- Usuarios de prueba inactivos (Estado = 0 porque el campo es BIT)
+INSERT INTO [dbo].[TB_Usuario] ([Identificacion], [NombreCompleto], [CorreoElectronico], [Contrasenna], [Estado], [IdRol]) VALUES
+(N'1-9999-1111', N'Usuario Quimico Inactivo', N'quimico2@bioquimia.com', N'Quimico123', 0, (SELECT [IdRol] FROM [dbo].[TB_Rol] WHERE [NombreRol] = 'Quimico')),
+(N'2-9999-2222', N'Usuario Gerente Inactivo', N'gerente2@bioquimia.com', N'Gerente123', 0, (SELECT [IdRol] FROM [dbo].[TB_Rol] WHERE [NombreRol] = 'Gerente'));
 GO
 
 -- Empresas de prueba.
