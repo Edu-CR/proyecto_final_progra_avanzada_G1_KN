@@ -1,5 +1,5 @@
-# Ignorar la carpeta EF, dentro de pocco
-
+# Ignorar la carpeta EF
+**/EF/
 
 # Archivos de configuración de usuario de Visual Studio
 *.user
