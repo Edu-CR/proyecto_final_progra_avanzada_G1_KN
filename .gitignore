@@ -1,0 +1,11 @@
+# Ignorar la carpeta EF 
+**/EF/
+
+# Archivos de configuración de usuario de Visual Studio
+*.user
+*.userosscache
+*.sln.docstates
+
+# Carpetas de compilación de .NET (¡Muy importante ignorarlas!)
+**/bin/
+**/obj/
