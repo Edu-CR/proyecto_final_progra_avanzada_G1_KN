@@ -1,0 +1,170 @@
+﻿@using ProyectoFinalBioquimia_G1.Models
+@model PrototipoDetalleModel
+@{
+    ViewData["Title"] = "Detalle del prototipo";
+    decimal sumaFormula = Model.Formula.Sum(f => f.Porcentaje);
+}
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-8">
+                <h3 class="mb-0">
+                    @Model.NombrePrototipo
+                    <span class="badge @PrototipoListaModel.ClaseEstado(Model.Estado) fs-6 align-middle">@Model.Estado</span>
+                </h3>
+            </div>
+            <div class="col-sm-4 text-sm-end mt-2 mt-sm-0">
+                <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver al histórico
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+
+        @if (!string.IsNullOrEmpty(Model.ComentarioGerente))
+        {
+            <div class="alert @(Model.Estado == "Devuelto" ? "alert-warning" : "alert-secondary")" role="alert">
+                <strong>Comentario del gerente:</strong> @Model.ComentarioGerente
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-lg-8 mb-3">
+                <div class="card h-100">
+                    <div class="card-header"><strong>Información general</strong></div>
+                    <div class="card-body">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4">Categoría</dt>
+                            <dd class="col-sm-8">@Model.Categoria</dd>
+                            <dt class="col-sm-4">Químico</dt>
+                            <dd class="col-sm-8">@Model.Quimico</dd>
+                            <dt class="col-sm-4">Descripción</dt>
+                            <dd class="col-sm-8">@Model.Descripcion</dd>
+                            <dt class="col-sm-4">Envase</dt>
+                            <dd class="col-sm-8">@Model.CaracteristicasEnvase</dd>
+                            <dt class="col-sm-4">Creado</dt>
+                            <dd class="col-sm-8">@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
+                            <dt class="col-sm-4">Última actualización</dt>
+                            <dd class="col-sm-8">@Model.UltimaActualizacion.ToString("dd/MM/yyyy HH:mm")</dd>
+                            <dt class="col-sm-4">Empresas</dt>
+                            <dd class="col-sm-8 mb-0">
+                                @(Model.Empresas.Any() ? string.Join(", ", Model.Empresas) : "Sin empresas relacionadas")
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-header"><strong>Imagen</strong></div>
+                    <div class="card-body text-center">
+                        @if (!string.IsNullOrEmpty(Model.ImagenRuta))
+                        {
+                            <img src="@Url.Content(Model.ImagenRuta)" alt="Imagen de @Model.NombrePrototipo"
+                                 class="img-fluid rounded" style="max-height: 260px;" />
+                        }
+                        else
+                        {
+                            <p class="text-secondary mb-0">Sin imagen</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header"><strong>Fórmula</strong></div>
+            <div class="card-body p-0">
+                @if (!Model.Formula.Any())
+                {
+                    <p class="text-secondary m-3">El prototipo no tiene ingredientes registrados.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ingrediente</th>
+                                    <th>Función</th>
+                                    <th>Unidad base</th>
+                                    <th class="text-end">Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var f in Model.Formula)
+                                {
+                                    <tr>
+                                        <td>@f.NombreIngrediente</td>
+                                        <td>@f.Funcion</td>
+                                        <td>@f.UnidadBase</td>
+                                        <td class="text-end">@f.Porcentaje.ToString("0.00") %</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3">Total</th>
+                                    <th class="text-end @(sumaFormula == 100m ? "text-success" : "text-danger")">@sumaFormula.ToString("0.00") %</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><strong>Historial de estados</strong></div>
+            <div class="card-body p-0">
+                @if (!Model.Historial.Any())
+                {
+                    <p class="text-secondary m-3">No hay cambios de estado registrados.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cambio</th>
+                                    <th>Usuario</th>
+                                    <th>Justificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var h in Model.Historial)
+                                {
+                                    <tr>
+                                        <td class="text-nowrap">@h.FechaCambio.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td class="text-nowrap">
+                                            @if (h.EstadoAnterior == null)
+                                            {
+                                                <span>Creado como</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge @PrototipoListaModel.ClaseEstado(h.EstadoAnterior)">@h.EstadoAnterior</span>
+                                                <i class="bi bi-arrow-right"></i>
+                                            }
+                                            <span class="badge @PrototipoListaModel.ClaseEstado(h.EstadoNuevo)">@h.EstadoNuevo</span>
+                                        </td>
+                                        <td>@h.Usuario</td>
+                                        <td>@(string.IsNullOrEmpty(h.Justificacion) ? "—" : h.Justificacion)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

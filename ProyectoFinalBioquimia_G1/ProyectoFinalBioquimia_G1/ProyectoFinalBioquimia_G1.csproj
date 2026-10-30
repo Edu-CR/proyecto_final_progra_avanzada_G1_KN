@@ -159,10 +159,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CuentaController..cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HistoricoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\IngredienteController.cs" />
+    <Compile Include="Controllers\TramiteController.cs" />
     <Compile Include="Models\EmpresaModel.cs" />
     <Compile Include="Models\IngredienteModel.cs" />
+    <Compile Include="Models\PrototipoConsultaModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -236,6 +239,9 @@
     <Content Include="Views\Empresa\Crear.cshtml" />
     <Content Include="Views\Empresa\Editar.cshtml" />
     <Content Include="Views\Empresa\_FormularioEmpresa.cshtml" />
+    <Content Include="Views\Historico\Index.cshtml" />
+    <Content Include="Views\Historico\Detalle.cshtml" />
+    <Content Include="Views\Tramite\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
