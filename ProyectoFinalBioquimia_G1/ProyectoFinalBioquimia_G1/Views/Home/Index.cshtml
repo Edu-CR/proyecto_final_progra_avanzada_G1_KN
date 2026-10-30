@@ -1,33 +1,139 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Bienvenido de vuelta, Por ejemplo, aqui poner variable de sesion luego <!-- UsuarioNombre -->!</h3>
+            </div>
+        </div>
     </div>
-</main>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+
+        <div class="row mb-4">
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-primary">
+                    <div class="inner">
+                        <h3>5</h3>
+                        <p>Prototipos Activos</p>
+                    </div>
+                    <i class="bi bi-flask small-box-icon"></i>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-warning">
+                    <div class="inner">
+                        <h3>2</h3>
+                        <p>Pendientes de Aprobación</p>
+                    </div>
+                    <i class="bi bi-clock-history small-box-icon"></i>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-success">
+                    <div class="inner">
+                        <h3>3</h3>
+                        <p>Aprobados este mes</p>
+                    </div>
+                    <i class="bi bi-check-circle small-box-icon"></i>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-info">
+                    <div class="inner">
+                        <h3>12</h3>
+                        <p>Usuarios Activos</p>
+                    </div>
+                    <i class="bi bi-people small-box-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Información más reciente de los prototipos</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary btn-sm">
+                                <i class="bi bi-plus-lg"></i> Nuevo Prototipo
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 195px;">Imagen</th>
+                                    <th class="text-center">Producto</th>
+                                    <th class="text-center">Cliente</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center" style="width:195px;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center"><img src="~/assets/img/prototipos/antibacterial.jpg" width="135" class="rounded shadow-sm" /></td>
+                                    <td class="text-center"><strong>Jabón antibacterial</strong></td>
+                                    <td class="text-center">Walmart</td>
+                                    <td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
+                                    <td class="text-center">20/09/2026</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="~/assets/img/prototipos/abrillantador.jpg" width="135" class="rounded shadow-sm" /></td>
+                                    <td class="text-center"><strong>Abrillantador para Muebles</strong></td>
+                                    <td class="text-center">Santa Ceci Market</td>
+                                    <td class="text-center"><span class="badge text-bg-warning">En Revisión</span></td>
+                                    <td class="text-center">22/09/2026</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="~/assets/img/prototipos/desengrasante.jpg" width="135" class="rounded shadow-sm" /></td>
+                                    <td class="text-center"><strong>Desengrasante Tsunami</strong></td>
+                                    <td class="text-center">Walmart</td>
+                                    <td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
+                                    <td class="text-center">18/09/2026</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="~/assets/img/prototipos/detergente.jpg" width="135" class="rounded shadow-sm" /></td>
+                                    <td class="text-center"><strong>Detergente Líquido</strong></td>
+                                    <td class="text-center">Auto Mercado</td>
+                                    <td class="text-center"><span class="badge text-bg-warning">En Revisión</span></td>
+                                    <td class="text-center">24/09/2026</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center"><img src="~/assets/img/prototipos/lavaplatos.jpg" width="135" class="rounded shadow-sm" /></td>
+                                    <td class="text-center"><strong>Lavaplatos Tsunami</strong></td>
+                                    <td class="text-center">Walmart</td>
+                                    <td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
+                                    <td class="text-center">15/09/2026</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
