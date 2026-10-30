@@ -32,6 +32,12 @@ La carpeta `EF/` está excluida del repositorio mediante el archivo `.gitignore`
 
 ---
 
+#### Paso 0 — Crear carpeta EF (A NIVEL DE PROYECTO, no de solución)
+<img width="1280" height="960" alt="image" src="https://github.com/user-attachments/assets/082cc63c-49c3-47da-b82a-c85f09e18f02" />
+
+
+---
+
 #### Paso 1 — Agregar un nuevo item
 
 Click derecho en la carpeta `EF` → **Add** → **New item...**
