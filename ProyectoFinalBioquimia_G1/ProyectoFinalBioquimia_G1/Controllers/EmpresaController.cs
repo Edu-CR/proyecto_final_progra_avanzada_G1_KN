@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using ProyectoFinalBioquimia_G1.EF;
-using ProyectoFinalBioquimia_G1.Models;
+using ProyectoFinalBioquimia_G1.EF; // MODELO CORRECTO, ahora si corregido
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -39,18 +40,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                                                     || e.CorreoElectronico.Contains(texto));
                     }
 
+                    // No se puede proyectar (Select) a una entidad de EF en LINQ to Entities,
+                    // por eso se devuelve la lista directamente.
                     var lista = consulta
                         .OrderBy(e => e.NombreEmpresa)
-                        .Select(e => new EmpresaModel
-                        {
-                            IdEmpresa = e.IdEmpresa,
-                            NombreEmpresa = e.NombreEmpresa,
-                            Contacto = e.Contacto,
-                            Telefono = e.Telefono,
-                            CorreoElectronico = e.CorreoElectronico,
-                            Estado = e.Estado,
-                            FechaCreacion = e.FechaCreacion
-                        })
                         .ToList();
 
                     ViewBag.Buscar = buscar;
@@ -64,23 +57,25 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Error"] = MensajeErrorGenerico;
                 ViewBag.Buscar = buscar;
                 ViewBag.Filtro = filtro;
-                return View(new List<EmpresaModel>());
+                return View(new List<TB_Empresa>());
             }
         }
 
         [HttpGet]
         public ActionResult Crear()
         {
-            return View(new EmpresaModel { Estado = true });
+            return View(new TB_Empresa { Estado = true });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(EmpresaModel modelo)
+        public ActionResult Crear(
+            [Bind(Include = "NombreEmpresa,Contacto,Telefono,CorreoElectronico")] TB_Empresa modelo)
         {
             try
             {
                 Normalizar(modelo);
+                Validar(modelo);
 
                 using (var db = new BioquimiaDBEntities())
                 {
@@ -88,17 +83,14 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         ModelState.AddModelError("NombreEmpresa", "Ya existe una empresa con ese nombre.");
 
                     if (!ModelState.IsValid)
-                        return View(modelo);
-
-                    db.TB_Empresa.Add(new TB_Empresa
                     {
-                        NombreEmpresa = modelo.NombreEmpresa,
-                        Contacto = modelo.Contacto,
-                        Telefono = modelo.Telefono,
-                        CorreoElectronico = modelo.CorreoElectronico,
-                        Estado = true,
-                        FechaCreacion = DateTime.Now
-                    });
+                        modelo.Estado = true;
+                        return View(modelo);
+                    }
+
+                    modelo.Estado = true;
+                    modelo.FechaCreacion = DateTime.Now;
+                    db.TB_Empresa.Add(modelo);
                     db.SaveChanges();
                 }
 
@@ -127,16 +119,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    return View(new EmpresaModel
-                    {
-                        IdEmpresa = empresa.IdEmpresa,
-                        NombreEmpresa = empresa.NombreEmpresa,
-                        Contacto = empresa.Contacto,
-                        Telefono = empresa.Telefono,
-                        CorreoElectronico = empresa.CorreoElectronico,
-                        Estado = empresa.Estado,
-                        FechaCreacion = empresa.FechaCreacion
-                    });
+                    return View(empresa);
                 }
             }
             catch (Exception)
@@ -149,11 +132,13 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(EmpresaModel modelo)
+        public ActionResult Editar(
+            [Bind(Include = "IdEmpresa,NombreEmpresa,Contacto,Telefono,CorreoElectronico")] TB_Empresa modelo)
         {
             try
             {
                 Normalizar(modelo);
+                Validar(modelo);
 
                 using (var db = new BioquimiaDBEntities())
                 {
@@ -170,6 +155,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     if (!ModelState.IsValid)
                     {
                         modelo.Estado = empresa.Estado;
+                        modelo.FechaCreacion = empresa.FechaCreacion;
                         return View(modelo);
                     }
 
@@ -236,13 +222,42 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         }
 
         // Quita espacios y guarda null en los campos opcionales vacíos.
-        private static void Normalizar(EmpresaModel modelo)
+        private static void Normalizar(TB_Empresa modelo)
         {
             if (modelo == null) return;
             modelo.NombreEmpresa = modelo.NombreEmpresa?.Trim();
             modelo.Contacto = string.IsNullOrWhiteSpace(modelo.Contacto) ? null : modelo.Contacto.Trim();
             modelo.Telefono = string.IsNullOrWhiteSpace(modelo.Telefono) ? null : modelo.Telefono.Trim();
             modelo.CorreoElectronico = string.IsNullOrWhiteSpace(modelo.CorreoElectronico) ? null : modelo.CorreoElectronico.Trim();
+        }
+
+        // Las clases de EF se regeneran, así que las validaciones que antes estaban
+        // como atributos en EmpresaModel se hacen aquí.
+        private void Validar(TB_Empresa modelo)
+        {
+            if (string.IsNullOrWhiteSpace(modelo.NombreEmpresa))
+                ModelState.AddModelError("NombreEmpresa", "El nombre de la empresa es obligatorio.");
+            else if (modelo.NombreEmpresa.Length > 150)
+                ModelState.AddModelError("NombreEmpresa", "El nombre no puede tener más de 150 caracteres.");
+
+            if (modelo.Contacto != null && modelo.Contacto.Length > 150)
+                ModelState.AddModelError("Contacto", "El contacto no puede tener más de 150 caracteres.");
+
+            if (modelo.Telefono != null)
+            {
+                if (modelo.Telefono.Length > 20)
+                    ModelState.AddModelError("Telefono", "El teléfono no puede tener más de 20 caracteres.");
+                else if (!Regex.IsMatch(modelo.Telefono, @"^[0-9+\-\s()]{8,20}$"))
+                    ModelState.AddModelError("Telefono", "Ingrese un teléfono válido (solo números, espacios, +, - o paréntesis; mínimo 8).");
+            }
+
+            if (modelo.CorreoElectronico != null)
+            {
+                if (modelo.CorreoElectronico.Length > 100)
+                    ModelState.AddModelError("CorreoElectronico", "El correo no puede tener más de 100 caracteres.");
+                else if (!new EmailAddressAttribute().IsValid(modelo.CorreoElectronico))
+                    ModelState.AddModelError("CorreoElectronico", "Ingrese un correo electrónico válido.");
+            }
         }
 
         // La comparación no distingue mayúsculas porque la intercalación de SQL Server es CI.

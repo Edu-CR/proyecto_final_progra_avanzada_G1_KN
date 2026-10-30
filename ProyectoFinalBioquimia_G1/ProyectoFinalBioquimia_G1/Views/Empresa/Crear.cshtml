@@ -1,6 +1,7 @@
-﻿@model ProyectoFinalBioquimia_G1.Models.EmpresaModel
+﻿@model ProyectoFinalBioquimia_G1.EF.TB_Empresa
+
 @{
-    ViewData["Title"] = "Nueva empresa";
+    ViewBag.Title = "Nueva empresa";
 }
 
 <div class="app-content-header">
@@ -21,6 +22,8 @@
             <div class="card-body">
                 @using (Html.BeginForm("Crear", "Empresa", FormMethod.Post))
                 {
+                    @Html.AntiForgeryToken()
+
                     @Html.Partial("_FormularioEmpresa", Model)
 
                     <div class="d-flex gap-2">

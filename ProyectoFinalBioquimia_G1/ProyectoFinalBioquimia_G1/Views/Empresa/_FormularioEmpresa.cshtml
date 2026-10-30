@@ -1,16 +1,15 @@
-﻿@model ProyectoFinalBioquimia_G1.Models.EmpresaModel
+﻿@model ProyectoFinalBioquimia_G1.EF.TB_Empresa
 
-@Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.IdEmpresa)
 
 <div class="mb-3">
-    @Html.LabelFor(m => m.NombreEmpresa, new { @class = "form-label" })
+    @Html.LabelFor(m => m.NombreEmpresa, "Nombre de la empresa", new { @class = "form-label" })
     @Html.TextBoxFor(m => m.NombreEmpresa, new { @class = "form-control", maxlength = "150", placeholder = "Ejemplo: Hotel Costa Verde" })
     @Html.ValidationMessageFor(m => m.NombreEmpresa, "", new { @class = "text-danger small" })
 </div>
 
 <div class="mb-3">
-    @Html.LabelFor(m => m.Contacto, new { @class = "form-label" })
+    @Html.LabelFor(m => m.Contacto, "Persona de contacto", new { @class = "form-label" })
     <span class="text-secondary small">(opcional)</span>
     @Html.TextBoxFor(m => m.Contacto, new { @class = "form-control", maxlength = "150", placeholder = "Ejemplo: Marta Rojas" })
     @Html.ValidationMessageFor(m => m.Contacto, "", new { @class = "text-danger small" })
@@ -18,13 +17,13 @@
 
 <div class="row">
     <div class="col-md-5 mb-3">
-        @Html.LabelFor(m => m.Telefono, new { @class = "form-label" })
+        @Html.LabelFor(m => m.Telefono, "Teléfono", new { @class = "form-label" })
         <span class="text-secondary small">(opcional)</span>
         @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", maxlength = "20", type = "tel", placeholder = "Ejemplo: 2222-1111" })
         @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger small" })
     </div>
     <div class="col-md-7 mb-3">
-        @Html.LabelFor(m => m.CorreoElectronico, new { @class = "form-label" })
+        @Html.LabelFor(m => m.CorreoElectronico, "Correo electrónico", new { @class = "form-label" })
         <span class="text-secondary small">(opcional)</span>
         @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", maxlength = "100", type = "email", placeholder = "Ejemplo: compras@empresa.com" })
         @Html.ValidationMessageFor(m => m.CorreoElectronico, "", new { @class = "text-danger small" })

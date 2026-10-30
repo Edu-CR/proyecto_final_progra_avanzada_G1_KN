@@ -81,6 +81,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -157,12 +158,72 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\CuentaController..cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HistoricoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\IngredienteController.cs" />
     <Compile Include="Controllers\TramiteController.cs" />
+    <Compile Include="EF\BaseDeDatosModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseDeDatosModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\BaseDeDatosModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\BaseDeDatosModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseDeDatosModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_BitacoraError.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_Categoria.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_ControlAlertas.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_Empresa.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_EstadoPrototipo.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_HistorialEstado.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_Ingrediente.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_Prototipo.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_PrototipoIngrediente.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_PruebaPrototipo.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_RegistroRegulatorio.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_Rol.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_TipoPrueba.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_TokenRecuperacion.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TB_Usuario.cs">
+      <DependentUpon>BaseDeDatosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EmpresaModel.cs" />
     <Compile Include="Models\IngredienteModel.cs" />
     <Compile Include="Models\PrototipoConsultaModel.cs" />
@@ -216,6 +277,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="EF\BaseDeDatosModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BaseDeDatosModel.edmx</DependentUpon>
+      <LastGenOutput>BaseDeDatosModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EF\BaseDeDatosModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BaseDeDatosModel.edmx</DependentUpon>
+      <LastGenOutput>BaseDeDatosModel.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -245,7 +316,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    
     <Folder Include="Views\Auth\" />
   </ItemGroup>
   <ItemGroup>
@@ -285,7 +355,17 @@
     <Content Include="assets\css\adminlte.min.css.map" />
     <Content Include="assets\css\adminlte.rtl.css.map" />
     <Content Include="assets\css\adminlte.rtl.min.css.map" />
+    <EntityDeploy Include="EF\BaseDeDatosModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BaseDeDatosModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="EF\BaseDeDatosModel.edmx.diagram">
+      <DependentUpon>BaseDeDatosModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
