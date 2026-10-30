@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity; // necesario para .Include(x => x.Propiedad)
 using System.Linq;
 using System.Web.Mvc;
 using ProyectoFinalBioquimia_G1.EF;
-using ProyectoFinalBioquimia_G1.Models;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -27,36 +27,30 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     if (quimico == null)
                     {
                         TempData["Error"] = "No se encontró el usuario químico de la sesión.";
-                        return View(new List<PrototipoListaModel>());
+                        return View(new List<TB_Prototipo>());
                     }
 
                     var estadosEnTramite = new List<string> { "Borrador", "Enviado", "Devuelto" };
                     int idQuimico = quimico.IdUsuario;
 
+                    // Include carga las tablas relacionadas antes de cerrar el contexto,
+                    // para que la vista pueda leer Categoria, Usuario y Estado sin lazy loading.
                     var lista = db.TB_Prototipo
+                        .Include(p => p.TB_Categoria)
+                        .Include(p => p.TB_Usuario)
+                        .Include(p => p.TB_EstadoPrototipo)
                         .Where(p => p.IdQuimico == idQuimico
                                  && estadosEnTramite.Contains(p.TB_EstadoPrototipo.NombreEstado))
-                        .Select(p => new PrototipoListaModel
-                        {
-                            IdPrototipo = p.IdPrototipo,
-                            NombrePrototipo = p.NombrePrototipo,
-                            Categoria = p.TB_Categoria.NombreCategoria,
-                            Quimico = p.TB_Usuario.NombreCompleto,
-                            Estado = p.TB_EstadoPrototipo.NombreEstado,
-                            ComentarioGerente = p.ComentarioGerente,
-                            FechaCreacion = p.FechaCreacion,
-                            FechaModificacion = p.FechaModificacion
-                        })
                         .ToList()
                         // Primero los devueltos (el químico tiene que corregirlos), luego por fecha.
-                        .OrderBy(p => p.Estado == "Devuelto" ? 0 : 1)
-                        .ThenByDescending(p => p.UltimaActualizacion)
+                        .OrderBy(p => p.TB_EstadoPrototipo.NombreEstado == "Devuelto" ? 0 : 1)
+                        .ThenByDescending(p => p.FechaModificacion ?? p.FechaCreacion)
                         .ToList();
 
                     ViewBag.NombreQuimico = quimico.NombreCompleto;
-                    ViewBag.TotalBorrador = lista.Count(p => p.Estado == "Borrador");
-                    ViewBag.TotalEnviado = lista.Count(p => p.Estado == "Enviado");
-                    ViewBag.TotalDevuelto = lista.Count(p => p.Estado == "Devuelto");
+                    ViewBag.TotalBorrador = lista.Count(p => p.TB_EstadoPrototipo.NombreEstado == "Borrador");
+                    ViewBag.TotalEnviado = lista.Count(p => p.TB_EstadoPrototipo.NombreEstado == "Enviado");
+                    ViewBag.TotalDevuelto = lista.Count(p => p.TB_EstadoPrototipo.NombreEstado == "Devuelto");
                     return View(lista);
                 }
             }
@@ -64,7 +58,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             {
                 // TODO: bitácora
                 TempData["Error"] = MensajeErrorGenerico;
-                return View(new List<PrototipoListaModel>());
+                return View(new List<TB_Prototipo>());
             }
         }
 

@@ -1,5 +1,4 @@
-﻿@using ProyectoFinalBioquimia_G1.Models
-@model List<PrototipoListaModel>
+﻿@model List<ProyectoFinalBioquimia_G1.EF.TB_Prototipo>
 @{
     ViewData["Title"] = "En trámite";
 }
@@ -75,13 +74,26 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
+                                    string estado = item.TB_EstadoPrototipo.NombreEstado;
+                                    DateTime ultima = item.FechaModificacion ?? item.FechaCreacion;
+                                    string claseEstado;
+                                    switch (estado)
+                                    {
+                                        case "Borrador": claseEstado = "text-bg-secondary"; break;
+                                        case "Enviado": claseEstado = "text-bg-primary"; break;
+                                        case "Devuelto": claseEstado = "text-bg-warning"; break;
+                                        case "Aprobado": claseEstado = "text-bg-success"; break;
+                                        case "Cancelado": claseEstado = "text-bg-danger"; break;
+                                        default: claseEstado = "text-bg-light"; break;
+                                    }
+
                                     <tr>
                                         <td>@item.NombrePrototipo</td>
-                                        <td>@item.Categoria</td>
-                                        <td><span class="badge @PrototipoListaModel.ClaseEstado(item.Estado)">@item.Estado</span></td>
-                                        <td>@item.UltimaActualizacion.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@item.TB_Categoria.NombreCategoria</td>
+                                        <td><span class="badge @claseEstado">@estado</span></td>
+                                        <td>@ultima.ToString("dd/MM/yyyy HH:mm")</td>
                                         <td>
-                                            @if (item.Estado == "Devuelto" && !string.IsNullOrEmpty(item.ComentarioGerente))
+                                            @if (estado == "Devuelto" && !string.IsNullOrEmpty(item.ComentarioGerente))
                                             {
                                                 <span class="text-warning-emphasis">@item.ComentarioGerente</span>
                                             }
@@ -96,7 +108,7 @@
                                                 <i class="bi bi-eye"></i> Ver
                                             </a>
                                             @* TODO: cuando Persona 2 termine RF-08, agregar el botón "Editar"
-                                               para los prototipos en Borrador o Devuelto. *@
+                                                para los prototipos en Borrador o Devuelto. *@
                                         </td>
                                     </tr>
                                 }
