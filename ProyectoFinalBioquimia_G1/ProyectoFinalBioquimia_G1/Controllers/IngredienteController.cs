@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProyectoFinalBioquimia_G1.EF;
-using ProyectoFinalBioquimia_G1.Models;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -38,16 +37,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                                                     || i.Funcion.Contains(texto));
                     }
 
+                    // ToList() ejecuta la consulta antes de cerrar el contexto.
                     var lista = consulta
                         .OrderBy(i => i.NombreIngrediente)
-                        .Select(i => new IngredienteModel
-                        {
-                            IdIngrediente = i.IdIngrediente,
-                            NombreIngrediente = i.NombreIngrediente,
-                            Funcion = i.Funcion,
-                            UnidadBase = i.UnidadBase,
-                            Estado = i.Estado
-                        })
                         .ToList();
 
                     ViewBag.Buscar = buscar;
@@ -61,19 +53,19 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Error"] = MensajeErrorGenerico;
                 ViewBag.Buscar = buscar;
                 ViewBag.Filtro = filtro;
-                return View(new List<IngredienteModel>());
+                return View(new List<TB_Ingrediente>());
             }
         }
 
         [HttpGet]
         public ActionResult Crear()
         {
-            return View(new IngredienteModel { UnidadBase = "kg", Estado = true });
+            return View(new TB_Ingrediente { UnidadBase = "kg", Estado = true });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(IngredienteModel modelo)
+        public ActionResult Crear(TB_Ingrediente modelo)
         {
             try
             {
@@ -87,13 +79,8 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     if (!ModelState.IsValid)
                         return View(modelo);
 
-                    db.TB_Ingrediente.Add(new TB_Ingrediente
-                    {
-                        NombreIngrediente = modelo.NombreIngrediente,
-                        Funcion = modelo.Funcion,
-                        UnidadBase = modelo.UnidadBase,
-                        Estado = true
-                    });
+                    modelo.Estado = true;
+                    db.TB_Ingrediente.Add(modelo);
                     db.SaveChanges();
                 }
 
@@ -122,14 +109,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    return View(new IngredienteModel
-                    {
-                        IdIngrediente = ingrediente.IdIngrediente,
-                        NombreIngrediente = ingrediente.NombreIngrediente,
-                        Funcion = ingrediente.Funcion,
-                        UnidadBase = ingrediente.UnidadBase,
-                        Estado = ingrediente.Estado
-                    });
+                    return View(ingrediente);
                 }
             }
             catch (Exception)
@@ -142,7 +122,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(IngredienteModel modelo)
+        public ActionResult Editar(TB_Ingrediente modelo)
         {
             try
             {
@@ -261,7 +241,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         }
 
         // Quita espacios al inicio y al final para evitar duplicados como "Glicerina " y "Glicerina".
-        private static void Normalizar(IngredienteModel modelo)
+        private static void Normalizar(TB_Ingrediente modelo)
         {
             if (modelo == null) return;
             modelo.NombreIngrediente = modelo.NombreIngrediente?.Trim();

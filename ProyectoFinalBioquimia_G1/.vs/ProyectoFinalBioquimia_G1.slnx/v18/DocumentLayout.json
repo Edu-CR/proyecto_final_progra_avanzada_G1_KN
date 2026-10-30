@@ -3,15 +3,47 @@
   "WorkspaceRootPath": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\models\\prototipoconsultamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\models\\prototipoconsultamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\controllers\\ingredientecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\controllers\\ingredientecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\controllers\\historicocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\views\\ingrediente\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\ingrediente\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\views\\ingrediente\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\ingrediente\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\models\\ingredientemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\models\\ingredientemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\views\\ingrediente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\ingrediente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\views\\ingrediente\\_formularioingrediente.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\ingrediente\\_formularioingrediente.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\ef\\tb_ingrediente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\ef\\tb_ingrediente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\controllers\\historicocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\controllers\\historicocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -19,20 +51,20 @@
       "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\controllers\\empresacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\controllers\\tramitecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\controllers\\tramitecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\controllers\\tramitecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\views\\historico\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\models\\prototipoconsultamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\models\\prototipoconsultamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\views\\historico\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\historico\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\views\\historico\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\views\\historico\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|c:\\progra avanzada proyecto final\\proyecto_final_progra_avanzada_g1_kn\\proyectofinalbioquimia_g1\\proyectofinalbioquimia_g1\\models\\ingredientemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|solutionrelative:proyectofinalbioquimia_g1\\models\\ingredientemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{90F52690-B34E-4E47-8929-11E70BBC33A8}|ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1.csproj|C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\proyectofinalbioquimia_g1\\ef\\tb_historialestado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,24 +102,141 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-30T19:46:53.969Z",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Index.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Index.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T20:03:25.086Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Editar.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Editar.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Editar.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAiwCsAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T20:03:23.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Crear.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Crear.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Crear.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Crear.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\Crear.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T20:02:55.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_FormularioIngrediente.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\_FormularioIngrediente.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\_FormularioIngrediente.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\_FormularioIngrediente.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Ingrediente\\_FormularioIngrediente.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T20:01:35.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T20:01:32.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TB_Ingrediente.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_Ingrediente.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\EF\\TB_Ingrediente.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_Ingrediente.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\EF\\TB_Ingrediente.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T20:00:17.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IngredienteController.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\IngredienteController.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\IngredienteController.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\IngredienteController.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\IngredienteController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T19:51:44.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T19:51:44.315Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HistoricoController.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAA1wCAAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T18:40:53.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IngredienteModel.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T19:20:22.73Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "TramiteController.cs",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\TramiteController.cs",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\TramiteController.cs",
@@ -100,69 +249,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "TB_HistorialEstado.cs",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-30T18:48:11.017Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HistoricoController.cs",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\HistoricoController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-30T18:40:53.016Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Detalle.cshtml",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
-              "ViewState": "AgIAAH8AAAAAAAAAAADwv6kAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-10-30T18:40:48.42Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Editar.cshtml",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-10-30T18:38:07.655Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAkwGkAAABWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-10-30T18:36:49.532Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "TB_Empresa.cs",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_Empresa.cs",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\EF\\TB_Empresa.cs",
@@ -174,7 +261,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "TB_TokenRecuperacion.cs",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_TokenRecuperacion.cs",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\EF\\TB_TokenRecuperacion.cs",
@@ -186,7 +273,81 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
+              "Title": "EmpresaController.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T18:25:44.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T19:46:53.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Index.cshtml",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAkwGkAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T18:36:49.532Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Editar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T18:38:07.655Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Detalle.cshtml",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Historico\\Detalle.cshtml",
+              "ViewState": "AgIAAH8AAAAAAAAAAADwv6kAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-30T18:40:48.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "TB_HistorialEstado.cs",
+              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
+              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
+              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
+              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\EF\\TB_HistorialEstado.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-30T18:48:11.017Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "PrototipoConsultaModel.cs",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Models\\PrototipoConsultaModel.cs",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Models\\PrototipoConsultaModel.cs",
@@ -199,20 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EmpresaController.cs",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Controllers\\EmpresaController.cs",
-              "ViewState": "AgIAAOAAAAAAAAAAAAAtwBgAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-30T18:25:44.409Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Historico\\Index.cshtml",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Historico\\Index.cshtml",
@@ -220,25 +368,11 @@
               "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Views\\Historico\\Index.cshtml",
               "ViewState": "AgIAAE8AAAAAAAAAAAAUwHAAAACVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-10-30T19:14:29.222Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-30T19:14:29.222Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IngredienteModel.cs",
-              "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
-              "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
-              "ToolTip": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
-              "RelativeToolTip": "ProyectoFinalBioquimia_G1\\Models\\IngredienteModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-30T19:20:22.73Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 17,
               "Title": "Crear.cshtml",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\Crear.cshtml",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\Crear.cshtml",
@@ -250,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "_FormularioEmpresa.cshtml",
               "DocumentMoniker": "C:\\PROGRA AVANZADA PROYECTO FINAL\\proyecto_final_progra_avanzada_G1_KN\\ProyectoFinalBioquimia_G1\\ProyectoFinalBioquimia_G1\\Views\\Empresa\\_FormularioEmpresa.cshtml",
               "RelativeDocumentMoniker": "ProyectoFinalBioquimia_G1\\Views\\Empresa\\_FormularioEmpresa.cshtml",
