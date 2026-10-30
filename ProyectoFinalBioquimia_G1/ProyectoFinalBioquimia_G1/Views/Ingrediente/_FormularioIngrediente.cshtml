@@ -1,0 +1,36 @@
+﻿@model ProyectoFinalBioquimia_G1.Models.IngredienteModel
+@{
+    var unidades = new SelectList(new[] { "kg", "litro" }, Model.UnidadBase);
+}
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.IdIngrediente)
+
+<div class="mb-3">
+    @Html.LabelFor(m => m.NombreIngrediente, new { @class = "form-label" })
+    @Html.TextBoxFor(m => m.NombreIngrediente, new { @class = "form-control", maxlength = "100", placeholder = "Ejemplo: Glicerina" })
+    @Html.ValidationMessageFor(m => m.NombreIngrediente, "", new { @class = "text-danger small" })
+</div>
+
+<div class="mb-3">
+    @Html.LabelFor(m => m.Funcion, new { @class = "form-label" })
+    @Html.TextBoxFor(m => m.Funcion, new { @class = "form-control", maxlength = "50", list = "listaFunciones", placeholder = "Ejemplo: Tensoactivo" })
+    <datalist id="listaFunciones">
+        <option value="Tensoactivo"></option>
+        <option value="Fragancia"></option>
+        <option value="Conservante"></option>
+        <option value="Solvente"></option>
+        <option value="Espesante"></option>
+        <option value="Regulador de pH"></option>
+        <option value="Desinfectante"></option>
+        <option value="Humectante"></option>
+        <option value="Colorante"></option>
+    </datalist>
+    @Html.ValidationMessageFor(m => m.Funcion, "", new { @class = "text-danger small" })
+</div>
+
+<div class="mb-3">
+    @Html.LabelFor(m => m.UnidadBase, new { @class = "form-label" })
+    @Html.DropDownListFor(m => m.UnidadBase, unidades, new { @class = "form-select" })
+    @Html.ValidationMessageFor(m => m.UnidadBase, "", new { @class = "text-danger small" })
+</div>
