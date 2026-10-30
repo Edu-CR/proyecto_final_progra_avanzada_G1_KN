@@ -2,11 +2,64 @@
     ViewData["Title"] = "Inicio";
 }
 
+<!-- INICIO SECCIÓN DE DEBUG, LUEGO AHI LA QUITAMOS -->
+<div class="card bg-warning-subtle border-warning m-3 shadow-sm">
+    <div class="card-header bg-warning text-dark fw-bold">
+        <i class="bi bi-bug-fill me-2"></i> [MENÚ DE DEBUG DE RUTAS] Acceso Rápido a Vistas para testeo de roles y demás
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+       
+            <a href="@Url.Action("Index", "Empresa")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-building"></i> Empresa (Index)
+            </a>
+            <a href="@Url.Action("Crear", "Empresa")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-plus-circle"></i> Empresa (Crear)
+            </a>
+            <a href="@Url.Action("Editar", "Empresa", new { id = 1 })" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-pencil-square"></i> Empresa (Editar)
+            </a>
+
+            
+            <a href="@Url.Action("Index", "Ingrediente")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-basket"></i> Ingrediente (Index)
+            </a>
+            <a href="@Url.Action("Crear", "Ingrediente")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-plus-circle"></i> Ingrediente (Crear)
+            </a>
+            <a href="@Url.Action("Editar", "Ingrediente", new { id = 1 })" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-pencil-square"></i> Ingrediente (Editar)
+            </a>
+
+            <a href="@Url.Action("Index", "Historico")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-clock-history"></i> Histórico (Index)
+            </a>
+            <a href="@Url.Action("Detalle", "Historico", new { id = 1 })" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-journal-text"></i> Histórico (Detalle)
+            </a>
+
+       
+            <a href="@Url.Action("Index", "Tramite")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-file-earmark-text"></i> Trámite (Index)
+            </a>
+
+
+            <a href="@Url.Action("Login", "Auth")" class="btn btn-warning btn-sm shadow-sm">
+                <i class="bi bi-box-arrow-in-right"></i> Auth (Login)
+            </a>
+        </div>
+    </div>
+</div>
+<!-- FIN DE SECCIÓN DE DEBUG -->
+
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h3 class="mb-0">Bienvenido de vuelta, Por ejemplo, aqui poner variable de sesion luego <!-- UsuarioNombre -->!</h3>
+                <h3 class="mb-0">
+                    Bienvenido de vuelta,
+                    @(Session["NombreUsuarioSession"] != null ? Session["NombreUsuarioSession"].ToString() : "Usuario invitado")!
+                </h3>
             </div>
         </div>
     </div>
@@ -15,6 +68,7 @@
 <div class="app-content">
     <div class="container-fluid">
 
+        <!-- Tarjetas de resumen -->
         <div class="row mb-4">
             <div class="col-lg-3 col-6">
                 <div class="small-box text-bg-primary">
@@ -54,6 +108,7 @@
             </div>
         </div>
 
+        <!-- Tabla de prototipos -->
         <div class="row">
             <div class="col-12">
                 <div class="card">

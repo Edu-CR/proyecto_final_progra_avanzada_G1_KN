@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using ProyectoFinalBioquimia_G1.EF; // MODELO CORRECTO, ahora si corregido
+using ProyectoFinalBioquimia_G1.EF;
+using ProyectoFinalBioquimia_G1.Services;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -51,9 +52,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(lista);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                // Registramos el error en la bitácora indicando el módulo correspondiente, ejemplo de uso de este service
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, EmpresaController - HttpGet -> Index()");
                 TempData["Error"] = MensajeErrorGenerico;
                 ViewBag.Buscar = buscar;
                 ViewBag.Filtro = filtro;

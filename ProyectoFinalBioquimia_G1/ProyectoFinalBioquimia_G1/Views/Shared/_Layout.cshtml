@@ -36,6 +36,15 @@
     <link rel="stylesheet" href="~/assets/css/adminlte.css" />
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+
+    <!-- BARRA DE DEBUG -->
+    <div class="bg-dark text-white text-center py-1" style="font-size: 12px;">
+        [DEBUG] Id: @(Session["IdUsuarioSession"] ?? "Vacía") |
+        Nombre: @(Session["NombreUsuarioSession"] ?? "Vacía") |
+        Rol: @(Session["RolUsuarioSession"] ?? "Vacía")
+    </div>
+
+    <!-- Contenedor Principal (Único) -->
     <div class="app-wrapper">
 
         <!-- Header -->
@@ -49,7 +58,7 @@
                                  alt="Usuario" />
 
                             <span class="d-none d-md-inline">
-                                Por ejemplo, aqui poner variable de sesion luego <!-- UsuarioNombre -->
+                                @(Session["NombreUsuarioSession"] ?? "Sin sesión")
                             </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
@@ -59,8 +68,8 @@
                                      alt="Usuario" />
 
                                 <p>
-                                    Por ejemplo, aqui poner variable de sesion luego <!-- UsuarioNombre -->
-                                    <small>Por ejemplo, aqui poner variable de sesion luego <!-- UsuarioCorreo --></small>
+                                    @(Session["NombreUsuarioSession"] ?? "Sin sesión")
+                                    <small>Rol ID: @(Session["RolUsuarioSession"] ?? "N/A")</small>
                                 </p>
                             </li>
                             <li class="user-footer">
@@ -168,6 +177,7 @@
             </strong>
             Todos los derechos reservados.
         </footer>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars&#64;2.11.0/browser/overlayscrollbars.browser.es6.min.js"
