@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewData["Title"] = "Recuperar | Bioquimia";
+}
+
+<main class="login-box">
+    <div class="login-logo">
+        <img src="~/assets/img/logoBioquimiaAlt.png" alt="Logo Bioquimia" style="max-width: 320px; height: auto;" />
+        <p class="mt-2 mb-0 text-secondary">Sistema de prototipos</p>
+    </div>
+
+    <div class="card card-outline card-primary">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Ingrese su correo para recuperar la contraseña</p>
+
+            <!-- Mensaje de éxito o error controlado por el controlador (ViewBag.Message) -->
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert @(ViewBag.IsError == true ? "alert-danger" : "alert-success") py-2 text-center" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+
+            <!-- Formulario conectado al controlador Auth y acción RecuperarContrasenia -->
+            <form method="post" asp-action="Recuperar" asp-controller="Auth" id="recuperarForm" class="needs-validation" novalidate>
+                @Html.AntiForgeryToken()
+
+                <!-- Correo Electrónico -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="email" name="CorreoElectronico" class="form-control" placeholder="Correo electrónico" autocomplete="email" required />
+                        <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+                    </div>
+                    <div class="invalid-feedback">
+                        Por favor ingrese un correo válido.
+                    </div>
+                </div>
+
+                <!-- Botón de envío -->
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary" id="btn-submit">Enviar token de recuperación al correo</button>
+                </div>
+            </form>
+
+            <hr />
+
+            <!-- Enlace para volver al login -->
+            <p class="mb-1 text-center">
+                <a href="@Url.Action("Login", "Auth")"><i class="bi bi-arrow-left"></i> Volver al inicio de sesión</a>
+            </p>
+        </div>
+    </div>
+</main>
