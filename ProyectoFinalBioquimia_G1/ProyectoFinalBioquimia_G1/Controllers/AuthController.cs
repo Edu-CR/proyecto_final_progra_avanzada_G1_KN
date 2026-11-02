@@ -11,6 +11,8 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 {
     public class AuthController : Controller
     {
+
+        #region Login / Logout
         [HttpGet]
         public ActionResult Login()
         {
@@ -49,5 +51,25 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
             return View(model); //asi no perdemos los datos
         }
+
+        [HttpPost]
+        public ActionResult Logout() // TO DO
+        {
+            return View();
+        }
+
+
+        #endregion
+
+
+
+        [HttpGet]
+        public ActionResult Recuperar() 
+        {
+            return View();
+        }
+
+
+
     }
 }
