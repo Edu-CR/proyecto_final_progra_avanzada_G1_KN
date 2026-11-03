@@ -3,10 +3,15 @@ using ProyectoFinalBioquimia_G1.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -18,6 +23,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            ViewBag.Message = TempData["Message"];
             return View();
         }
 
@@ -26,7 +32,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         {
             try
             {
-                var response = context.TB_Usuario.FirstOrDefault(x => x.CorreoElectronico == model.CorreoElectronico && x.Contrasenna == model.Contrasenna && x.Estado == true); //firstordefault x ser solo 1 registro
+                var response = context.TB_Usuario.FirstOrDefault(usuario => usuario.CorreoElectronico == model.CorreoElectronico && usuario.Contrasenna == model.Contrasenna && usuario.Estado == true); //firstordefault x ser solo 1 registro
 
                 if (response != null)
                 {
@@ -51,9 +57,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             return View(model); //asi no perdemos los datos
         }
 
-        public ActionResult Logout()//TO DO
+        public ActionResult Logout()
         {
-            return null;
+            Session.Clear();
+            return RedirectToAction("Login", "Auth");
         }
         #endregion
 
@@ -69,88 +76,184 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Recuperar(String correoElectronico)
+        public async Task<ActionResult> Recuperar(String correoElectronico)
         {
-            if (string.IsNullOrEmpty(correoElectronico)) //TO DO: Revisar si seeria mejjor meterle JS
+            if (string.IsNullOrEmpty(correoElectronico))
             {
-                ViewBag.Message = "Por favor ingrese un correo electrónico válido.";
+                ViewBag.Message = "Por favor ingrese un correo electrónico válido."; //TO DO igual ver lo del JS
                 return View();
             }
+
             try
             {
-                var response = context.TB_Usuario.FirstOrDefault(x => x.CorreoElectronico == correoElectronico && x.Estado == true); //ver primero si el usuario existe
+                var response = context.TB_Usuario.FirstOrDefault(usuario => usuario.CorreoElectronico == correoElectronico && usuario.Estado == true);
 
-                if (response != null) {
+                if (response != null)
+                {
                     bool usuarioTieneTokens = context.TB_TokenRecuperacion.Any(x => x.IdUsuario == response.IdUsuario);
-                    if (usuarioTieneTokens) {  //se actualizan todos los tokens que estaban sin usarse
-                        List<TB_TokenRecuperacion> tokensParaActualizar = context.TB_TokenRecuperacion.Where(token => token.Usado == false).ToList(); //si usado es false es pq en BD es 0, osea se pudieron haber enviado pero no se ha confirmado, pasan a 1 xq solo puede haber 1 token q sirva
-                        tokensParaActualizar.ForEach(token => token.Usado = true);
-                        context.SaveChanges();
+
+                    if (usuarioTieneTokens)
+                    {
+                        List<TB_TokenRecuperacion> tokensParaActualizar = context.TB_TokenRecuperacion.Where(tokenUsuario => tokenUsuario.Usado == false && tokenUsuario.IdUsuario == response.IdUsuario).ToList();
+                        tokensParaActualizar.ForEach(tokenUsuario => tokenUsuario.Usado = true);
                     }
 
+                    string token = TokenService.GenerarToken();
 
-                }
+                    TB_TokenRecuperacion nuevoToken = new TB_TokenRecuperacion
+                    {
+                        IdUsuario = response.IdUsuario,
+                        Token = token,
+                        FechaCreacion = DateTime.Now,
+                        FechaVencimiento = DateTime.Now.AddMinutes(30),
+                        Usado = false,
+                        Intentos = 0
+                    };
 
+                    context.TB_TokenRecuperacion.Add(nuevoToken);
+                    context.SaveChanges();
 
+                    var ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "recursos", "RecuperarContrasena.html");
 
+                    var html = System.IO.File.ReadAllText(ruta, Encoding.UTF8)
+                        .Replace("{{Nombre}}", WebUtility.HtmlEncode(response.NombreCompleto)) // ya esta el usaurio extraido más ariiba en "repsonse"
+                        .Replace("{{Token}}", WebUtility.HtmlEncode(token))
+                        .Replace("{{Anio}}", DateTime.Now.Year.ToString());
 
+                    EmailService emailService = new EmailService();//llamada al service
 
-
-
-
-
-
-
-
-
-
-
-
-
-                if (usuarioTieneTokens == true) {
-                    
-
-
-
+                    await emailService.EnviarCorreo(response.CorreoElectronico, "Recuperación de Contraseña", html);
 
                     return RedirectToAction("Restablecer", new { correoElectronico = correoElectronico });
                 }
-                else
-                {
-                    return RedirectToAction("Restablecer", new { correoElectronico = correoElectronico }); //el correo siempre pasa porque si no existe pq igual hay que disimular en la URL
-                }
-
-
-
             }
             catch (Exception ex)
             {
-
-
-
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, AuthController - HttpPost -> Recuperar()");
             }
 
-
-
-
-
-            return View();
+            return RedirectToAction("Restablecer", new { correoElectronico = correoElectronico });//si no igual se pasa para disimular la URL
         }
-
 
 
         #endregion
 
 
-        #region Restablecer
+        #region Restablecer 
 
         [HttpGet]
         public ActionResult Restablecer(String correoElectronico)
         {
-            return View(); 
+            ViewBag.CorreoElectronico = correoElectronico;//solo mostrar el correo y se amarra con el mensaje en el front 
+            return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Restablecer(String correoElectronico, String Token, String Contrasenna, String ConfirmarContrasenna)
+        {
+
+            if (Contrasenna != ConfirmarContrasenna)
+            {
+                ViewBag.CorreoElectronico = correoElectronico;
+                ViewBag.Message = "Las contraseñas no coinciden.";
+                return View();
+            }
+            {
+                try
+                {
+                    var response = context.TB_Usuario.FirstOrDefault(usuario =>
+                        usuario.CorreoElectronico == correoElectronico &&
+                        usuario.Estado == true);
+
+                    if (response != null)
+                    {
+                        var tokenVigente = context.TB_TokenRecuperacion
+                            .Where(token => token.IdUsuario == response.IdUsuario &&
+                                            token.Usado == false &&
+                                            token.FechaVencimiento > DateTime.Now)
+                            .OrderByDescending(token => token.FechaCreacion)
+                            .FirstOrDefault();
+
+                        if (tokenVigente != null)
+                        {
+                            // Verificar si ya fueron los 5 intentos
+                            if (tokenVigente.Intentos >= 5)
+                            {
+                                tokenVigente.Usado = true;
+                                Session["IntentosRecuperacion"] = 5;
+                                context.SaveChanges();
+
+                                TempData["Message"] = "El código no es válido o ya venció. Solicite uno nuevo";
+                                return RedirectToAction("Login");
+                            }
+
+                            // Comparar el código ingresado
+                            if (tokenVigente.Token != Token)
+                            {
+                                tokenVigente.Intentos++;
+
+                                if (tokenVigente.Intentos >= 5)
+                                {
+                                    tokenVigente.Usado = true;
+                                    Session["IntentosRecuperacion"] = 5;
+                                }
+
+                                context.SaveChanges();
+
+                                if (tokenVigente.Intentos >= 5)
+                                {
+                                    TempData["Message"] = "El código no es válido o ya venció. Solicite uno nuevo";
+                                    return RedirectToAction("Login");
+                                }
+
+                                ViewBag.CorreoElectronico = correoElectronico;
+                                ViewBag.Message = "El código no es válido o ya venció. Solicite uno nuevo";
+                                return View();
+                            }
+
+                            // Código okey actualizar contraseña y consumir token
+                            response.Contrasenna = Contrasenna;
+                            tokenVigente.Usado = true;
+
+                            context.SaveChanges();
+
+                            Session.Remove("IntentosRecuperacion");
+
+                            TempData["Message"] = "Contraseña actualizada. Ya puede iniciar sesión";
+                            return RedirectToAction("Login");
+                        }
+                    }
+
+                    // Si no existe el usuario o no tiene un token vigente
+                    int intentos = Convert.ToInt32(Session["IntentosRecuperacion"] ?? 0);
+                    intentos++;
+
+                    Session["IntentosRecuperacion"] = intentos;
+
+                    if (intentos >= 5)
+                    {
+                        Session.Remove("IntentosRecuperacion");
+                        TempData["Message"] = "Máximo de intentos alcanzado de ingreso de tokens. Solicite un nuevo token de recuperación o contacte a soporte si tiene dudas.";
+                        return RedirectToAction("Login");
+                    }
+
+                    ViewBag.CorreoElectronico = correoElectronico;
+                    ViewBag.Message = "El código no es válido o ya venció. Solicite uno nuevo";
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    BitacoraService.Registrar(ex, "Ocurrio una excepción, AuthController - HttpPost -> Restablecer()");
+
+                    TempData["Message"] = "Se presentó un error, consulte con el administrador.";
+                    return RedirectToAction("Login");
+                }
+            }
+
 
 
         #endregion
+        }
     }
 }
