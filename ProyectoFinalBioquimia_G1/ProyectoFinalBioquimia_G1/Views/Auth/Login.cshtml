@@ -15,7 +15,6 @@
         <div class="card-body login-card-body">
             <p class="login-box-msg">Inicie sesión para continuar</p>
 
-            <!-- Mensaje de error controlado por el controlador (ViewBag.Message) -->
             @if (ViewBag.Message != null)
             {
                 <div class="alert alert-danger py-2 text-center" role="alert">
@@ -23,33 +22,36 @@
                 </div>
             }
 
-            <!-- Formulario conectado a tu controlador Auth y acción Login -->
-            <form method="post" asp-action="Login" asp-controller="Auth" id="loginForm" class="needs-validation" novalidate>
+            <form method="post" asp-action="Login" asp-controller="Auth" id="loginForm" novalidate>
                 @Html.AntiForgeryToken()
 
                 <!-- Correo Electrónico -->
                 <div class="mb-3">
                     <div class="input-group">
-                        @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", placeholder = "Correo electrónico", autocomplete = "username", required = "required" })
+                        @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", placeholder = "Correo electrónico", autocomplete = "username" })
                         <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                     </div>
+                    <div class="invalid-feedback" data-feedback-for="CorreoElectronico"></div>
                     @Html.ValidationMessageFor(m => m.CorreoElectronico, "", new { @class = "text-danger small mt-1 d-block" })
                 </div>
 
                 <!-- Contraseña -->
                 <div class="mb-3">
                     <div class="input-group">
-                        @Html.PasswordFor(m => m.Contrasenna, new { @class = "form-control", placeholder = "Contraseña", autocomplete = "current-password", required = "required" })
-                        <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
+                        @Html.PasswordFor(m => m.Contrasenna, new { @class = "form-control", placeholder = "Contraseña", autocomplete = "current-password" })
+                        <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="Contrasenna"
+                                aria-label="Mostrar contraseña" tabindex="-1">
+                            <i class="bi bi-eye"></i>
+                        </button>
                     </div>
+                    <div class="invalid-feedback" data-feedback-for="Contrasenna"></div>
                     @Html.ValidationMessageFor(m => m.Contrasenna, "", new { @class = "text-danger small mt-1 d-block" })
                 </div>
 
-                <!-- Botón de envío y opciones -->
                 <div class="row">
                     <div class="col-5">
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary" id="btn-submit">Ingresar</button>
+                            <button type="submit" class="btn btn-primary" id="btn-submit" disabled>Ingresar</button>
                         </div>
                     </div>
                 </div>
@@ -58,14 +60,12 @@
             <hr />
 
             <p class="mb-1">
-                <a href="@Url.Action("RecuperarContrasenia", "Auth")">Olvidé mi contraseña</a>
+                <a href="@Url.Action("Recuperar", "Auth")">Olvidé mi contraseña</a>
             </p>
-            
         </div>
     </div>
 </main>
-<!--
+
 @section Scripts {
-<script src="~/assets/js/login.js"></script> TO DO: Hacer un JS para validar campos
+    <script src="~/assets/js/login.js"></script>
 }
--->

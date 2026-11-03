@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    ViewData["Title"] = "Restablecer contraseña | Bioquimia";
+}
+
+<main class="login-box">
+    <div class="login-logo">
+        <img src="~/assets/img/logoBioquimiaAlt.png" alt="Logo Bioquimia" style="max-width: 320px; height: auto;" />
+        <p class="mt-2 mb-0 text-secondary">Sistema de prototipos</p>
+    </div>
+
+    <div class="card card-outline card-primary">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Ingrese el código enviado a su correo y su nueva contraseña</p>
+
+            <div class="alert alert-info py-2 text-center small" role="alert">
+                <i class="bi bi-info-circle"></i>
+                Si el correo está registrado, recibirá un código de recuperación en su bandeja de entrada.
+                Revise también la carpeta de spam.
+            </div>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-danger py-2 text-center" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
+
+        <form method="post" asp-action="Restablecer" asp-controller="Auth" id="restablecerForm" novalidate>
+            @Html.AntiForgeryToken()
+
+            <!-- Correo Electrónico (solo lectura) -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="email" id="correoElectronico" name="correoElectronico" value="@ViewBag.CorreoElectronico"
+                           class="form-control bg-light" placeholder="Correo electrónico"
+                           autocomplete="email" readonly />
+                    <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+                </div>
+                <div class="form-text">Veriique su bandeja de entrada o de spam en su correo.</div>
+                <div class="invalid-feedback" data-feedback-for="correoElectronico"></div>
+            </div>
+
+            <!-- Código de recuperación -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="text" id="Token" name="Token" class="form-control" placeholder="Código de recuperación (10 dígitos)"
+                           autocomplete="one-time-code" inputmode="numeric" maxlength="10" />
+                    <div class="input-group-text"><span class="bi bi-key-fill"></span></div>
+                </div>
+                <div class="invalid-feedback" data-feedback-for="Token"></div>
+            </div>
+
+            <!-- Nueva contraseña -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="password" id="Contrasenna" name="Contrasenna" class="form-control" placeholder="Nueva contraseña"
+                           autocomplete="new-password" maxlength="15" />
+                    <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="Contrasenna"
+                            aria-label="Mostrar contraseña" tabindex="-1">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+                <div class="form-text">De 8 a 15 caracteres, con mayúscula, minúscula y número.</div>
+                <div class="invalid-feedback" data-feedback-for="Contrasenna"></div>
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div class="mb-3">
+                <div class="input-group">
+                    <input type="password" id="ConfirmarContrasenna" name="ConfirmarContrasenna" class="form-control"
+                           placeholder="Confirmar contraseña" autocomplete="new-password" maxlength="15" />
+                    <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="ConfirmarContrasenna"
+                            aria-label="Mostrar contraseña" tabindex="-1">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+                <div class="invalid-feedback" data-feedback-for="ConfirmarContrasenna"></div>
+            </div>
+
+            <div class="d-grid gap-2 mb-3">
+                <button type="submit" class="btn btn-primary" id="btn-submit" disabled>Restablecer contraseña</button>
+            </div>
+        </form>
+
+            <hr />
+
+            <p class="mb-1 text-center">
+                <a href="@Url.Action("Login", "Auth")"><i class="bi bi-arrow-left"></i> Volver al inicio de sesión</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/assets/js/restablecer.js"></script>
+}
