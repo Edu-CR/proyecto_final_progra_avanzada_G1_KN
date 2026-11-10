@@ -1,0 +1,39 @@
+﻿@model ProyectoFinalBioquimia_G1.EF.TB_Usuario
+
+@Html.HiddenFor(m => m.IdUsuario)
+
+<div class="row">
+    <div class="col-md-5 mb-3">
+        @Html.LabelFor(m => m.Identificacion, "Identificación", new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", maxlength = "20", placeholder = "Ejemplo: 1-1234-5678" })
+        @Html.ValidationMessageFor(m => m.Identificacion, "", new { @class = "text-danger small" })
+    </div>
+    <div class="col-md-7 mb-3">
+        @Html.LabelFor(m => m.NombreCompleto, "Nombre completo", new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", maxlength = "150", placeholder = "Ejemplo: Marta Rojas Vargas" })
+        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger small" })
+    </div>
+</div>
+
+<div class="mb-3">
+    @Html.LabelFor(m => m.CorreoElectronico, "Correo electrónico", new { @class = "form-label" })
+    @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", maxlength = "100", type = "email", placeholder = "Ejemplo: usuario@bioquimia.com" })
+    @Html.ValidationMessageFor(m => m.CorreoElectronico, "", new { @class = "text-danger small" })
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        @Html.LabelFor(m => m.IdRol, "Rol", new { @class = "form-label" })
+        @Html.DropDownListFor(m => m.IdRol, ViewBag.Roles as IEnumerable<SelectListItem>, "-- Seleccione un rol --", new { @class = "form-select" })
+        @Html.ValidationMessageFor(m => m.IdRol, "", new { @class = "text-danger small" })
+    </div>
+
+    @if (Model.IdUsuario == 0)
+    {
+        <div class="col-md-6 mb-3">
+            @Html.LabelFor(m => m.Contrasenna, "Contraseña", new { @class = "form-label" })
+            @Html.PasswordFor(m => m.Contrasenna, new { @class = "form-control", maxlength = "100", autocomplete = "new-password" })
+            @Html.ValidationMessageFor(m => m.Contrasenna, "", new { @class = "text-danger small" })
+        </div>
+    }
+</div>

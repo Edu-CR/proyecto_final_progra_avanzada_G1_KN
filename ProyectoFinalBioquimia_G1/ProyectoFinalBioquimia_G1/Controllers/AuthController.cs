@@ -10,13 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+
 
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
     public class AuthController : Controller
     {
+        private const string MensajeErrorGenerico = "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
+
         private BioquimiaDBEntities context = new BioquimiaDBEntities(); //conexion mejor asi para no andar iniciandola a cada rato.
 
         #region Login/Logout
@@ -51,15 +53,18 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             {
 
                 BitacoraService.Registrar(ex, "Ocurrio una excepción, AuthController - HttpPost -> Login()");
-                ViewBag.Message = "Se presentó un error, consulte con el administrador.";
+                TempData["Error"] = MensajeErrorGenerico;
             }
 
             return View(model); //asi no perdemos los datos
         }
 
+        [HttpPost]
         public ActionResult Logout()
         {
             Session.Clear();
+            Session.Abandon();
+
             return RedirectToAction("Login", "Auth");
         }
         #endregion
@@ -130,6 +135,8 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             catch (Exception ex)
             {
                 BitacoraService.Registrar(ex, "Ocurrio una excepción, AuthController - HttpPost -> Recuperar()");
+
+                TempData["Error"] = MensajeErrorGenerico;
             }
 
             return RedirectToAction("Restablecer", new { correoElectronico = correoElectronico });//si no igual se pasa para disimular la URL
@@ -203,7 +210,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                                 if (tokenVigente.Intentos >= 5)
                                 {
-                                    TempData["Message"] = "El código no es válido o ya venció. Solicite uno nuevo";
+                                    TempData["Message"] = "Máximo de intentos alcanzado de ingreso de tokens. Solicite un nuevo token de recuperación o contacte a soporte si tiene dudas.";
                                     return RedirectToAction("Login");
                                 }
 
@@ -246,7 +253,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 {
                     BitacoraService.Registrar(ex, "Ocurrio una excepción, AuthController - HttpPost -> Restablecer()");
 
-                    TempData["Message"] = "Se presentó un error, consulte con el administrador.";
+                    TempData["Error"] = MensajeErrorGenerico;
                     return RedirectToAction("Login");
                 }
             }
@@ -254,6 +261,22 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
 
         #endregion
+
         }
+
+
+        #region Dispose
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (context != null)
+                {
+                    context.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }
