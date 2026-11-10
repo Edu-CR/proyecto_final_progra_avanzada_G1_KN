@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Crear usuario";
+}
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Crear usuario</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Usuario")">Usuarios</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Crear</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @ViewBag.Error
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                }
+
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-person-plus me-1"></i> Datos del usuario
+                        </h5>
+                    </div>
+
+                    <form action="@Url.Action("Crear", "Usuario")" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+                                <label for="identificacion" class="form-label">Código de identificación</label>
+                                <input type="text" class="form-control" id="identificacion" name="identificacion"
+                                       value="@ViewBag.Identificacion" maxlength="10" inputmode="numeric"
+                                       placeholder="10 dígitos" autocomplete="off" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombreCompleto" class="form-label">Nombre completo</label>
+                                <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto"
+                                       value="@ViewBag.NombreCompleto" maxlength="100" autocomplete="off" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correoElectronico" class="form-label">Correo electrónico</label>
+                                <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"
+                                       value="@ViewBag.CorreoElectronico" maxlength="100" autocomplete="off"
+                                       placeholder="usuario@correo.com" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="idRol" class="form-label">Rol</label>
+                                @Html.DropDownList("idRol", (SelectList)ViewBag.Roles, "Seleccione un rol", new { @class = "form-select" })
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="contrasenna" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="contrasenna" name="contrasenna"
+                                           minlength="8" maxlength="15" autocomplete="new-password" />
+                                    <div class="form-text">8 a 15 caracteres, con mayúscula, minúscula y número.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="confirmarContrasenna" class="form-label">Confirmar contraseña</label>
+                                    <input type="password" class="form-control" id="confirmarContrasenna" name="confirmarContrasenna"
+                                           minlength="8" maxlength="15" autocomplete="new-password" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="@Url.Action("Index", "Usuario")" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Guardar usuario
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/crearUsuario.js"></script>

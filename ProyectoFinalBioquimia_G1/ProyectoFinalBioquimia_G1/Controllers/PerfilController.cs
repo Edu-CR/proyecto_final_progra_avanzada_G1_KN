@@ -22,9 +22,13 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         {
             try
             {
-                if (Session["IdUsuarioSession"] == null)
+                if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true)//solo si no hay sesion o si usuario desactivado, porque cualquier usuario puede ver su perfil sea el rol q sea
                 {
                     return RedirectToAction("Error404", "Error");
+
+                } else { 
+                    
+                
                 }
 
                 int idUsuarioConvertido = Convert.ToInt32(Session["IdUsuarioSession"]);
