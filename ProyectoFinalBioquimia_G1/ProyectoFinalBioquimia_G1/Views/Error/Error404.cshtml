@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "404 - Acceso Denegado / No Encontrado";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bioquimia | 404 Acceso Denegado</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/&#64;fontsource/source-sans-3&#64;5.0.12/index.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars&#64;2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons&#64;1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/assets/css/adminlte.css" />
+</head>
+<body class="bg-black text-light min-vh-100 d-flex align-items-center justify-content-center">
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+
+                <div class="card bg-dark text-white border border-danger border-opacity-50 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-body p-5 text-center">
+
+                        <!-- Logo Bioquimia centrado -->
+                        <div class="mb-4 col-6 col-md-5 mx-auto">
+                            <img src="~/assets/img/logoBioquimia.png" alt="Logo Bioquimia" class="img-fluid opacity-75" />
+                        </div>
+
+                        <!-- Icono de advertencia DISUASORIO-->
+                        <div class="mb-2">
+                            <i class="bi bi-exclamation-octagon-fill text-warning display-4"></i>
+                        </div>
+
+                        <!-- Código 404 -->
+                        <h1 class="display-1 fw-bold text-danger font-monospace m-0 lh-1">404</h1>
+
+                        <!-- Mensaje de error DISUASORIO-->
+                        <h2 class="text-uppercase fw-bold text-light mt-3 mb-2 fs-4">
+                            Área Restringida o Inexistente
+                        </h2>
+
+                        <p class="text-secondary fs-6 mb-4 mx-auto col-md-10">
+                            Has intentado acceder a una dirección inexistente o a un protocolo sin autorización en el servidor de <strong class="text-white">Bioquimia</strong>.
+                        </p>
+
+                        <!-- Terminal de Log DISUASORIA-->
+                        <div class="bg-black border-start border-4 border-danger p-3 rounded mb-4 text-start font-monospace small shadow-sm">
+                            <div class="text-secondary mb-1">&gt; SYSTEM_LOG_ID: #ERR-404-BIOQUIMIA</div>
+                            <div class="text-danger">&gt; STATUS: Resource Not Found / Access Unauthorized</div>
+                            <div class="text-warning">&gt; IP_EVENT: Este intento pudo haber sido registrado en el log de auditoría del sistema.</div>
+                        </div>
+
+
+
+                    </div>
+
+                    <!-- Footer de la tarjeta DISUASORIO-->
+                    <div class="card-footer bg-black bg-opacity-75 text-center text-secondary py-2 border-top border-secondary border-opacity-25 small">
+                        <i class="bi bi-shield-shaded me-1"></i> Bioquimia Security Audit Protocol
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts requeridos -->
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars&#64;2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/&#64;popperjs/core&#64;2.11.8/dist/umd/popper.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap&#64;5.3.8/dist/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
+</body>
+</html>

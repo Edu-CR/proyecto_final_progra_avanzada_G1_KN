@@ -73,10 +73,15 @@
                                 </p>
                             </li>
                             <li class="user-footer">
-                                <a href="#" class="btn btn-outline-secondary">Perfil de usuario</a>
-                                <a href="#" class="btn btn-outline-danger float-end">
-                                    Cerrar sesión
-                                </a>
+                                <a href="@Url.Action("VerPerfil", "Perfil")" class="btn btn-outline-secondary">Perfil de usuario</a>
+
+
+                                <form action="@Url.Action("Logout", "Auth")" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger float-end">
+                                        Cerrar sesión
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </li>

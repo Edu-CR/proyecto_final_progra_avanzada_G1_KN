@@ -1,13 +1,40 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
-</body>
-</html>
+﻿<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Error 404</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+            <div class="col-12 col-md-8 col-lg-6 text-center">
+
+                <!-- Icono intimidante -->
+                <div class="mb-4">
+                    <i class="bi bi-shield-exclamation text-danger" style="font-size: 6rem;"></i>
+                </div>
+
+                <!-- Código de error y advertencia -->
+                <h1 class="display-1 fw-bold text-danger tracking-wider">404</h1>
+                <h2 class="fw-bold mb-3">Acceso denegado o recurso inexistente</h2>
+
+                <p class="text-muted fs-5 mb-4">
+                    Has intentado acceder a un sector restringido o la ruta solicitada no existe en los registros de <strong>Bioquimia S.R.L.</strong> Este incidente podría haber quedado registrado en el sistema.
+                </p>
+
+                <!-- Acciones -->
+                <div class="d-flex justify-content-center gap-3">
+                    
+                    <button onclick="history.back();" class="btn btn-outline-secondary px-4 py-2">
+                        <i class="bi bi-arrow-left me-2"></i> Volver atrás
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

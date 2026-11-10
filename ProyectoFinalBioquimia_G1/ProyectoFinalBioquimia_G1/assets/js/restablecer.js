@@ -1,26 +1,22 @@
 ﻿(function () {
     const btn = document.getElementById('btn-submit');
+    const form = document.getElementById('restablecerForm');
 
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const regexToken = /^\d{10}$/;
+    const regexToken = /^\S{10}$/;
     const regexContrasenna = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$/;
 
+    // El correo es solo informativo (viene del servidor): no se valida visualmente
     const correo = document.getElementById('correoElectronico');
     const token = document.getElementById('Token');
     const pass = document.getElementById('Contrasenna');
     const confirmar = document.getElementById('ConfirmarContrasenna');
 
-    // En el orden pedido: vacío -> formato. Devuelve el mensaje de error o '' si está bien.
+    // Vacío -> formato. Devuelve el mensaje de error o '' si está bien.
     const campos = [
-        {
-            el: correo,
-            validar: v => !v ? 'El correo es obligatorio.'
-                : !regexCorreo.test(v) ? 'El correo no tiene un formato válido.' : ''
-        },
         {
             el: token,
             validar: v => !v ? 'El código es obligatorio.'
-                : !regexToken.test(v) ? 'El código debe tener exactamente 10 dígitos.' : ''
+                : !regexToken.test(v) ? 'El código debe tener exactamente 10 caracteres, sin espacios.' : ''
         },
         {
             el: pass,
@@ -49,21 +45,20 @@
     }
 
     function validarTodo() {
-        let todoValido = true;
+        // Sin correo no se puede continuar, pero no se muestra nada en ese campo
+        let todoValido = correo.value.trim() !== '';
 
         campos.forEach(function (campo) {
-            const mensaje = campo.validar(campo.el.value.trim());
+            // Las contraseñas no se recortan: un espacio podría ser parte de ellas
+            const esPass = campo.el === pass || campo.el === confirmar;
+            const valor = esPass ? campo.el.value : campo.el.value.trim();
+            const mensaje = campo.validar(valor);
             mostrarEstado(campo.el, mensaje);
             if (mensaje !== '') todoValido = false;
         });
 
         btn.disabled = !todoValido;
     }
-
-    // El código solo acepta dígitos
-    token.addEventListener('input', function () {
-        token.value = token.value.replace(/\D/g, '');
-    });
 
     [token, pass, confirmar].forEach(function (el) {
         el.addEventListener('input', function () {
@@ -72,15 +67,6 @@
             if (el === pass && confirmar.value) tocados.add(confirmar.id);
             validarTodo();
         });
-    });
-
-    // El correo viene del servidor y es de solo lectura: se marca como tocado desde el inicio
-    tocados.add(correo.id);
-
-    // Evita enviar si por alguna razón el formulario no es válido
-    document.getElementById('restablecerForm').addEventListener('submit', function (e) {
-        validarTodo();
-        if (btn.disabled) e.preventDefault();
     });
 
     // Ojito para mostrar/ocultar contraseña
@@ -95,6 +81,12 @@
             icono.classList.toggle('bi-eye-slash', mostrar);
             boton.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
         });
+    });
+
+    // Evita enviar si el formulario no es válido
+    form.addEventListener('submit', function (e) {
+        validarTodo();
+        if (btn.disabled) e.preventDefault();
     });
 
     validarTodo();

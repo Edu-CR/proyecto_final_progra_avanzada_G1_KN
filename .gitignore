@@ -1,11 +1,14 @@
 # Ignorar la carpeta EF
 **/EF/
 
+# Ignorar el servicio de correo para usar correos propios
+**/Services/EmailService.cs
+
 # Archivos de configuración de usuario de Visual Studio
 *.user
 *.userosscache
 *.sln.docstates
 
-# Carpetas de compilación de .NET (¡Muy importante ignorarlas!)
+# Carpetas de compilación de .NET
 **/bin/
 **/obj/

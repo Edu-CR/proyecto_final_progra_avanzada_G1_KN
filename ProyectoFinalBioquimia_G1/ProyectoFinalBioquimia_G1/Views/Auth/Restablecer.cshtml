@@ -29,7 +29,8 @@
         <form method="post" asp-action="Restablecer" asp-controller="Auth" id="restablecerForm" novalidate>
             @Html.AntiForgeryToken()
 
-            <!-- Correo Electrónico (solo lectura) -->
+           
+            <!-- Correo Electrónico (solo informativo) -->
             <div class="mb-3">
                 <div class="input-group">
                     <input type="email" id="correoElectronico" name="correoElectronico" value="@ViewBag.CorreoElectronico"
@@ -37,15 +38,14 @@
                            autocomplete="email" readonly />
                     <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                 </div>
-                <div class="form-text">Veriique su bandeja de entrada o de spam en su correo.</div>
-                <div class="invalid-feedback" data-feedback-for="correoElectronico"></div>
             </div>
 
             <!-- Código de recuperación -->
+            <!-- Código de recuperación -->
             <div class="mb-3">
                 <div class="input-group">
-                    <input type="text" id="Token" name="Token" class="form-control" placeholder="Código de recuperación (10 dígitos)"
-                           autocomplete="one-time-code" inputmode="numeric" maxlength="10" />
+                    <input type="text" id="Token" name="Token" class="form-control" placeholder="Código de recuperación (10 caracteres)"
+                           autocomplete="one-time-code" maxlength="10" />
                     <div class="input-group-text"><span class="bi bi-key-fill"></span></div>
                 </div>
                 <div class="invalid-feedback" data-feedback-for="Token"></div>
