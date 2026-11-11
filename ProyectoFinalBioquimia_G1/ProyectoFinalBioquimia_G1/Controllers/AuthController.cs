@@ -41,11 +41,12 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     Session["IdUsuarioSession"] = response.IdUsuario;
                     Session["NombreUsuarioSession"] = response.NombreCompleto;
                     Session["RolUsuarioSession"] = response.IdRol;
+                    Session["EstadoUsuarioSession"] = response.Estado;
                     return RedirectToAction("Index", "Home"); //TO DO: Luego ver como redirigimos al usaurio segun el rol, x ahroa solo van al index
                 }
                 else
                 {
-
+                    //aqui no se manda al 404
                     ViewBag.Message = "No se autenticó su información, consulte con el administrador.";
                 }
             }

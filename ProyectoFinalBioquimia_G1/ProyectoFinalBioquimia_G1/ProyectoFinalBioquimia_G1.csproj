@@ -264,9 +264,12 @@
     <Content Include="assets\img\prototipos\detergente.jpg" />
     <Content Include="assets\img\prototipos\lavaplatos.jpg" />
     <Content Include="assets\img\user2-160x160.jpg" />
-    <Content Include="assets\js\login.js" />
-    <Content Include="assets\js\restablecer.js" />
+    <Content Include="assets\js\usuario\editarUsuario.js" />
+    <Content Include="assets\js\usuario\crearUsuario.js" />
+    <Content Include="assets\js\auth\login.js" />
+    <Content Include="assets\js\auth\restablecer.js" />
     <Content Include="assets\recursos\RecuperarContrasena.html" />
+    <Content Include="assets\recursos\UsuarioBienvenida.html" />
     <Content Include="EF\BaseDeDatosModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BaseDeDatosModel.edmx</DependentUpon>
@@ -342,6 +345,8 @@
     <Content Include="Views\Perfil\VerPerfil.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\_FormularioUsuario.cshtml" />
+    <Content Include="Views\Usuario\Crear.cshtml" />
+    <Content Include="Views\Usuario\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
