@@ -1,11 +1,14 @@
-﻿
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Crear</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>
+﻿@model ProyectoFinalBioquimia_G1.EF.TB_Prototipo
+
+@{
+    ViewBag.Title = "Editar prototipo";
+}
+
+<div class="container mt-4">
+    <h2>Editar prototipo</h2>
+    <p class="text-muted">
+        Puedes modificar este prototipo mientras se encuentre en estado Borrador o Devuelto.
+    </p>
+
+    @Html.Partial("_FormularioPrototipo", Model)
+</div>
