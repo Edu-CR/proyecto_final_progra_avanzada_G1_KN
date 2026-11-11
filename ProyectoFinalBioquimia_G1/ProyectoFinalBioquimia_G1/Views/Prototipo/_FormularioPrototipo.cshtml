@@ -1,1 +1,405 @@
-﻿
+﻿@model ProyectoFinalBioquimia_G1.EF.TB_Prototipo
+
+@using System
+@using System.Collections.Generic
+@using System.Linq
+@using ProyectoFinalBioquimia_G1.EF
+
+@{
+    var accion = Convert.ToString(ViewContext.RouteData.Values["action"]);
+    bool esEdicion = accion == "Editar";
+
+    var categorias = ViewBag.Categorias as SelectList;
+    var ingredientes = ViewBag.Ingredientes as IEnumerable<TB_Ingrediente>;
+    var ingredientesActuales =
+        ViewBag.IngredientesActuales as IEnumerable<TB_PrototipoIngrediente>
+        ?? new List<TB_PrototipoIngrediente>();
+
+    var filas = ingredientesActuales.ToList();
+
+    if (!filas.Any())
+    {
+        filas.Add(new TB_PrototipoIngrediente());
+    }
+}
+
+<style>
+    .prototipo-formulario {
+        max-width: 950px;
+        margin-bottom: 35px;
+    }
+
+        .prototipo-formulario .form-group {
+            margin-bottom: 18px;
+        }
+
+        .prototipo-formulario label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+    .ingrediente-fila {
+        display: flex;
+        gap: 12px;
+        align-items: end;
+        margin-bottom: 12px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+    }
+
+        .ingrediente-fila .campo-ingrediente {
+            flex: 2;
+        }
+
+        .ingrediente-fila .campo-porcentaje {
+            flex: 1;
+        }
+
+        .ingrediente-fila .campo-accion {
+            flex: 0 0 auto;
+        }
+
+    .total-porcentaje {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .imagen-actual {
+        display: block;
+        max-width: 220px;
+        max-height: 180px;
+        object-fit: contain;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
+
+    @@media (max-width: 600px) {
+        .ingrediente-fila {
+            display: block;
+        }
+
+            .ingrediente-fila .campo-ingrediente,
+            .ingrediente-fila .campo-porcentaje {
+                margin-bottom: 10px;
+            }
+    }
+</style>
+
+<div class="prototipo-formulario">
+
+    @using (Html.BeginForm(
+        accion,
+        "Prototipo",
+        FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (esEdicion)
+        {
+            @Html.HiddenFor(m => m.IdPrototipo)
+        }
+
+        @Html.ValidationSummary(
+            false,
+            "",
+            new { @class = "alert alert-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.NombrePrototipo, "Nombre del prototipo")
+            @Html.TextBoxFor(
+                m => m.NombrePrototipo,
+                new
+                {
+                    @class = "form-control",
+                    maxlength = "150",
+                    placeholder = "Nombre del prototipo"
+                })
+            @Html.ValidationMessageFor(
+                m => m.NombrePrototipo,
+                "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.IdCategoria, "Categoría")
+
+            @Html.DropDownListFor(
+                m => m.IdCategoria,
+                categorias,
+                "-- Selecciona una categoría --",
+                new { @class = "form-control" })
+
+            @Html.ValidationMessageFor(
+                m => m.IdCategoria,
+                "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Descripcion, "Descripción")
+
+            @Html.TextAreaFor(
+                m => m.Descripcion,
+                new
+                {
+                    @class = "form-control",
+                    rows = "4",
+                    placeholder = "Describe el propósito y las características del prototipo."
+                })
+
+            @Html.ValidationMessageFor(
+                m => m.Descripcion,
+                "",
+                new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.CaracteristicasEnvase, "Características del envase")
+
+            @Html.TextAreaFor(
+                m => m.CaracteristicasEnvase,
+                new
+                {
+                    @class = "form-control",
+                    rows = "3",
+                    placeholder = "Indica el tipo de envase, material, capacidad y otras características."
+                })
+
+            @Html.ValidationMessageFor(
+                m => m.CaracteristicasEnvase,
+                "",
+                new { @class = "text-danger" })
+        </div>
+
+        <hr />
+
+        <h4>Ingredientes y porcentajes</h4>
+        <p class="text-muted">
+            Agrega los ingredientes que componen el prototipo.
+            La suma de sus porcentajes debe ser exactamente 100%.
+        </p>
+
+        <div id="contenedorIngredientes">
+
+            @foreach (var fila in filas)
+            {
+                <div class="ingrediente-fila">
+                    <div class="campo-ingrediente">
+                        <label>Ingrediente</label>
+
+                        <select name="idsIngredientes"
+                                class="form-control selector-ingrediente"
+                                required>
+                            <option value="">-- Selecciona un ingrediente --</option>
+
+                            @if (ingredientes != null)
+                            {
+                                foreach (var ingrediente in ingredientes)
+                                {
+                                    if (fila.IdIngrediente == ingrediente.IdIngrediente)
+                                    {
+                                        <option value="@ingrediente.IdIngrediente" selected="selected">
+                                            @ingrediente.NombreIngrediente
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@ingrediente.IdIngrediente">
+                                            @ingrediente.NombreIngrediente
+                                        </option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="campo-porcentaje">
+                        <label>Porcentaje (%)</label>
+
+                        <input type="number"
+                               name="porcentajes"
+                               class="form-control porcentaje-ingrediente"
+                               min="0.01"
+                               max="100"
+                               step="0.01"
+                               value="@(fila.Porcentaje > 0 ? fila.Porcentaje.ToString("0.##") : "")"
+                               placeholder="Ej. 25"
+                               required />
+                    </div>
+
+                    <div class="campo-accion">
+                        <button type="button"
+                                class="btn btn-outline-danger quitar-ingrediente">
+                            Quitar
+                        </button>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <button type="button"
+                id="agregarIngrediente"
+                class="btn btn-outline-primary">
+            + Agregar ingrediente
+        </button>
+
+        <div class="total-porcentaje">
+            Total: <span id="totalPorcentaje">0.00</span>%
+            <span id="estadoPorcentaje" class="text-muted">
+                (Debe sumar 100%)
+            </span>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <label for="imagen">Fotografía del prototipo</label>
+
+            @if (esEdicion && !string.IsNullOrWhiteSpace(Model.ImagenRuta))
+            {
+                <p>Imagen actual:</p>
+                <img src="@Url.Content(Model.ImagenRuta)"
+                     alt="Imagen actual del prototipo"
+                     class="imagen-actual" />
+                <p class="text-muted">
+                    Si no seleccionas otra imagen, se conservará la actual.
+                </p>
+            }
+
+            <input type="file"
+                   id="imagen"
+                   name="imagen"
+                   class="form-control"
+                   accept=".jpg,.jpeg,.png,.webp"
+                   @(esEdicion ? "" : "required") />
+
+            <small class="form-text text-muted">
+                Formatos permitidos: JPG, JPEG, PNG y WEBP. Tamaño máximo: 5 MB.
+            </small>
+        </div>
+
+        <hr />
+
+        <button type="submit" class="btn btn-primary">
+            @(esEdicion ? "Guardar cambios" : "Guardar como borrador")
+        </button>
+
+        @Html.ActionLink(
+            "Cancelar",
+            "Index",
+            "Prototipo",
+            null,
+            new { @class = "btn btn-secondary" })
+    }
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const contenedor = document.getElementById("contenedorIngredientes");
+        const botonAgregar = document.getElementById("agregarIngrediente");
+        const totalElemento = document.getElementById("totalPorcentaje");
+        const estadoElemento = document.getElementById("estadoPorcentaje");
+
+        function actualizarTotal() {
+            let total = 0;
+
+            document.querySelectorAll(".porcentaje-ingrediente").forEach(function (campo) {
+                const valor = parseFloat(campo.value);
+
+                if (!isNaN(valor)) {
+                    total += valor;
+                }
+            });
+
+            totalElemento.textContent = total.toFixed(2);
+
+            if (Math.abs(total - 100) < 0.001) {
+                estadoElemento.textContent = "(Porcentaje correcto)";
+                estadoElemento.style.color = "green";
+            } else {
+                estadoElemento.textContent = "(Debe sumar 100%)";
+                estadoElemento.style.color = "red";
+            }
+        }
+
+        function actualizarOpciones() {
+            const filas = contenedor.querySelectorAll(".ingrediente-fila");
+            const seleccionados = [];
+
+            filas.forEach(function (fila) {
+                const select = fila.querySelector(".selector-ingrediente");
+
+                if (select && select.value !== "") {
+                    seleccionados.push(select.value);
+                }
+            });
+
+            filas.forEach(function (fila) {
+                const select = fila.querySelector(".selector-ingrediente");
+
+                if (!select) return;
+
+                Array.from(select.options).forEach(function (opcion) {
+                    if (opcion.value === "") return;
+
+                    const estaSeleccionadoEnOtraFila =
+                        seleccionados.includes(opcion.value) &&
+                        select.value !== opcion.value;
+
+                    opcion.disabled = estaSeleccionadoEnOtraFila;
+                });
+            });
+        }
+
+        function conectarFila(fila) {
+            const porcentaje = fila.querySelector(".porcentaje-ingrediente");
+            const selector = fila.querySelector(".selector-ingrediente");
+            const botonQuitar = fila.querySelector(".quitar-ingrediente");
+
+            porcentaje.addEventListener("input", actualizarTotal);
+
+            selector.addEventListener("change", function () {
+                actualizarOpciones();
+            });
+
+            botonQuitar.addEventListener("click", function () {
+                if (contenedor.querySelectorAll(".ingrediente-fila").length <= 1) {
+                    alert("Debe conservar al menos una fila de ingrediente.");
+                    return;
+                }
+
+                fila.remove();
+                actualizarTotal();
+                actualizarOpciones();
+            });
+        }
+
+        function crearFila() {
+            const filaOriginal = contenedor.querySelector(".ingrediente-fila");
+            const nuevaFila = filaOriginal.cloneNode(true);
+
+            nuevaFila.querySelector(".selector-ingrediente").value = "";
+            nuevaFila.querySelector(".porcentaje-ingrediente").value = "";
+
+            contenedor.appendChild(nuevaFila);
+
+            conectarFila(nuevaFila);
+            actualizarTotal();
+            actualizarOpciones();
+        }
+
+        botonAgregar.addEventListener("click", crearFila);
+
+        contenedor.querySelectorAll(".ingrediente-fila").forEach(function (fila) {
+            conectarFila(fila);
+        });
+
+        actualizarTotal();
+        actualizarOpciones();
+    });
+</script>

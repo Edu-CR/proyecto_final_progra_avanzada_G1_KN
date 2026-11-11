@@ -1,0 +1,124 @@
+﻿@model IEnumerable<ProyectoFinalBioquimia_G1.EF.TB_Prototipo>
+
+@{
+    ViewBag.Title = "Mis prototipos";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Mis prototipos</h2>
+        @Html.ActionLink("Crear prototipo", "Crear", "Prototipo",
+                 null, new { @class = "btn btn-primary" })
+    </div>
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Exito"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Todavía no has registrado prototipos.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Fecha de creación</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prototipo in Model)
+                    {
+                        var estado = prototipo.TB_EstadoPrototipo != null
+                            ? prototipo.TB_EstadoPrototipo.NombreEstado
+                            : "Sin estado";
+
+                        bool puedeEditar =
+                            estado == "Borrador" || estado == "Devuelto";
+
+                        <tr>
+                            <td>@prototipo.NombrePrototipo</td>
+                            <td>
+                                @(prototipo.TB_Categoria != null
+                                    ? prototipo.TB_Categoria.NombreCategoria
+                                    : "Sin categoría")
+                            </td>
+                            <td>@prototipo.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @if (estado == "Borrador")
+                                {
+                                    <span class="badge bg-secondary">Borrador</span>
+                                }
+                                else if (estado == "Enviado")
+                                {
+                                    <span class="badge bg-primary">Enviado</span>
+                                }
+                                else if (estado == "Devuelto")
+                                {
+                                    <span class="badge bg-warning text-dark">Devuelto</span>
+                                }
+                                else if (estado == "Aprobado")
+                                {
+                                    <span class="badge bg-success">Aprobado</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-dark">@estado</span>
+                                }
+                            </td>
+                            <td>
+                                @if (puedeEditar)
+                                {
+                                    @Html.ActionLink(
+                                             "Editar",
+                                             "Editar",
+                                             "Prototipo",
+                                             new { id = prototipo.IdPrototipo },
+                                             new { @class = "btn btn-sm btn-outline-primary mb-1" }
+                                         )
+
+                                    using (Html.BeginForm(
+                                        "Enviar",
+                                        "Prototipo",
+                                        new { id = prototipo.IdPrototipo },
+                                        FormMethod.Post,
+                                        new { @class = "d-inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit"
+                                                class="btn btn-sm btn-success mb-1"
+                                                onclick="return confirm('¿Deseas enviar este prototipo a evaluación?');">
+                                            Enviar a evaluación
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted">No editable</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

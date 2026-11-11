@@ -166,6 +166,7 @@
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\IngredienteController.cs" />
     <Compile Include="Controllers\TramiteController.cs" />
+    <Compile Include="Controllers\PrototipoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="EF\BaseDeDatosModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -347,6 +348,10 @@
     <Content Include="Views\Usuario\_FormularioUsuario.cshtml" />
     <Content Include="Views\Usuario\Crear.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
+    <Content Include="Views\Prototipo\Crear.cshtml" />
+    <Content Include="Views\Prototipo\Editar.cshtml" />
+    <Content Include="Views\Prototipo\_FormularioPrototipo.cshtml" />
+    <Content Include="Views\Prototipo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
