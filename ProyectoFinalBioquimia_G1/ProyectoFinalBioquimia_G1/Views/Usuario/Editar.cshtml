@@ -46,10 +46,10 @@
                         <div class="card-body">
 
                             <div class="mb-3">
-                                <label for="identificacion" class="form-label">Código de identificación</label>
+                                <label for="identificacion" class="form-label">Identificación</label>
                                 <input type="text" class="form-control" id="identificacion" name="identificacion"
-                                       value="@ViewBag.Identificacion" maxlength="10" inputmode="numeric"
-                                       placeholder="10 dígitos" autocomplete="off" />
+                                       value="@ViewBag.Identificacion" maxlength="20" inputmode="numeric"
+                                       placeholder="8 a 20 dígitos" autocomplete="off" />
                             </div>
 
                             <div class="mb-3">
@@ -70,7 +70,7 @@
 
                                 @if (esMismo)
                                 {
-                                    @* Tu propio rol no se puede cambiar: se muestra bloqueado y se envía el valor actual *@
+                                    @* El propio rol no se puede cambiar se muestra bloqueado y se envía el valor actual *@
                                     @Html.DropDownList("rolMostrado", (SelectList)ViewBag.Roles, new { @class = "form-select", disabled = "disabled" })
                                     <input type="hidden" name="idRol" value="@(((SelectList)ViewBag.Roles).SelectedValue)" />
                                     <div class="form-text">No puedes cambiar tu propio rol.</div>
@@ -98,3 +98,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/assets/js/usuario/editarUsuario.js"></script>

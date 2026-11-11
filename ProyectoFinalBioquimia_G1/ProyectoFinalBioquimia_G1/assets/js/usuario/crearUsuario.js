@@ -3,7 +3,7 @@
 
     // Mismas reglas que el controlador (si cambia una, cambiarla en los dos lados)
     var REGEX_CORREO = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-    var REGEX_CODIGO = /^[0-9]{10}$/;
+    var REGEX_ID = /^[0-9]{8,20}$/;
     var REGEX_CONTRASENNA = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,15}$/;
 
     var campos = {
@@ -32,7 +32,7 @@
         identificacion: function (v) {
             v = v.trim();
             if (v === '') return 'El código es obligatorio.';
-            if (!REGEX_CODIGO.test(v)) return 'El código debe tener exactamente 10 dígitos.';
+            if (!REGEX_ID.test(v)) return 'La identificacion es de maximo 20 dígitos.';
             return '';
         },
         idRol: function (v) {

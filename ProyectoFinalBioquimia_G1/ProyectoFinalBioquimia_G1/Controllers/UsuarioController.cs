@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
@@ -95,9 +99,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 return RedirectToAction("Index");
             }
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(string identificacion, string nombreCompleto, string correoElectronico,string contrasenna, string confirmarContrasenna, int idRol)
+        public async Task<ActionResult> Crear(string identificacion, string nombreCompleto, string correoElectronico, string contrasenna, string confirmarContrasenna, int idRol, bool enviarCorreo = false)//false x defecto x si acaso el correo esta mal
         {
             if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
             {
@@ -133,9 +138,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 }
 
 
-                if (!System.Text.RegularExpressions.Regex.IsMatch(identificacion, @"^[0-9]{10}$"))
+                if (!System.Text.RegularExpressions.Regex.IsMatch(identificacion, @"^[0-9]{8,20}$"))
                 {
-                    ViewBag.Error = "El código debe tener exactamente 10 dígitos.";
+                    ViewBag.Error = "El ID debe tener entre 8 y 20 dígitos.";
                     CargarRoles(idRol);
                     return View();
                 }
@@ -171,7 +176,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                 if (context.TB_Usuario.Any(u => u.Identificacion == identificacion))
                 {
-                    ViewBag.Error = "Ya existe un usuario con ese código.";
+                    ViewBag.Error = "Ya existe un usuario con ese ID.";
                     CargarRoles(idRol);
                     return View();
                 }
@@ -191,7 +196,43 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 context.SaveChanges();
 
                 TempData["Exito"] = "Usuario creado correctamente.";
+
+
+    
+
+                // Correo opcional: el usuario ya está guardado, así que si falla no se pierde nada
+                if (enviarCorreo)
+                {
+                    try
+                    {
+                        string nombreRol = context.TB_Rol
+                                                  .Where(r => r.IdRol == idRol)
+                                                  .Select(r => r.NombreRol)
+                                                  .FirstOrDefault();
+
+                        var ruta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "recursos", "UsuarioBienvenida.html");
+
+                        var html = System.IO.File.ReadAllText(ruta, Encoding.UTF8)
+                            .Replace("{{Nombre}}", WebUtility.HtmlEncode(nombreCompleto))
+                            .Replace("{{ID}}", WebUtility.HtmlEncode(identificacion))
+                            .Replace("{{Correo}}", WebUtility.HtmlEncode(correoElectronico))
+                            .Replace("{{Rol}}", WebUtility.HtmlEncode(nombreRol ?? ""))
+                            .Replace("{{Anio}}", DateTime.Now.Year.ToString());
+
+                        EmailService emailService = new EmailService();
+                        await emailService.EnviarCorreo(correoElectronico, "Bienvenido a Bioquimia", html);
+
+                        TempData["Exito"] = "Usuario creado correctamente y correo de bienvenida enviado.";
+                    }
+                    catch (Exception exCorreo)
+                    {
+                        BitacoraService.Registrar(exCorreo, "Ocurrió una excepción, UsuarioController - HttpPost -> Crear() - envío de correo");
+                        TempData["Error"] = "El usuario se creó, pero no se pudo enviar el correo de bienvenida.";
+                    }
+                }
+
                 return RedirectToAction("Index");
+
             }
             catch (Exception ex)
             {
@@ -345,8 +386,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, string identificacion, string nombreCompleto,
-                                   string correoElectronico, int idRol)
+        public ActionResult Editar(int id, string identificacion, string nombreCompleto, string correoElectronico, int idRol)
         {
             if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
             {
@@ -399,10 +439,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View();
                 }
 
-               
-                if (!System.Text.RegularExpressions.Regex.IsMatch(identificacion, @"^[0-9]{10}$"))
+                if (!System.Text.RegularExpressions.Regex.IsMatch(identificacion, @"^[0-9]{8,20}$"))
                 {
-                    ViewBag.Error = "El código debe tener exactamente 10 dígitos.";
+                    ViewBag.Error = "Identificación debe tener entre 8 y 20 dígitos.";
                     CargarRoles(idRol);
                     return View();
                 }
@@ -425,7 +464,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                 if (context.TB_Usuario.Any(u => u.Identificacion == identificacion && u.IdUsuario != id))
                 {
-                    ViewBag.Error = "Ya existe otro usuario con ese código.";
+                    ViewBag.Error = "Ya existe otro usuario con ese ID.";
                     CargarRoles(idRol);
                     return View();
                 }

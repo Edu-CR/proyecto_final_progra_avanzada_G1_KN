@@ -44,10 +44,10 @@
                         <div class="card-body">
 
                             <div class="mb-3">
-                                <label for="identificacion" class="form-label">Código de identificación</label>
+                                <label for="identificacion" class="form-label">Identificación</label>
                                 <input type="text" class="form-control" id="identificacion" name="identificacion"
-                                       value="@ViewBag.Identificacion" maxlength="10" inputmode="numeric"
-                                       placeholder="10 dígitos" autocomplete="off" />
+                                       value="@ViewBag.Identificacion" maxlength="20" inputmode="numeric"
+                                       placeholder="8 a 20 dígitos" autocomplete="off" />
                             </div>
 
                             <div class="mb-3">
@@ -84,6 +84,13 @@
 
                         </div>
 
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="enviarCorreo" name="enviarCorreo" value="true" />
+                            <label class="form-check-label" for="enviarCorreo">
+                                Enviar correo de bienvenida al usuario (recomendado)
+                            </label>
+                        </div>
+
                         <div class="card-footer d-flex justify-content-between">
                             <a href="@Url.Action("Index", "Usuario")" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Cancelar
@@ -100,4 +107,4 @@
     </div>
 </div>
 
-<script src="~/assets/js/crearUsuario.js"></script>
+<script src="~/assets/js/usuario/crearUsuario.js"></script>
