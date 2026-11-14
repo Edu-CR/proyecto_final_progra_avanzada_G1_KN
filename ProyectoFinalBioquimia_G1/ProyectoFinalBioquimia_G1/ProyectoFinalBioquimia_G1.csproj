@@ -159,6 +159,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GerenteController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -352,6 +353,8 @@
     <Content Include="Views\Prototipo\Editar.cshtml" />
     <Content Include="Views\Prototipo\_FormularioPrototipo.cshtml" />
     <Content Include="Views\Prototipo\Index.cshtml" />
+    <Content Include="Views\Gerente\Index.cshtml" />
+    <Content Include="Views\Gerente\Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

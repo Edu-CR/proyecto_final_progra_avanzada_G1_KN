@@ -1,0 +1,49 @@
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.rsuser
+
+# Compilacion .NET
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+TestResults/
+
+# Paquetes NuGet
+packages/
+*.nupkg
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+*.bak
+*.cache
+*~
+Thumbs.db
+.DS_Store
+
+# Publicacion
+publish/
+Publish/
+*.publishsettings
+*.pubxml.user
+
+# Bases de datos locales
+*.mdf
+*.ldf
+
+# Credenciales
+.env
+.env.*
+!.env.example
+secrets.json
+Web.Local.config
+Web.Private.config

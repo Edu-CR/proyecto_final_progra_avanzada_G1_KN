@@ -1,0 +1,1215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BioquimiaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TB_BitacoraError">
+          <Key>
+            <PropertyRef Name="IdBitacoraError" />
+          </Key>
+          <Property Name="IdBitacoraError" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaError" Type="datetime" Nullable="false" />
+          <Property Name="Modulo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Mensaje" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Detalle" Type="nvarchar(max)" />
+          <Property Name="IdUsuario" Type="int" />
+        </EntityType>
+        <EntityType Name="TB_Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreCategoria" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_ControlAlertas">
+          <Key>
+            <PropertyRef Name="IdControlAlertas" />
+          </Key>
+          <Property Name="IdControlAlertas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UltimaRevision" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreEmpresa" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Contacto" Type="nvarchar" MaxLength="150" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="20" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="100" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_EstadoPrototipo">
+          <Key>
+            <PropertyRef Name="IdEstadoPrototipo" />
+          </Key>
+          <Property Name="IdEstadoPrototipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreEstado" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_HistorialEstado">
+          <Key>
+            <PropertyRef Name="IdHistorialEstado" />
+          </Key>
+          <Property Name="IdHistorialEstado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPrototipo" Type="int" Nullable="false" />
+          <Property Name="IdEstadoAnterior" Type="int" />
+          <Property Name="IdEstadoNuevo" Type="int" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Justificacion" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaCambio" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_Ingrediente">
+          <Key>
+            <PropertyRef Name="IdIngrediente" />
+          </Key>
+          <Property Name="IdIngrediente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreIngrediente" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Funcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnidadBase" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_Prototipo">
+          <Key>
+            <PropertyRef Name="IdPrototipo" />
+          </Key>
+          <Property Name="IdPrototipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePrototipo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="IdCategoria" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="CaracteristicasEnvase" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ImagenRuta" Type="nvarchar" MaxLength="260" Nullable="false" />
+          <Property Name="IdQuimico" Type="int" Nullable="false" />
+          <Property Name="IdEstadoPrototipo" Type="int" Nullable="false" />
+          <Property Name="ComentarioGerente" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="FechaModificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TB_PrototipoEmpresa">
+          <Key>
+            <PropertyRef Name="IdPrototipo" />
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdPrototipo" Type="int" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_PrototipoIngrediente">
+          <Key>
+            <PropertyRef Name="IdPrototipo" />
+            <PropertyRef Name="IdIngrediente" />
+          </Key>
+          <Property Name="IdPrototipo" Type="int" Nullable="false" />
+          <Property Name="IdIngrediente" Type="int" Nullable="false" />
+          <Property Name="Porcentaje" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_PruebaPrototipo">
+          <Key>
+            <PropertyRef Name="IdPruebaPrototipo" />
+          </Key>
+          <Property Name="IdPruebaPrototipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPrototipo" Type="int" Nullable="false" />
+          <Property Name="IdTipoPrueba" Type="int" Nullable="false" />
+          <Property Name="ValorMedido" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Resultado" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FechaPrueba" Type="date" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="300" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_RegistroRegulatorio">
+          <Key>
+            <PropertyRef Name="IdRegistroRegulatorio" />
+          </Key>
+          <Property Name="IdRegistroRegulatorio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPrototipo" Type="int" Nullable="false" />
+          <Property Name="NumeroRegistro" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaEmision" Type="date" Nullable="false" />
+          <Property Name="FechaVencimiento" Type="date" Nullable="false" />
+          <Property Name="FechaAlertaEnviada" Type="datetime" />
+          <Property Name="EtiquetaNombreProducto" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaIngredientes" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaAdvertencias" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaInstrucciones" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaContenidoNeto" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaLote" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaFabricante" Type="bit" Nullable="false" />
+          <Property Name="EtiquetaFechaVencimiento" Type="bit" Nullable="false" />
+          <Property Name="SdsPeligros" Type="nvarchar" MaxLength="500" />
+          <Property Name="SdsPrimerosAuxilios" Type="nvarchar" MaxLength="500" />
+          <Property Name="SdsAlmacenamiento" Type="nvarchar" MaxLength="500" />
+          <Property Name="SdsFechaRevision" Type="date" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRol" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_TipoPrueba">
+          <Key>
+            <PropertyRef Name="IdTipoPrueba" />
+          </Key>
+          <Property Name="IdTipoPrueba" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreTipoPrueba" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Unidad" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ValorMinimo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ValorMaximo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Obligatoria" Type="bit" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_TokenRecuperacion">
+          <Key>
+            <PropertyRef Name="IdTokenRecuperacion" />
+          </Key>
+          <Property Name="IdTokenRecuperacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+          <Property Name="FechaVencimiento" Type="datetime" Nullable="false" />
+          <Property Name="Usado" Type="bit" Nullable="false" />
+          <Property Name="Intentos" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TB_Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Identificacion" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Contrasenna" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="IdRol" Type="int" Nullable="false" />
+          <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_TB_BitacoraError_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="0..1" />
+          <End Role="TB_BitacoraError" Type="Self.TB_BitacoraError" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_BitacoraError">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior">
+          <End Role="TB_EstadoPrototipo" Type="Self.TB_EstadoPrototipo" Multiplicity="0..1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_EstadoPrototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdEstadoAnterior" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo">
+          <End Role="TB_EstadoPrototipo" Type="Self.TB_EstadoPrototipo" Multiplicity="1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_EstadoPrototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdEstadoNuevo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Prototipo_TB_Categoria">
+          <End Role="TB_Categoria" Type="Self.TB_Categoria" Multiplicity="1" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="TB_Prototipo">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Prototipo_TB_EstadoPrototipo">
+          <End Role="TB_EstadoPrototipo" Type="Self.TB_EstadoPrototipo" Multiplicity="1" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_EstadoPrototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Principal>
+            <Dependent Role="TB_Prototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Prototipo_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_Prototipo">
+              <PropertyRef Name="IdQuimico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PrototipoEmpresa_TB_Empresa">
+          <End Role="TB_Empresa" Type="Self.TB_Empresa" Multiplicity="1" />
+          <End Role="TB_PrototipoEmpresa" Type="Self.TB_PrototipoEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="TB_PrototipoEmpresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PrototipoEmpresa_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_PrototipoEmpresa" Type="Self.TB_PrototipoEmpresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_PrototipoEmpresa">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PrototipoIngrediente_TB_Ingrediente">
+          <End Role="TB_Ingrediente" Type="Self.TB_Ingrediente" Multiplicity="1" />
+          <End Role="TB_PrototipoIngrediente" Type="Self.TB_PrototipoIngrediente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Ingrediente">
+              <PropertyRef Name="IdIngrediente" />
+            </Principal>
+            <Dependent Role="TB_PrototipoIngrediente">
+              <PropertyRef Name="IdIngrediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PrototipoIngrediente_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_PrototipoIngrediente" Type="Self.TB_PrototipoIngrediente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_PrototipoIngrediente">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PruebaPrototipo_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_PruebaPrototipo" Type="Self.TB_PruebaPrototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_PruebaPrototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PruebaPrototipo_TB_TipoPrueba">
+          <End Role="TB_TipoPrueba" Type="Self.TB_TipoPrueba" Multiplicity="1" />
+          <End Role="TB_PruebaPrototipo" Type="Self.TB_PruebaPrototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_TipoPrueba">
+              <PropertyRef Name="IdTipoPrueba" />
+            </Principal>
+            <Dependent Role="TB_PruebaPrototipo">
+              <PropertyRef Name="IdTipoPrueba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PruebaPrototipo_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_PruebaPrototipo" Type="Self.TB_PruebaPrototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_PruebaPrototipo">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_RegistroRegulatorio_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_RegistroRegulatorio" Type="Self.TB_RegistroRegulatorio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_RegistroRegulatorio">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_TokenRecuperacion_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_TokenRecuperacion" Type="Self.TB_TokenRecuperacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_TokenRecuperacion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Usuario_TB_Rol">
+          <End Role="TB_Rol" Type="Self.TB_Rol" Multiplicity="1" />
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="TB_Usuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BioquimiaDBModelStoreContainer">
+          <EntitySet Name="TB_BitacoraError" EntityType="Self.TB_BitacoraError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Categoria" EntityType="Self.TB_Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_ControlAlertas" EntityType="Self.TB_ControlAlertas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Empresa" EntityType="Self.TB_Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_EstadoPrototipo" EntityType="Self.TB_EstadoPrototipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_HistorialEstado" EntityType="Self.TB_HistorialEstado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Ingrediente" EntityType="Self.TB_Ingrediente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Prototipo" EntityType="Self.TB_Prototipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_PrototipoEmpresa" EntityType="Self.TB_PrototipoEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_PrototipoIngrediente" EntityType="Self.TB_PrototipoIngrediente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_PruebaPrototipo" EntityType="Self.TB_PruebaPrototipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_RegistroRegulatorio" EntityType="Self.TB_RegistroRegulatorio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Rol" EntityType="Self.TB_Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_TipoPrueba" EntityType="Self.TB_TipoPrueba" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_TokenRecuperacion" EntityType="Self.TB_TokenRecuperacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Usuario" EntityType="Self.TB_Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TB_BitacoraError_TB_Usuario" Association="Self.FK_TB_BitacoraError_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_BitacoraError" EntitySet="TB_BitacoraError" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior" Association="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior">
+            <End Role="TB_EstadoPrototipo" EntitySet="TB_EstadoPrototipo" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo" Association="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo">
+            <End Role="TB_EstadoPrototipo" EntitySet="TB_EstadoPrototipo" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_Prototipo" Association="Self.FK_TB_HistorialEstado_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_Usuario" Association="Self.FK_TB_HistorialEstado_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Prototipo_TB_Categoria" Association="Self.FK_TB_Prototipo_TB_Categoria">
+            <End Role="TB_Categoria" EntitySet="TB_Categoria" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Prototipo_TB_EstadoPrototipo" Association="Self.FK_TB_Prototipo_TB_EstadoPrototipo">
+            <End Role="TB_EstadoPrototipo" EntitySet="TB_EstadoPrototipo" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Prototipo_TB_Usuario" Association="Self.FK_TB_Prototipo_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PrototipoEmpresa_TB_Empresa" Association="Self.FK_TB_PrototipoEmpresa_TB_Empresa">
+            <End Role="TB_Empresa" EntitySet="TB_Empresa" />
+            <End Role="TB_PrototipoEmpresa" EntitySet="TB_PrototipoEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PrototipoEmpresa_TB_Prototipo" Association="Self.FK_TB_PrototipoEmpresa_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_PrototipoEmpresa" EntitySet="TB_PrototipoEmpresa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PrototipoIngrediente_TB_Ingrediente" Association="Self.FK_TB_PrototipoIngrediente_TB_Ingrediente">
+            <End Role="TB_Ingrediente" EntitySet="TB_Ingrediente" />
+            <End Role="TB_PrototipoIngrediente" EntitySet="TB_PrototipoIngrediente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PrototipoIngrediente_TB_Prototipo" Association="Self.FK_TB_PrototipoIngrediente_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_PrototipoIngrediente" EntitySet="TB_PrototipoIngrediente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PruebaPrototipo_TB_Prototipo" Association="Self.FK_TB_PruebaPrototipo_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_PruebaPrototipo" EntitySet="TB_PruebaPrototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PruebaPrototipo_TB_TipoPrueba" Association="Self.FK_TB_PruebaPrototipo_TB_TipoPrueba">
+            <End Role="TB_TipoPrueba" EntitySet="TB_TipoPrueba" />
+            <End Role="TB_PruebaPrototipo" EntitySet="TB_PruebaPrototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PruebaPrototipo_TB_Usuario" Association="Self.FK_TB_PruebaPrototipo_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_PruebaPrototipo" EntitySet="TB_PruebaPrototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_RegistroRegulatorio_TB_Prototipo" Association="Self.FK_TB_RegistroRegulatorio_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_RegistroRegulatorio" EntitySet="TB_RegistroRegulatorio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_TokenRecuperacion_TB_Usuario" Association="Self.FK_TB_TokenRecuperacion_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_TokenRecuperacion" EntitySet="TB_TokenRecuperacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Usuario_TB_Rol" Association="Self.FK_TB_Usuario_TB_Rol">
+            <End Role="TB_Rol" EntitySet="TB_Rol" />
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BioquimiaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TB_BitacoraError">
+          <Key>
+            <PropertyRef Name="IdBitacoraError" />
+          </Key>
+          <Property Name="IdBitacoraError" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaError" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modulo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mensaje" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Detalle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <NavigationProperty Name="TB_Usuario" Relationship="Self.FK_TB_BitacoraError_TB_Usuario" FromRole="TB_BitacoraError" ToRole="TB_Usuario" />
+        </EntityType>
+        <EntityType Name="TB_Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreCategoria" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_Prototipo_TB_Categoria" FromRole="TB_Categoria" ToRole="TB_Prototipo" />
+        </EntityType>
+        <EntityType Name="TB_ControlAlertas">
+          <Key>
+            <PropertyRef Name="IdControlAlertas" />
+          </Key>
+          <Property Name="IdControlAlertas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UltimaRevision" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="TB_Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreEmpresa" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contacto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.TB_PrototipoEmpresa" FromRole="TB_Empresa" ToRole="TB_Prototipo" />
+        </EntityType>
+        <EntityType Name="TB_EstadoPrototipo">
+          <Key>
+            <PropertyRef Name="IdEstadoPrototipo" />
+          </Key>
+          <Property Name="IdEstadoPrototipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreEstado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TB_HistorialEstado" Relationship="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior" FromRole="TB_EstadoPrototipo" ToRole="TB_HistorialEstado" />
+          <NavigationProperty Name="TB_HistorialEstado1" Relationship="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo" FromRole="TB_EstadoPrototipo" ToRole="TB_HistorialEstado" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_Prototipo_TB_EstadoPrototipo" FromRole="TB_EstadoPrototipo" ToRole="TB_Prototipo" />
+        </EntityType>
+        <EntityType Name="TB_HistorialEstado">
+          <Key>
+            <PropertyRef Name="IdHistorialEstado" />
+          </Key>
+          <Property Name="IdHistorialEstado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPrototipo" Type="Int32" Nullable="false" />
+          <Property Name="IdEstadoAnterior" Type="Int32" />
+          <Property Name="IdEstadoNuevo" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Justificacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCambio" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TB_EstadoPrototipo" Relationship="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior" FromRole="TB_HistorialEstado" ToRole="TB_EstadoPrototipo" />
+          <NavigationProperty Name="TB_EstadoPrototipo1" Relationship="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo" FromRole="TB_HistorialEstado" ToRole="TB_EstadoPrototipo" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_HistorialEstado_TB_Prototipo" FromRole="TB_HistorialEstado" ToRole="TB_Prototipo" />
+          <NavigationProperty Name="TB_Usuario" Relationship="Self.FK_TB_HistorialEstado_TB_Usuario" FromRole="TB_HistorialEstado" ToRole="TB_Usuario" />
+        </EntityType>
+        <EntityType Name="TB_Ingrediente">
+          <Key>
+            <PropertyRef Name="IdIngrediente" />
+          </Key>
+          <Property Name="IdIngrediente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreIngrediente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Funcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UnidadBase" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TB_PrototipoIngrediente" Relationship="Self.FK_TB_PrototipoIngrediente_TB_Ingrediente" FromRole="TB_Ingrediente" ToRole="TB_PrototipoIngrediente" />
+        </EntityType>
+        <EntityType Name="TB_Prototipo">
+          <Key>
+            <PropertyRef Name="IdPrototipo" />
+          </Key>
+          <Property Name="IdPrototipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePrototipo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CaracteristicasEnvase" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImagenRuta" Type="String" MaxLength="260" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdQuimico" Type="Int32" Nullable="false" />
+          <Property Name="IdEstadoPrototipo" Type="Int32" Nullable="false" />
+          <Property Name="ComentarioGerente" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TB_Categoria" Relationship="Self.FK_TB_Prototipo_TB_Categoria" FromRole="TB_Prototipo" ToRole="TB_Categoria" />
+          <NavigationProperty Name="TB_EstadoPrototipo" Relationship="Self.FK_TB_Prototipo_TB_EstadoPrototipo" FromRole="TB_Prototipo" ToRole="TB_EstadoPrototipo" />
+          <NavigationProperty Name="TB_HistorialEstado" Relationship="Self.FK_TB_HistorialEstado_TB_Prototipo" FromRole="TB_Prototipo" ToRole="TB_HistorialEstado" />
+          <NavigationProperty Name="TB_Usuario" Relationship="Self.FK_TB_Prototipo_TB_Usuario" FromRole="TB_Prototipo" ToRole="TB_Usuario" />
+          <NavigationProperty Name="TB_PrototipoIngrediente" Relationship="Self.FK_TB_PrototipoIngrediente_TB_Prototipo" FromRole="TB_Prototipo" ToRole="TB_PrototipoIngrediente" />
+          <NavigationProperty Name="TB_PruebaPrototipo" Relationship="Self.FK_TB_PruebaPrototipo_TB_Prototipo" FromRole="TB_Prototipo" ToRole="TB_PruebaPrototipo" />
+          <NavigationProperty Name="TB_RegistroRegulatorio" Relationship="Self.FK_TB_RegistroRegulatorio_TB_Prototipo" FromRole="TB_Prototipo" ToRole="TB_RegistroRegulatorio" />
+          <NavigationProperty Name="TB_Empresa" Relationship="Self.TB_PrototipoEmpresa" FromRole="TB_Prototipo" ToRole="TB_Empresa" />
+        </EntityType>
+        <EntityType Name="TB_PrototipoIngrediente">
+          <Key>
+            <PropertyRef Name="IdPrototipo" />
+            <PropertyRef Name="IdIngrediente" />
+          </Key>
+          <Property Name="IdPrototipo" Type="Int32" Nullable="false" />
+          <Property Name="IdIngrediente" Type="Int32" Nullable="false" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <NavigationProperty Name="TB_Ingrediente" Relationship="Self.FK_TB_PrototipoIngrediente_TB_Ingrediente" FromRole="TB_PrototipoIngrediente" ToRole="TB_Ingrediente" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_PrototipoIngrediente_TB_Prototipo" FromRole="TB_PrototipoIngrediente" ToRole="TB_Prototipo" />
+        </EntityType>
+        <EntityType Name="TB_PruebaPrototipo">
+          <Key>
+            <PropertyRef Name="IdPruebaPrototipo" />
+          </Key>
+          <Property Name="IdPruebaPrototipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPrototipo" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoPrueba" Type="Int32" Nullable="false" />
+          <Property Name="ValorMedido" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Resultado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaPrueba" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Observaciones" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_PruebaPrototipo_TB_Prototipo" FromRole="TB_PruebaPrototipo" ToRole="TB_Prototipo" />
+          <NavigationProperty Name="TB_TipoPrueba" Relationship="Self.FK_TB_PruebaPrototipo_TB_TipoPrueba" FromRole="TB_PruebaPrototipo" ToRole="TB_TipoPrueba" />
+          <NavigationProperty Name="TB_Usuario" Relationship="Self.FK_TB_PruebaPrototipo_TB_Usuario" FromRole="TB_PruebaPrototipo" ToRole="TB_Usuario" />
+        </EntityType>
+        <EntityType Name="TB_RegistroRegulatorio">
+          <Key>
+            <PropertyRef Name="IdRegistroRegulatorio" />
+          </Key>
+          <Property Name="IdRegistroRegulatorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPrototipo" Type="Int32" Nullable="false" />
+          <Property Name="NumeroRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaEmision" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaVencimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaAlertaEnviada" Type="DateTime" Precision="3" />
+          <Property Name="EtiquetaNombreProducto" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaIngredientes" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaAdvertencias" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaInstrucciones" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaContenidoNeto" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaLote" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaFabricante" Type="Boolean" Nullable="false" />
+          <Property Name="EtiquetaFechaVencimiento" Type="Boolean" Nullable="false" />
+          <Property Name="SdsPeligros" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SdsPrimerosAuxilios" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SdsAlmacenamiento" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SdsFechaRevision" Type="DateTime" Precision="0" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_RegistroRegulatorio_TB_Prototipo" FromRole="TB_RegistroRegulatorio" ToRole="TB_Prototipo" />
+        </EntityType>
+        <EntityType Name="TB_Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRol" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TB_Usuario" Relationship="Self.FK_TB_Usuario_TB_Rol" FromRole="TB_Rol" ToRole="TB_Usuario" />
+        </EntityType>
+        <EntityType Name="TB_TipoPrueba">
+          <Key>
+            <PropertyRef Name="IdTipoPrueba" />
+          </Key>
+          <Property Name="IdTipoPrueba" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreTipoPrueba" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Unidad" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ValorMinimo" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ValorMaximo" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Obligatoria" Type="Boolean" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TB_PruebaPrototipo" Relationship="Self.FK_TB_PruebaPrototipo_TB_TipoPrueba" FromRole="TB_TipoPrueba" ToRole="TB_PruebaPrototipo" />
+        </EntityType>
+        <EntityType Name="TB_TokenRecuperacion">
+          <Key>
+            <PropertyRef Name="IdTokenRecuperacion" />
+          </Key>
+          <Property Name="IdTokenRecuperacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaVencimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Usado" Type="Boolean" Nullable="false" />
+          <Property Name="Intentos" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TB_Usuario" Relationship="Self.FK_TB_TokenRecuperacion_TB_Usuario" FromRole="TB_TokenRecuperacion" ToRole="TB_Usuario" />
+        </EntityType>
+        <EntityType Name="TB_Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="IdRol" Type="Int32" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TB_BitacoraError" Relationship="Self.FK_TB_BitacoraError_TB_Usuario" FromRole="TB_Usuario" ToRole="TB_BitacoraError" />
+          <NavigationProperty Name="TB_HistorialEstado" Relationship="Self.FK_TB_HistorialEstado_TB_Usuario" FromRole="TB_Usuario" ToRole="TB_HistorialEstado" />
+          <NavigationProperty Name="TB_Prototipo" Relationship="Self.FK_TB_Prototipo_TB_Usuario" FromRole="TB_Usuario" ToRole="TB_Prototipo" />
+          <NavigationProperty Name="TB_PruebaPrototipo" Relationship="Self.FK_TB_PruebaPrototipo_TB_Usuario" FromRole="TB_Usuario" ToRole="TB_PruebaPrototipo" />
+          <NavigationProperty Name="TB_Rol" Relationship="Self.FK_TB_Usuario_TB_Rol" FromRole="TB_Usuario" ToRole="TB_Rol" />
+          <NavigationProperty Name="TB_TokenRecuperacion" Relationship="Self.FK_TB_TokenRecuperacion_TB_Usuario" FromRole="TB_Usuario" ToRole="TB_TokenRecuperacion" />
+        </EntityType>
+        <Association Name="FK_TB_BitacoraError_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="0..1" />
+          <End Role="TB_BitacoraError" Type="Self.TB_BitacoraError" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_BitacoraError">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Prototipo_TB_Categoria">
+          <End Role="TB_Categoria" Type="Self.TB_Categoria" Multiplicity="1" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="TB_Prototipo">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior">
+          <End Role="TB_EstadoPrototipo" Type="Self.TB_EstadoPrototipo" Multiplicity="0..1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_EstadoPrototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdEstadoAnterior" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo">
+          <End Role="TB_EstadoPrototipo" Type="Self.TB_EstadoPrototipo" Multiplicity="1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_EstadoPrototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdEstadoNuevo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Prototipo_TB_EstadoPrototipo">
+          <End Role="TB_EstadoPrototipo" Type="Self.TB_EstadoPrototipo" Multiplicity="1" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_EstadoPrototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Principal>
+            <Dependent Role="TB_Prototipo">
+              <PropertyRef Name="IdEstadoPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_HistorialEstado_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_HistorialEstado" Type="Self.TB_HistorialEstado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_HistorialEstado">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PrototipoIngrediente_TB_Ingrediente">
+          <End Role="TB_Ingrediente" Type="Self.TB_Ingrediente" Multiplicity="1" />
+          <End Role="TB_PrototipoIngrediente" Type="Self.TB_PrototipoIngrediente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Ingrediente">
+              <PropertyRef Name="IdIngrediente" />
+            </Principal>
+            <Dependent Role="TB_PrototipoIngrediente">
+              <PropertyRef Name="IdIngrediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Prototipo_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_Prototipo">
+              <PropertyRef Name="IdQuimico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PrototipoIngrediente_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_PrototipoIngrediente" Type="Self.TB_PrototipoIngrediente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_PrototipoIngrediente">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PruebaPrototipo_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_PruebaPrototipo" Type="Self.TB_PruebaPrototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_PruebaPrototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_RegistroRegulatorio_TB_Prototipo">
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="1" />
+          <End Role="TB_RegistroRegulatorio" Type="Self.TB_RegistroRegulatorio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Prototipo">
+              <PropertyRef Name="IdPrototipo" />
+            </Principal>
+            <Dependent Role="TB_RegistroRegulatorio">
+              <PropertyRef Name="IdPrototipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PruebaPrototipo_TB_TipoPrueba">
+          <End Role="TB_TipoPrueba" Type="Self.TB_TipoPrueba" Multiplicity="1" />
+          <End Role="TB_PruebaPrototipo" Type="Self.TB_PruebaPrototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_TipoPrueba">
+              <PropertyRef Name="IdTipoPrueba" />
+            </Principal>
+            <Dependent Role="TB_PruebaPrototipo">
+              <PropertyRef Name="IdTipoPrueba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_PruebaPrototipo_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_PruebaPrototipo" Type="Self.TB_PruebaPrototipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_PruebaPrototipo">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_Usuario_TB_Rol">
+          <End Role="TB_Rol" Type="Self.TB_Rol" Multiplicity="1" />
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="TB_Usuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TB_TokenRecuperacion_TB_Usuario">
+          <End Role="TB_Usuario" Type="Self.TB_Usuario" Multiplicity="1" />
+          <End Role="TB_TokenRecuperacion" Type="Self.TB_TokenRecuperacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="TB_TokenRecuperacion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TB_PrototipoEmpresa">
+          <End Role="TB_Empresa" Type="Self.TB_Empresa" Multiplicity="*" />
+          <End Role="TB_Prototipo" Type="Self.TB_Prototipo" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="BioquimiaDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TB_BitacoraError" EntityType="Self.TB_BitacoraError" />
+          <EntitySet Name="TB_Categoria" EntityType="Self.TB_Categoria" />
+          <EntitySet Name="TB_ControlAlertas" EntityType="Self.TB_ControlAlertas" />
+          <EntitySet Name="TB_Empresa" EntityType="Self.TB_Empresa" />
+          <EntitySet Name="TB_EstadoPrototipo" EntityType="Self.TB_EstadoPrototipo" />
+          <EntitySet Name="TB_HistorialEstado" EntityType="Self.TB_HistorialEstado" />
+          <EntitySet Name="TB_Ingrediente" EntityType="Self.TB_Ingrediente" />
+          <EntitySet Name="TB_Prototipo" EntityType="Self.TB_Prototipo" />
+          <EntitySet Name="TB_PrototipoIngrediente" EntityType="Self.TB_PrototipoIngrediente" />
+          <EntitySet Name="TB_PruebaPrototipo" EntityType="Self.TB_PruebaPrototipo" />
+          <EntitySet Name="TB_RegistroRegulatorio" EntityType="Self.TB_RegistroRegulatorio" />
+          <EntitySet Name="TB_Rol" EntityType="Self.TB_Rol" />
+          <EntitySet Name="TB_TipoPrueba" EntityType="Self.TB_TipoPrueba" />
+          <EntitySet Name="TB_TokenRecuperacion" EntityType="Self.TB_TokenRecuperacion" />
+          <EntitySet Name="TB_Usuario" EntityType="Self.TB_Usuario" />
+          <AssociationSet Name="FK_TB_BitacoraError_TB_Usuario" Association="Self.FK_TB_BitacoraError_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_BitacoraError" EntitySet="TB_BitacoraError" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Prototipo_TB_Categoria" Association="Self.FK_TB_Prototipo_TB_Categoria">
+            <End Role="TB_Categoria" EntitySet="TB_Categoria" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior" Association="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior">
+            <End Role="TB_EstadoPrototipo" EntitySet="TB_EstadoPrototipo" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo" Association="Self.FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo">
+            <End Role="TB_EstadoPrototipo" EntitySet="TB_EstadoPrototipo" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Prototipo_TB_EstadoPrototipo" Association="Self.FK_TB_Prototipo_TB_EstadoPrototipo">
+            <End Role="TB_EstadoPrototipo" EntitySet="TB_EstadoPrototipo" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_Prototipo" Association="Self.FK_TB_HistorialEstado_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_HistorialEstado_TB_Usuario" Association="Self.FK_TB_HistorialEstado_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_HistorialEstado" EntitySet="TB_HistorialEstado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PrototipoIngrediente_TB_Ingrediente" Association="Self.FK_TB_PrototipoIngrediente_TB_Ingrediente">
+            <End Role="TB_Ingrediente" EntitySet="TB_Ingrediente" />
+            <End Role="TB_PrototipoIngrediente" EntitySet="TB_PrototipoIngrediente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Prototipo_TB_Usuario" Association="Self.FK_TB_Prototipo_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PrototipoIngrediente_TB_Prototipo" Association="Self.FK_TB_PrototipoIngrediente_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_PrototipoIngrediente" EntitySet="TB_PrototipoIngrediente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PruebaPrototipo_TB_Prototipo" Association="Self.FK_TB_PruebaPrototipo_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_PruebaPrototipo" EntitySet="TB_PruebaPrototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_RegistroRegulatorio_TB_Prototipo" Association="Self.FK_TB_RegistroRegulatorio_TB_Prototipo">
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+            <End Role="TB_RegistroRegulatorio" EntitySet="TB_RegistroRegulatorio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PruebaPrototipo_TB_TipoPrueba" Association="Self.FK_TB_PruebaPrototipo_TB_TipoPrueba">
+            <End Role="TB_TipoPrueba" EntitySet="TB_TipoPrueba" />
+            <End Role="TB_PruebaPrototipo" EntitySet="TB_PruebaPrototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_PruebaPrototipo_TB_Usuario" Association="Self.FK_TB_PruebaPrototipo_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_PruebaPrototipo" EntitySet="TB_PruebaPrototipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_Usuario_TB_Rol" Association="Self.FK_TB_Usuario_TB_Rol">
+            <End Role="TB_Rol" EntitySet="TB_Rol" />
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TB_TokenRecuperacion_TB_Usuario" Association="Self.FK_TB_TokenRecuperacion_TB_Usuario">
+            <End Role="TB_Usuario" EntitySet="TB_Usuario" />
+            <End Role="TB_TokenRecuperacion" EntitySet="TB_TokenRecuperacion" />
+          </AssociationSet>
+          <AssociationSet Name="TB_PrototipoEmpresa" Association="Self.TB_PrototipoEmpresa">
+            <End Role="TB_Empresa" EntitySet="TB_Empresa" />
+            <End Role="TB_Prototipo" EntitySet="TB_Prototipo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BioquimiaDBModelStoreContainer" CdmEntityContainer="BioquimiaDBEntities">
+          <EntitySetMapping Name="TB_BitacoraError">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_BitacoraError">
+              <MappingFragment StoreEntitySet="TB_BitacoraError">
+                <ScalarProperty Name="IdBitacoraError" ColumnName="IdBitacoraError" />
+                <ScalarProperty Name="FechaError" ColumnName="FechaError" />
+                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Categoria">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_Categoria">
+              <MappingFragment StoreEntitySet="TB_Categoria">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="NombreCategoria" ColumnName="NombreCategoria" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_ControlAlertas">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_ControlAlertas">
+              <MappingFragment StoreEntitySet="TB_ControlAlertas">
+                <ScalarProperty Name="IdControlAlertas" ColumnName="IdControlAlertas" />
+                <ScalarProperty Name="UltimaRevision" ColumnName="UltimaRevision" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Empresa">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_Empresa">
+              <MappingFragment StoreEntitySet="TB_Empresa">
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_EstadoPrototipo">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_EstadoPrototipo">
+              <MappingFragment StoreEntitySet="TB_EstadoPrototipo">
+                <ScalarProperty Name="IdEstadoPrototipo" ColumnName="IdEstadoPrototipo" />
+                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_HistorialEstado">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_HistorialEstado">
+              <MappingFragment StoreEntitySet="TB_HistorialEstado">
+                <ScalarProperty Name="IdHistorialEstado" ColumnName="IdHistorialEstado" />
+                <ScalarProperty Name="IdPrototipo" ColumnName="IdPrototipo" />
+                <ScalarProperty Name="IdEstadoAnterior" ColumnName="IdEstadoAnterior" />
+                <ScalarProperty Name="IdEstadoNuevo" ColumnName="IdEstadoNuevo" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Justificacion" ColumnName="Justificacion" />
+                <ScalarProperty Name="FechaCambio" ColumnName="FechaCambio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Ingrediente">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_Ingrediente">
+              <MappingFragment StoreEntitySet="TB_Ingrediente">
+                <ScalarProperty Name="IdIngrediente" ColumnName="IdIngrediente" />
+                <ScalarProperty Name="NombreIngrediente" ColumnName="NombreIngrediente" />
+                <ScalarProperty Name="Funcion" ColumnName="Funcion" />
+                <ScalarProperty Name="UnidadBase" ColumnName="UnidadBase" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Prototipo">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_Prototipo">
+              <MappingFragment StoreEntitySet="TB_Prototipo">
+                <ScalarProperty Name="IdPrototipo" ColumnName="IdPrototipo" />
+                <ScalarProperty Name="NombrePrototipo" ColumnName="NombrePrototipo" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="CaracteristicasEnvase" ColumnName="CaracteristicasEnvase" />
+                <ScalarProperty Name="ImagenRuta" ColumnName="ImagenRuta" />
+                <ScalarProperty Name="IdQuimico" ColumnName="IdQuimico" />
+                <ScalarProperty Name="IdEstadoPrototipo" ColumnName="IdEstadoPrototipo" />
+                <ScalarProperty Name="ComentarioGerente" ColumnName="ComentarioGerente" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_PrototipoIngrediente">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_PrototipoIngrediente">
+              <MappingFragment StoreEntitySet="TB_PrototipoIngrediente">
+                <ScalarProperty Name="IdPrototipo" ColumnName="IdPrototipo" />
+                <ScalarProperty Name="IdIngrediente" ColumnName="IdIngrediente" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_PruebaPrototipo">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_PruebaPrototipo">
+              <MappingFragment StoreEntitySet="TB_PruebaPrototipo">
+                <ScalarProperty Name="IdPruebaPrototipo" ColumnName="IdPruebaPrototipo" />
+                <ScalarProperty Name="IdPrototipo" ColumnName="IdPrototipo" />
+                <ScalarProperty Name="IdTipoPrueba" ColumnName="IdTipoPrueba" />
+                <ScalarProperty Name="ValorMedido" ColumnName="ValorMedido" />
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_RegistroRegulatorio">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_RegistroRegulatorio">
+              <MappingFragment StoreEntitySet="TB_RegistroRegulatorio">
+                <ScalarProperty Name="IdRegistroRegulatorio" ColumnName="IdRegistroRegulatorio" />
+                <ScalarProperty Name="IdPrototipo" ColumnName="IdPrototipo" />
+                <ScalarProperty Name="NumeroRegistro" ColumnName="NumeroRegistro" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="FechaAlertaEnviada" ColumnName="FechaAlertaEnviada" />
+                <ScalarProperty Name="EtiquetaNombreProducto" ColumnName="EtiquetaNombreProducto" />
+                <ScalarProperty Name="EtiquetaIngredientes" ColumnName="EtiquetaIngredientes" />
+                <ScalarProperty Name="EtiquetaAdvertencias" ColumnName="EtiquetaAdvertencias" />
+                <ScalarProperty Name="EtiquetaInstrucciones" ColumnName="EtiquetaInstrucciones" />
+                <ScalarProperty Name="EtiquetaContenidoNeto" ColumnName="EtiquetaContenidoNeto" />
+                <ScalarProperty Name="EtiquetaLote" ColumnName="EtiquetaLote" />
+                <ScalarProperty Name="EtiquetaFabricante" ColumnName="EtiquetaFabricante" />
+                <ScalarProperty Name="EtiquetaFechaVencimiento" ColumnName="EtiquetaFechaVencimiento" />
+                <ScalarProperty Name="SdsPeligros" ColumnName="SdsPeligros" />
+                <ScalarProperty Name="SdsPrimerosAuxilios" ColumnName="SdsPrimerosAuxilios" />
+                <ScalarProperty Name="SdsAlmacenamiento" ColumnName="SdsAlmacenamiento" />
+                <ScalarProperty Name="SdsFechaRevision" ColumnName="SdsFechaRevision" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Rol">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_Rol">
+              <MappingFragment StoreEntitySet="TB_Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_TipoPrueba">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_TipoPrueba">
+              <MappingFragment StoreEntitySet="TB_TipoPrueba">
+                <ScalarProperty Name="IdTipoPrueba" ColumnName="IdTipoPrueba" />
+                <ScalarProperty Name="NombreTipoPrueba" ColumnName="NombreTipoPrueba" />
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+                <ScalarProperty Name="ValorMinimo" ColumnName="ValorMinimo" />
+                <ScalarProperty Name="ValorMaximo" ColumnName="ValorMaximo" />
+                <ScalarProperty Name="Obligatoria" ColumnName="Obligatoria" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_TokenRecuperacion">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_TokenRecuperacion">
+              <MappingFragment StoreEntitySet="TB_TokenRecuperacion">
+                <ScalarProperty Name="IdTokenRecuperacion" ColumnName="IdTokenRecuperacion" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="Usado" ColumnName="Usado" />
+                <ScalarProperty Name="Intentos" ColumnName="Intentos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Usuario">
+            <EntityTypeMapping TypeName="BioquimiaDBModel.TB_Usuario">
+              <MappingFragment StoreEntitySet="TB_Usuario">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TB_PrototipoEmpresa" TypeName="BioquimiaDBModel.TB_PrototipoEmpresa" StoreEntitySet="TB_PrototipoEmpresa">
+            <EndProperty Name="TB_Empresa">
+              <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+            </EndProperty>
+            <EndProperty Name="TB_Prototipo">
+              <ScalarProperty Name="IdPrototipo" ColumnName="IdPrototipo" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

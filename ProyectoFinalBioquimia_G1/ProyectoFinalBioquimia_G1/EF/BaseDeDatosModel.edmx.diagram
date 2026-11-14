@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cb60b657aa894bec8a9607dfb942c087" Name="Diagram1" ZoomLevel="40">
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_BitacoraError" Width="1.5" PointX="6" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_Categoria" Width="1.5" PointX="3.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_ControlAlertas" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_Empresa" Width="1.5" PointX="3.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_EstadoPrototipo" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_HistorialEstado" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_Ingrediente" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_Prototipo" Width="1.5" PointX="6" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_PrototipoIngrediente" Width="1.5" PointX="8.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_PruebaPrototipo" Width="1.5" PointX="11.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_RegistroRegulatorio" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_Rol" Width="1.5" PointX="1.5" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_TipoPrueba" Width="1.5" PointX="9" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_TokenRecuperacion" Width="1.5" PointX="6" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BioquimiaDBModel.TB_Usuario" Width="1.5" PointX="3.75" PointY="15.5" IsExpanded="true" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_BitacoraError_TB_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_Prototipo_TB_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_Prototipo_TB_EstadoPrototipo" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_HistorialEstado_TB_Prototipo" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_HistorialEstado_TB_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_PrototipoIngrediente_TB_Ingrediente" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_Prototipo_TB_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_PrototipoIngrediente_TB_Prototipo" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_PruebaPrototipo_TB_Prototipo" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_RegistroRegulatorio_TB_Prototipo" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_PruebaPrototipo_TB_TipoPrueba" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_PruebaPrototipo_TB_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_Usuario_TB_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.FK_TB_TokenRecuperacion_TB_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BioquimiaDBModel.TB_PrototipoEmpresa" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
