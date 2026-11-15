@@ -1,6 +1,6 @@
-﻿(function () {
+﻿
+(function () {
     'use strict';
-
 
     var REGEX_CORREO = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     var REGEX_ID = /^[0-9]{8,20}$/;
@@ -9,7 +9,6 @@
         identificacion: document.getElementById('identificacion'),
         nombreCompleto: document.getElementById('nombreCompleto'),
         correoElectronico: document.getElementById('correoElectronico'),
- 
         idRol: document.getElementById('idRol')
     };
 
@@ -37,18 +36,21 @@
         }
     };
 
-    // Si no hay select editable (tu propio usuario), se omite esa regla
-    if (!campos.idRol) {
+    // Si el rol está bloqueado, no se valida porque no se puede modificar.
+    if (!campos.idRol || campos.idRol.disabled) {
         delete campos.idRol;
         delete reglas.idRol;
     }
 
     function obtenerContenedorError(input) {
         var existente = input.parentNode.querySelector('.invalid-feedback');
+
         if (existente) return existente;
+
         var div = document.createElement('div');
         div.className = 'invalid-feedback';
         input.parentNode.appendChild(div);
+
         return div;
     }
 
@@ -61,15 +63,20 @@
             input.classList.toggle('is-invalid', mensaje !== '');
             input.classList.toggle('is-valid', mensaje === '');
         }
+
         return mensaje === '';
     }
 
     function validarFormulario(mostrarError) {
-        var ok = true;
+        var valido = true;
+
         Object.keys(reglas).forEach(function (nombre) {
-            if (!validarCampo(nombre, mostrarError)) ok = false;
+            if (!validarCampo(nombre, mostrarError)) {
+                valido = false;
+            }
         });
-        return ok;
+
+        return valido;
     }
 
     function actualizarBoton() {
@@ -78,6 +85,9 @@
 
     Object.keys(campos).forEach(function (nombre) {
         var input = campos[nombre];
+
+        if (!input) return;
+
         var evento = input.tagName === 'SELECT' ? 'change' : 'input';
 
         input.addEventListener(evento, function () {
@@ -96,6 +106,7 @@
         }
     });
 
-    // Al cargar, los datos vienen de la BD se habilita el botón si ya son válidos
+    // Validar los datos existentes al cargar la vista.
     actualizarBoton();
+
 })();

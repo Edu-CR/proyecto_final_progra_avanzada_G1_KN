@@ -32,67 +32,67 @@
                     </div>
                 }
 
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-pencil-square me-1"></i> Datos del usuario
-                        </h5>
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-pencil-square me-1"></i> Datos del usuario
+                    </h5>
+                </div>
+                @using (Html.BeginForm("Editar", "Usuario", FormMethod.Post, new { novalidate = "novalidate" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@ViewBag.Id" />
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label for="identificacion" class="form-label">Identificación</label>
+                            <input type="text" class="form-control" id="identificacion" name="identificacion"
+                                   value="@ViewBag.Identificacion" maxlength="20" inputmode="numeric"
+                                   placeholder="8 a 20 dígitos" autocomplete="off" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nombreCompleto" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto"
+                                   value="@ViewBag.NombreCompleto" maxlength="100" autocomplete="off" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="correoElectronico" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"
+                                   value="@ViewBag.CorreoElectronico" maxlength="100" autocomplete="off"
+                                   placeholder="usuario@correo.com" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idRol" class="form-label">Rol</label>
+
+                            @if (esMismo)
+                            {
+                                @* El propio rol no se puede cambiar: se muestra bloqueado y se envía el valor actual *@
+                                @Html.DropDownList("rolMostrado", (SelectList)ViewBag.Roles, new { @class = "form-select", disabled = "disabled" })
+                                <input type="hidden" name="idRol" value="@(((SelectList)ViewBag.Roles).SelectedValue)" />
+                                <div class="form-text">No puedes cambiar tu propio rol.</div>
+                            }
+                            else
+                            {
+                                @Html.DropDownList("idRol", (SelectList)ViewBag.Roles, "Seleccione un rol", new { @class = "form-select" })
+                            }
+                        </div>
+
                     </div>
 
-                    <form action="@Url.Action("Editar", "Usuario")" method="post" novalidate>
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="id" value="@ViewBag.Id" />
-
-                        <div class="card-body">
-
-                            <div class="mb-3">
-                                <label for="identificacion" class="form-label">Identificación</label>
-                                <input type="text" class="form-control" id="identificacion" name="identificacion"
-                                       value="@ViewBag.Identificacion" maxlength="20" inputmode="numeric"
-                                       placeholder="8 a 20 dígitos" autocomplete="off" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="nombreCompleto" class="form-label">Nombre completo</label>
-                                <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto"
-                                       value="@ViewBag.NombreCompleto" maxlength="100" autocomplete="off" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="correoElectronico" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"
-                                       value="@ViewBag.CorreoElectronico" maxlength="100" autocomplete="off"
-                                       placeholder="usuario@correo.com" />
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="idRol" class="form-label">Rol</label>
-
-                                @if (esMismo)
-                                {
-                                    @* El propio rol no se puede cambiar se muestra bloqueado y se envía el valor actual *@
-                                    @Html.DropDownList("rolMostrado", (SelectList)ViewBag.Roles, new { @class = "form-select", disabled = "disabled" })
-                                    <input type="hidden" name="idRol" value="@(((SelectList)ViewBag.Roles).SelectedValue)" />
-                                    <div class="form-text">No puedes cambiar tu propio rol.</div>
-                                }
-                                else
-                                {
-                                    @Html.DropDownList("idRol", (SelectList)ViewBag.Roles, "Seleccione un rol", new { @class = "form-select" })
-                                }
-                            </div>
-
-                        </div>
-
-                        <div class="card-footer d-flex justify-content-between">
-                            <a href="@Url.Action("Index", "Usuario")" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left"></i> Cancelar
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save"></i> Guardar cambios
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="@Url.Action("Index", "Usuario")" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar cambios
+                        </button>
+                    </div>
+                }
+            </div>
 
             </div>
         </div>

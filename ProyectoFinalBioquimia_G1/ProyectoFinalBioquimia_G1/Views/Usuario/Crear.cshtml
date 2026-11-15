@@ -38,7 +38,10 @@
                         </h5>
                     </div>
 
-                    <form action="@Url.Action("Crear", "Usuario")" method="post" novalidate>
+
+                    @using (Html.BeginForm("Crear", "Usuario", FormMethod.Post, new { novalidate = "novalidate" }))
+                    {
+
                         @Html.AntiForgeryToken()
 
                         <div class="card-body">
@@ -99,7 +102,7 @@
                                 <i class="bi bi-save"></i> Guardar usuario
                             </button>
                         </div>
-                    </form>
+                    }
                 </div>
 
             </div>
