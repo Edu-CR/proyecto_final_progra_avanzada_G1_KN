@@ -3,17 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProyectoFinalBioquimia_G1.EF;
+using ProyectoFinalBioquimia_G1.Services;
 using System.Data.Entity;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
     // RF-16: Histórico de prototipos con búsqueda y filtros.
     // Químico y gerente consultan todos los prototipos y el detalle de cada uno.
-    // TODO: roles. Cuando el login esté listo, validar que haya sesión (cualquier perfil).
     public class HistoricoController : Controller
     {
         private const string MensajeErrorGenerico =
             "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
+
+        private const int RolQuimico = 1;
+        private const int RolGerente = 2;
+
+        // Se ejecuta antes de cada acción: sin sesión activa va al login.
+        // Ambos perfiles (químico y gerente) tienen acceso.
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true)
+            {
+                filterContext.Result = RedirectToAction("Login", "Auth");
+                return;
+            }
+
+            int rol = Convert.ToInt32(Session["RolUsuarioSession"]);
+            if (rol != RolQuimico && rol != RolGerente)
+            {
+                filterContext.Result = RedirectToAction("Error404", "Error");
+                return;
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
 
         [HttpGet]
         public ActionResult Index(string buscar, int? idEstado, int? idCategoria, int? idQuimico, DateTime? desde, DateTime? hasta)
@@ -77,9 +100,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(lista);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, HistoricoController - HttpGet -> Index()");
                 TempData["Error"] = MensajeErrorGenerico;
                 ViewBag.Estados = new SelectList(new List<SelectListItem>());
                 ViewBag.Categorias = new SelectList(new List<SelectListItem>());
@@ -115,8 +138,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(prototipo);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, HistoricoController - HttpGet -> Detalle()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index");
             }

@@ -3,22 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using ProyectoFinalBioquimia_G1.EF;
+using ProyectoFinalBioquimia_G1.Services;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
     // RF-23: Catálogo de ingredientes.
     // Químico: registra, edita, consulta y desactiva (eliminación lógica).
     // Gerente: solo consulta el catálogo.
-    // TODO: roles. Cuando el login esté listo, validar Session["Rol"]:
-    // Crear, Editar, Desactivar y Activar solo para "Quimico"; Index para ambos perfiles.
     public class IngredienteController : Controller
     {
         private const string MensajeErrorGenerico =
             "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
 
+        private const int RolQuimico = 1;
+        private const int RolGerente = 2;
+
+        private static readonly string[] UnidadesPermitidas = { "kg", "litro" };
+
+        // Se ejecuta antes de cada acción: sin sesión activa va al login.
+        // Index lo pueden ver químico y gerente; el resto de acciones son solo del químico.
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true)
+            {
+                filterContext.Result = RedirectToAction("Login", "Auth");
+                return;
+            }
+
+            int rol = Convert.ToInt32(Session["RolUsuarioSession"]);
+            string accion = filterContext.ActionDescriptor.ActionName;
+
+            bool permitido = accion == "Index"
+                ? (rol == RolQuimico || rol == RolGerente)
+                : rol == RolQuimico;
+
+            if (!permitido)
+            {
+                filterContext.Result = RedirectToAction("Error404", "Error");
+                return;
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
+
         [HttpGet]
         public ActionResult Index(string buscar, string filtro = "activos")
         {
+            ViewBag.PuedeEditar = Convert.ToInt32(Session["RolUsuarioSession"]) == RolQuimico;
+
             try
             {
                 using (var db = new BioquimiaDBEntities())
@@ -47,9 +79,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(lista);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, IngredienteController - HttpGet -> Index()");
                 TempData["Error"] = MensajeErrorGenerico;
                 ViewBag.Buscar = buscar;
                 ViewBag.Filtro = filtro;
@@ -65,11 +97,13 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(TB_Ingrediente modelo)
+        public ActionResult Crear(
+            [Bind(Include = "NombreIngrediente,Funcion,UnidadBase")] TB_Ingrediente modelo)
         {
             try
             {
                 Normalizar(modelo);
+                Validar(modelo);
 
                 using (var db = new BioquimiaDBEntities())
                 {
@@ -77,7 +111,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         ModelState.AddModelError("NombreIngrediente", "Ya existe un ingrediente con ese nombre.");
 
                     if (!ModelState.IsValid)
+                    {
+                        modelo.Estado = true;
                         return View(modelo);
+                    }
 
                     modelo.Estado = true;
                     db.TB_Ingrediente.Add(modelo);
@@ -87,9 +124,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Exito"] = "El ingrediente se registró correctamente.";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, IngredienteController - HttpPost -> Crear()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(modelo);
             }
@@ -112,9 +149,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(ingrediente);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, IngredienteController - HttpGet -> Editar()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index");
             }
@@ -122,11 +159,13 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(TB_Ingrediente modelo)
+        public ActionResult Editar(
+            [Bind(Include = "IdIngrediente,NombreIngrediente,Funcion,UnidadBase")] TB_Ingrediente modelo)
         {
             try
             {
                 Normalizar(modelo);
+                Validar(modelo);
 
                 using (var db = new BioquimiaDBEntities())
                 {
@@ -155,9 +194,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Exito"] = "El ingrediente se actualizó correctamente.";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, IngredienteController - HttpPost -> Editar()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(modelo);
             }
@@ -202,9 +241,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, IngredienteController - HttpPost -> Desactivar()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index");
             }
@@ -232,9 +271,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                 return RedirectToAction("Index", new { filtro = "inactivos" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, IngredienteController - HttpPost -> Activar()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index", new { filtro = "inactivos" });
             }
@@ -247,6 +286,24 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             modelo.NombreIngrediente = modelo.NombreIngrediente?.Trim();
             modelo.Funcion = modelo.Funcion?.Trim();
             modelo.UnidadBase = modelo.UnidadBase?.Trim();
+        }
+
+        // Las clases de EF se regeneran, así que las validaciones se hacen aquí
+        // con los mismos límites de la tabla TB_Ingrediente.
+        private void Validar(TB_Ingrediente modelo)
+        {
+            if (string.IsNullOrWhiteSpace(modelo.NombreIngrediente))
+                ModelState.AddModelError("NombreIngrediente", "El nombre del ingrediente es obligatorio.");
+            else if (modelo.NombreIngrediente.Length > 100)
+                ModelState.AddModelError("NombreIngrediente", "El nombre no puede tener más de 100 caracteres.");
+
+            if (string.IsNullOrWhiteSpace(modelo.Funcion))
+                ModelState.AddModelError("Funcion", "La función del ingrediente es obligatoria.");
+            else if (modelo.Funcion.Length > 50)
+                ModelState.AddModelError("Funcion", "La función no puede tener más de 50 caracteres.");
+
+            if (string.IsNullOrWhiteSpace(modelo.UnidadBase) || !UnidadesPermitidas.Contains(modelo.UnidadBase))
+                ModelState.AddModelError("UnidadBase", "Seleccione una unidad base válida (kg o litro).");
         }
 
         // La comparación no distingue mayúsculas porque la intercalación de SQL Server es CI.

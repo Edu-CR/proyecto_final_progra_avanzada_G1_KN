@@ -12,12 +12,31 @@ namespace ProyectoFinalBioquimia_G1.Controllers
     // RF-14: Gestión de empresas.
     // Gerente: registra, edita, consulta y desactiva (eliminación lógica).
     // Químico: no tiene acceso.
-    // TODO: roles. Cuando el login esté listo, validar que Session["Rol"] sea "Gerente"
-    // en todas las acciones; si no, redirigir al login o a la página de inicio.
     public class EmpresaController : Controller
     {
         private const string MensajeErrorGenerico =
             "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
+
+        private const int RolGerente = 2;
+
+        // Se ejecuta antes de cada acción: sin sesión activa va al login,
+        // y si el perfil no es Gerente va a la página 404.
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true)
+            {
+                filterContext.Result = RedirectToAction("Login", "Auth");
+                return;
+            }
+
+            if (Convert.ToInt32(Session["RolUsuarioSession"]) != RolGerente)
+            {
+                filterContext.Result = RedirectToAction("Error404", "Error");
+                return;
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
 
         [HttpGet]
         public ActionResult Index(string buscar, string filtro = "activas")
@@ -99,9 +118,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Exito"] = "La empresa se registró correctamente.";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, EmpresaController - HttpPost -> Crear()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(modelo);
             }
@@ -124,9 +143,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(empresa);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, EmpresaController - HttpGet -> Editar()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index");
             }
@@ -171,9 +190,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Exito"] = "La empresa se actualizó correctamente.";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, EmpresaController - HttpPost -> Editar()");
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(modelo);
             }
@@ -214,9 +233,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         + (activar ? "activó" : "desactivó") + " correctamente.";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex, "Ocurrio una excepción, EmpresaController - HttpPost -> "
+                    + (activar ? "Activar()" : "Desactivar()"));
                 TempData["Error"] = MensajeErrorGenerico;
             }
 
