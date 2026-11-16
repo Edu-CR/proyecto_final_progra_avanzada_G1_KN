@@ -12,12 +12,7 @@
             <div class="col-sm-6">
                 <h3 class="mb-0">Usuarios del sistema</h3>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
-                </ol>
-            </div>
+
         </div>
     </div>
 </div>
@@ -116,12 +111,12 @@
                                 </td>
                                 <td class="text-end">
 
-                              
-                                        <a href="@Url.Action("Editar", "Usuario", new { id = u.IdUsuario })"
-                                           class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-pencil-square"></i> Editar
-                                        </a>
-                                
+
+                                    <a href="@Url.Action("Editar", "Usuario", new { id = u.IdUsuario })"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil-square"></i> Editar
+                                    </a>
+
 
                                     @if (u.Estado)
                                     {

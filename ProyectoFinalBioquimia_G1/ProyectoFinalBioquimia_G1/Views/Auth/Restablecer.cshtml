@@ -26,62 +26,64 @@
                 </div>
             }
 
-        <form method="post" asp-action="Restablecer" asp-controller="Auth" id="restablecerForm" novalidate>
-            @Html.AntiForgeryToken()
 
-           
-            <!-- Correo Electrónico (solo informativo) -->
-            <div class="mb-3">
-                <div class="input-group">
-                    <input type="email" id="correoElectronico" name="correoElectronico" value="@ViewBag.CorreoElectronico"
-                           class="form-control bg-light" placeholder="Correo electrónico"
-                           autocomplete="email" readonly />
-                    <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+            @using (Html.BeginForm("Restablecer", "Auth", FormMethod.Post, new { id = "restablecerForm", novalidate = "novalidate" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+                <!-- Correo Electrónico (solo informativo) -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="email" id="correoElectronico" name="correoElectronico" value="@ViewBag.CorreoElectronico"
+                               class="form-control bg-light" placeholder="Correo electrónico"
+                               autocomplete="email" readonly />
+                        <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Código de recuperación -->
-            <!-- Código de recuperación -->
-            <div class="mb-3">
-                <div class="input-group">
-                    <input type="text" id="Token" name="Token" class="form-control" placeholder="Código de recuperación (10 caracteres)"
-                           autocomplete="one-time-code" maxlength="10" />
-                    <div class="input-group-text"><span class="bi bi-key-fill"></span></div>
+                <!-- Código de recuperación -->
+                <!-- Código de recuperación -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" id="Token" name="Token" class="form-control" placeholder="Código de recuperación (10 caracteres)"
+                               autocomplete="one-time-code" maxlength="10" />
+                        <div class="input-group-text"><span class="bi bi-key-fill"></span></div>
+                    </div>
+                    <div class="invalid-feedback" data-feedback-for="Token"></div>
                 </div>
-                <div class="invalid-feedback" data-feedback-for="Token"></div>
-            </div>
 
-            <!-- Nueva contraseña -->
-            <div class="mb-3">
-                <div class="input-group">
-                    <input type="password" id="Contrasenna" name="Contrasenna" class="form-control" placeholder="Nueva contraseña"
-                           autocomplete="new-password" maxlength="15" />
-                    <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="Contrasenna"
-                            aria-label="Mostrar contraseña" tabindex="-1">
-                        <i class="bi bi-eye"></i>
-                    </button>
+                <!-- Nueva contraseña -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="password" id="Contrasenna" name="Contrasenna" class="form-control" placeholder="Nueva contraseña"
+                               autocomplete="new-password" maxlength="15" />
+                        <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="Contrasenna"
+                                aria-label="Mostrar contraseña" tabindex="-1">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-text">De 8 a 15 caracteres, con mayúscula, minúscula y número.</div>
+                    <div class="invalid-feedback" data-feedback-for="Contrasenna"></div>
                 </div>
-                <div class="form-text">De 8 a 15 caracteres, con mayúscula, minúscula y número.</div>
-                <div class="invalid-feedback" data-feedback-for="Contrasenna"></div>
-            </div>
 
-            <!-- Confirmar contraseña -->
-            <div class="mb-3">
-                <div class="input-group">
-                    <input type="password" id="ConfirmarContrasenna" name="ConfirmarContrasenna" class="form-control"
-                           placeholder="Confirmar contraseña" autocomplete="new-password" maxlength="15" />
-                    <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="ConfirmarContrasenna"
-                            aria-label="Mostrar contraseña" tabindex="-1">
-                        <i class="bi bi-eye"></i>
-                    </button>
+                <!-- Confirmar contraseña -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="password" id="ConfirmarContrasenna" name="ConfirmarContrasenna" class="form-control"
+                               placeholder="Confirmar contraseña" autocomplete="new-password" maxlength="15" />
+                        <button type="button" class="btn btn-outline-secondary btn-toggle-password" data-target="ConfirmarContrasenna"
+                                aria-label="Mostrar contraseña" tabindex="-1">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    <div class="invalid-feedback" data-feedback-for="ConfirmarContrasenna"></div>
                 </div>
-                <div class="invalid-feedback" data-feedback-for="ConfirmarContrasenna"></div>
-            </div>
 
-            <div class="d-grid gap-2 mb-3">
-                <button type="submit" class="btn btn-primary" id="btn-submit" disabled>Restablecer contraseña</button>
-            </div>
-        </form>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="submit" class="btn btn-primary" id="btn-submit" disabled>Restablecer contraseña</button>
+                </div>
+            }
 
             <hr />
 

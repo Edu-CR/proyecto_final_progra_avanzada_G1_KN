@@ -15,9 +15,31 @@ namespace ProyectoFinalBioquimia_G1.Controllers
     // Controller excluvsivo para el gerente
     public class UsuarioController : Controller
     {
-        private const string MensajeErrorGenerico ="Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
+        private const string MensajeErrorGenerico = "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
 
         private BioquimiaDBEntities context = new BioquimiaDBEntities();
+
+        // Verifica que exista una sesión válida, usuario activo y gerente
+        private bool EsGerente()
+        {
+            if (Session["IdUsuarioSession"] == null ||
+                Session["RolUsuarioSession"] == null ||
+                Session["EstadoUsuarioSession"] == null)
+            {
+                return false;
+            }
+
+            int idUsuario;
+            int idRol;
+            bool estadoUsuario;
+
+            return int.TryParse(Convert.ToString(Session["IdUsuarioSession"]), out idUsuario)
+                   && int.TryParse(Convert.ToString(Session["RolUsuarioSession"]), out idRol)
+                   && bool.TryParse(Convert.ToString(Session["EstadoUsuarioSession"]), out estadoUsuario)
+                   && idUsuario > 0
+                   && idRol == 2
+                   && estadoUsuario;
+        }
 
 
         #region Ver usuarios
@@ -25,12 +47,10 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         public ActionResult Index(string buscar, string filtro = "activos")
         {
 
-            //EJEMPLO COMO MANEJAR LOS ROLES------------
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)// si esta desactivado, no tiene sesion o no es el rol que le corresponde, 2 pa gerente , 1 pa quimico,o si es diferente de geretne no pasa y va para la 404
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
-            //FIN DE MANEJO DE ROLES------------
 
 
             try
@@ -69,7 +89,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         }
         #endregion
 
-       
+
         #region Crear usuario
 
         // Llena el dropdown con los roles de TB_Rol (muestra NombreRol, guarda IdRol)
@@ -82,7 +102,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [HttpGet]
         public ActionResult Crear()
         {
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
@@ -104,7 +124,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Crear(string identificacion, string nombreCompleto, string correoElectronico, string contrasenna, string confirmarContrasenna, int idRol, bool enviarCorreo = false)//false x defecto x si acaso el correo esta mal
         {
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
@@ -152,7 +172,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View();
                 }
 
-               
+
                 if (contrasenna != confirmarContrasenna)
                 {
                     ViewBag.Error = "La confirmación no coincide con la contraseña.";
@@ -198,7 +218,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Exito"] = "Usuario creado correctamente.";
 
 
-    
+
 
                 // Correo opcional: el usuario ya está guardado, así que si falla no se pierde nada
                 if (enviarCorreo)
@@ -251,7 +271,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Desactivar(int id)
         {
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
@@ -310,7 +330,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Reactivar(int id)
         {
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
@@ -352,7 +372,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [HttpGet]
         public ActionResult Editar(int id)
         {
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
@@ -388,7 +408,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar(int id, string identificacion, string nombreCompleto, string correoElectronico, int idRol)
         {
-            if (Session["IdUsuarioSession"] == null || (bool?)Session["EstadoUsuarioSession"] != true || Convert.ToInt32(Session["RolUsuarioSession"]) != 2)
+            if (!EsGerente())
             {
                 return RedirectToAction("Error404", "Error");
             }
@@ -422,7 +442,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 ViewBag.NombreCompleto = nombreCompleto;
                 ViewBag.CorreoElectronico = correoElectronico;
 
-                
+
                 if (string.IsNullOrWhiteSpace(identificacion) || string.IsNullOrWhiteSpace(nombreCompleto)
                     || string.IsNullOrWhiteSpace(correoElectronico))
                 {
@@ -431,7 +451,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View();
                 }
 
-              
+
                 if (!System.Text.RegularExpressions.Regex.IsMatch(correoElectronico, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 {
                     ViewBag.Error = "El correo electrónico no tiene un formato válido.";
@@ -490,7 +510,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 usuario.IdRol = idRol;
                 context.SaveChanges();
 
-                // Si se editó a sí mismo, refrescar el nombre que se muestra en el header
+                // Si se editó a sí mismo refresca header
                 if (esMismo)
                 {
                     Session["NombreUsuarioSession"] = usuario.NombreCompleto;
