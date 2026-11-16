@@ -1,36 +1,72 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data.Entity; // necesario para .Include(x => x.Propiedad)
 using System.Linq;
 using System.Web.Mvc;
 using ProyectoFinalBioquimia_G1.EF;
+using ProyectoFinalBioquimia_G1.Services;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
     // RF-10: Página "En trámite".
     // El químico ve sus prototipos que todavía no terminan el proceso
     // (Borrador, Enviado o Devuelto) y la última justificación del gerente.
-    // TODO: roles. Cuando el login esté listo, validar que Session["Rol"] sea "Quimico".
     public class TramiteController : Controller
     {
         private const string MensajeErrorGenerico =
             "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
 
+        private bool EsQuimico()
+        {
+            if (Session["IdUsuarioSession"] == null ||
+                Session["RolUsuarioSession"] == null ||
+                Session["EstadoUsuarioSession"] == null)
+            {
+                return false;
+            }
+
+            int idUsuario;
+            int idRol;
+            bool estadoUsuario;
+
+            return int.TryParse(Convert.ToString(Session["IdUsuarioSession"]), out idUsuario)
+                   && int.TryParse(Convert.ToString(Session["RolUsuarioSession"]), out idRol)
+                   && bool.TryParse(Convert.ToString(Session["EstadoUsuarioSession"]), out estadoUsuario)
+                   && idUsuario > 0
+                   && idRol == 1
+                   && estadoUsuario;
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
+            if (!EsQuimico())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             try
             {
                 using (var db = new BioquimiaDBEntities())
                 {
                     var quimico = ObtenerQuimicoActual(db);
+
                     if (quimico == null)
                     {
-                        TempData["Error"] = "No se encontró el usuario químico de la sesión.";
-                        return View(new List<TB_Prototipo>());
+                        Session.Clear();
+                        Session.Abandon();
+
+                        return RedirectToAction("Login", "Auth");
                     }
 
-                    var estadosEnTramite = new List<string> { "Borrador", "Enviado", "Devuelto" };
+                    var estadosEnTramite = new List<string>
+                    {
+                        "Borrador",
+                        "Enviado",
+                        "Devuelto"
+                    };
+
                     int idQuimico = quimico.IdUsuario;
 
                     // Include carga las tablas relacionadas antes de cerrar el contexto,
@@ -51,31 +87,36 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     ViewBag.TotalBorrador = lista.Count(p => p.TB_EstadoPrototipo.NombreEstado == "Borrador");
                     ViewBag.TotalEnviado = lista.Count(p => p.TB_EstadoPrototipo.NombreEstado == "Enviado");
                     ViewBag.TotalDevuelto = lista.Count(p => p.TB_EstadoPrototipo.NombreEstado == "Devuelto");
+
                     return View(lista);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, TramiteController - HttpGet -> Index()");
+
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(new List<TB_Prototipo>());
             }
         }
 
-        // TODO: roles. Hoy, sin login, se usa el primer químico activo de los datos de prueba.
-        // Cuando Persona 1 termine el login, dejar solo la lectura de Session["UsuarioId"].
+        // Obtiene al químico correspondiente a la sesión actual.
+        // No se utiliza un usuario de prueba como alternativa, ahora cada químico ve exclusivamente sus propios prototipos, según su IdUsuarioSession.
         private TB_Usuario ObtenerQuimicoActual(BioquimiaDBEntities db)
         {
-            if (Session["UsuarioId"] != null)
+            int idSesion;
+
+            if (!int.TryParse(Convert.ToString(Session["IdUsuarioSession"]), out idSesion) ||
+                idSesion <= 0)
             {
-                int idSesion = Convert.ToInt32(Session["UsuarioId"]);
-                return db.TB_Usuario.FirstOrDefault(u => u.IdUsuario == idSesion);
+                return null;
             }
 
-            return db.TB_Usuario
-                .Where(u => u.Estado && u.TB_Rol.NombreRol == "Quimico")
-                .OrderBy(u => u.IdUsuario)
-                .FirstOrDefault();
+            return db.TB_Usuario.FirstOrDefault(u =>
+                u.IdUsuario == idSesion &&
+                u.Estado == true &&
+                u.IdRol == 1);
         }
     }
 }

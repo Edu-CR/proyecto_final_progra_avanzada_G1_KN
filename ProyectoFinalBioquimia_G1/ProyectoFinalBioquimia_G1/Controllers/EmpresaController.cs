@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,16 +13,43 @@ namespace ProyectoFinalBioquimia_G1.Controllers
     // RF-14: Gestión de empresas.
     // Gerente: registra, edita, consulta y desactiva (eliminación lógica).
     // Químico: no tiene acceso.
-    // TODO: roles. Cuando el login esté listo, validar que Session["Rol"] sea "Gerente"
-    // en todas las acciones; si no, redirigir al login o a la página de inicio.
     public class EmpresaController : Controller
     {
         private const string MensajeErrorGenerico =
             "Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
 
+        // Verifica que exista una sesión válida, usuario activo y gerente.
+        private bool EsGerente()
+        {
+            if (Session["IdUsuarioSession"] == null ||
+                Session["RolUsuarioSession"] == null ||
+                Session["EstadoUsuarioSession"] == null)
+            {
+                return false;
+            }
+
+            int idUsuario;
+            int idRol;
+            bool estadoUsuario;
+
+            return int.TryParse(Convert.ToString(Session["IdUsuarioSession"]), out idUsuario)
+                   && int.TryParse(Convert.ToString(Session["RolUsuarioSession"]), out idRol)
+                   && bool.TryParse(Convert.ToString(Session["EstadoUsuarioSession"]), out estadoUsuario)
+                   && idUsuario > 0
+                   && idRol == 2
+                   && estadoUsuario;
+        }
+
+        #region Ver empresas
+
         [HttpGet]
         public ActionResult Index(string buscar, string filtro = "activas")
         {
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             try
             {
                 using (var db = new BioquimiaDBEntities())
@@ -41,8 +69,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                                                     || e.CorreoElectronico.Contains(texto));
                     }
 
-                    // No se puede proyectar (Select) a una entidad de EF en LINQ to Entities,
-                    // por eso se devuelve la lista directamente.
+                    // Se devuelve la lista directamente para mantener las entidades de EF.
                     var lista = consulta
                         .OrderBy(e => e.NombreEmpresa)
                         .ToList();
@@ -54,8 +81,9 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             }
             catch (Exception ex)
             {
-                // Registramos el error en la bitácora indicando el módulo correspondiente, ejemplo de uso de este service
-                BitacoraService.Registrar(ex, "Ocurrio una excepción, EmpresaController - HttpGet -> Index()");
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, EmpresaController - HttpGet -> Index()");
+
                 TempData["Error"] = MensajeErrorGenerico;
                 ViewBag.Buscar = buscar;
                 ViewBag.Filtro = filtro;
@@ -63,10 +91,30 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             }
         }
 
+        #endregion
+
+        #region Crear empresa
+
         [HttpGet]
         public ActionResult Crear()
         {
-            return View(new TB_Empresa { Estado = true });
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
+            try
+            {
+                return View(new TB_Empresa { Estado = true });
+            }
+            catch (Exception ex)
+            {
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, EmpresaController - HttpGet -> Crear()");
+
+                TempData["Error"] = MensajeErrorGenerico;
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -74,6 +122,11 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         public ActionResult Crear(
             [Bind(Include = "NombreEmpresa,Contacto,Telefono,CorreoElectronico")] TB_Empresa modelo)
         {
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             try
             {
                 Normalizar(modelo);
@@ -92,6 +145,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                     modelo.Estado = true;
                     modelo.FechaCreacion = DateTime.Now;
+
                     db.TB_Empresa.Add(modelo);
                     db.SaveChanges();
                 }
@@ -99,22 +153,34 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 TempData["Exito"] = "La empresa se registró correctamente.";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, EmpresaController - HttpPost -> Crear()");
+
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(modelo);
             }
         }
 
+        #endregion
+
+        #region Editar empresa
+
         [HttpGet]
         public ActionResult Editar(int id)
         {
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             try
             {
                 using (var db = new BioquimiaDBEntities())
                 {
                     var empresa = db.TB_Empresa.Find(id);
+
                     if (empresa == null)
                     {
                         TempData["Error"] = "La empresa no existe.";
@@ -124,9 +190,11 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     return View(empresa);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, EmpresaController - HttpGet -> Editar()");
+
                 TempData["Error"] = MensajeErrorGenerico;
                 return RedirectToAction("Index");
             }
@@ -137,6 +205,11 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         public ActionResult Editar(
             [Bind(Include = "IdEmpresa,NombreEmpresa,Contacto,Telefono,CorreoElectronico")] TB_Empresa modelo)
         {
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             try
             {
                 Normalizar(modelo);
@@ -145,6 +218,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 using (var db = new BioquimiaDBEntities())
                 {
                     var empresa = db.TB_Empresa.Find(modelo.IdEmpresa);
+
                     if (empresa == null)
                     {
                         TempData["Error"] = "La empresa no existe.";
@@ -165,24 +239,36 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     empresa.Contacto = modelo.Contacto;
                     empresa.Telefono = modelo.Telefono;
                     empresa.CorreoElectronico = modelo.CorreoElectronico;
+
                     db.SaveChanges();
                 }
 
                 TempData["Exito"] = "La empresa se actualizó correctamente.";
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, EmpresaController - HttpPost -> Editar()");
+
                 TempData["Error"] = MensajeErrorGenerico;
                 return View(modelo);
             }
         }
 
+        #endregion
+
+        #region Activar / desactivar empresa
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Desactivar(int id)
         {
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             return CambiarEstado(id, false);
         }
 
@@ -190,6 +276,11 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Activar(int id)
         {
+            if (!EsGerente())
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             return CambiarEstado(id, true);
         }
 
@@ -202,6 +293,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 using (var db = new BioquimiaDBEntities())
                 {
                     var empresa = db.TB_Empresa.Find(id);
+
                     if (empresa == null)
                     {
                         TempData["Error"] = "La empresa no existe.";
@@ -210,31 +302,38 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                     empresa.Estado = activar;
                     db.SaveChanges();
+
                     TempData["Exito"] = "La empresa \"" + empresa.NombreEmpresa + "\" se "
                         + (activar ? "activó" : "desactivó") + " correctamente.";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: bitácora
+                BitacoraService.Registrar(ex,
+                    "Ocurrió una excepción, EmpresaController - HttpPost -> "
+                    + (activar ? "Activar()" : "Desactivar()"));
+
                 TempData["Error"] = MensajeErrorGenerico;
             }
 
             return RedirectToAction("Index", filtroRegreso);
         }
 
-        // Quita espacios y guarda null en los campos opcionales vacíos.
+        #endregion
+
+        // Quita espacios y guarda null en los campos opcionales vacios.
         private static void Normalizar(TB_Empresa modelo)
         {
             if (modelo == null) return;
+
             modelo.NombreEmpresa = modelo.NombreEmpresa?.Trim();
             modelo.Contacto = string.IsNullOrWhiteSpace(modelo.Contacto) ? null : modelo.Contacto.Trim();
             modelo.Telefono = string.IsNullOrWhiteSpace(modelo.Telefono) ? null : modelo.Telefono.Trim();
-            modelo.CorreoElectronico = string.IsNullOrWhiteSpace(modelo.CorreoElectronico) ? null : modelo.CorreoElectronico.Trim();
+            modelo.CorreoElectronico = string.IsNullOrWhiteSpace(modelo.CorreoElectronico)
+                ? null : modelo.CorreoElectronico.Trim();
         }
 
-        // Las clases de EF se regeneran, así que las validaciones que antes estaban
-        // como atributos en EmpresaModel se hacen aquí.
+        // Las validaciones se realizan aquí porque las clases de EF se regeneran.
         private void Validar(TB_Empresa modelo)
         {
             if (string.IsNullOrWhiteSpace(modelo.NombreEmpresa))

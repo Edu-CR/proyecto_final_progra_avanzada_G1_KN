@@ -107,8 +107,13 @@
                                                class="btn btn-sm btn-outline-secondary">
                                                 <i class="bi bi-eye"></i> Ver
                                             </a>
-                                            @* TODO: cuando Persona 2 termine RF-08, agregar el botón "Editar"
-                                                para los prototipos en Borrador o Devuelto. *@
+                                            @if (estado == "Borrador" || estado == "Devuelto")
+                                            {
+                                                <a href="@Url.Action("Editar", "Prototipo", new { id = item.IdPrototipo })"
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-pencil"></i> Editar
+                                                </a>
+                                            }
                                         </td>
                                     </tr>
                                 }

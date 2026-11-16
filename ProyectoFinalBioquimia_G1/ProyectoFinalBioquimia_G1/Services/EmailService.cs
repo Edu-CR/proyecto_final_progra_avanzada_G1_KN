@@ -10,7 +10,7 @@ namespace ProyectoFinalBioquimia_G1.Services
         public async Task EnviarCorreo(string para, string asunto, string html)
         {
             var cuentaCorreo = "zelayompa@gmail.com";
-            var contrasenaCorreo = "zino ssxh xxxx xxxx";
+            var contrasenaCorreo = "dnid mlwn pwsl katj";
 
             if (string.IsNullOrEmpty(contrasenaCorreo))
                 return;

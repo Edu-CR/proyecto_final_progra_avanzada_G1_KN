@@ -4,43 +4,48 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 using ProyectoFinalBioquimia_G1.EF;
 using ProyectoFinalBioquimia_G1.Services;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace ProyectoFinalBioquimia_G1.Controllers
 {
     public class GerenteController : Controller
     {
-        // Verificar que el usuario tenga rol de gerente
+        private const string MensajeErrorGenerico ="Ocurrió un error inesperado. Intente de nuevo o contacte al administrador.";
+
+        // Verifica que exista una sesión válida, usuario activo y gerente.
         private bool EsGerente()
         {
             if (Session["IdUsuarioSession"] == null ||
-                Session["RolUsuarioSession"] == null)
+                Session["RolUsuarioSession"] == null ||
+                Session["EstadoUsuarioSession"] == null)
             {
                 return false;
             }
 
             int idUsuario;
             int idRol;
+            bool estadoUsuario;
 
-            return int.TryParse(
-                       Session["IdUsuarioSession"].ToString(),
-                       out idUsuario)
-                   && int.TryParse(
-                       Session["RolUsuarioSession"].ToString(),
-                       out idRol)
+            return int.TryParse(Convert.ToString(Session["IdUsuarioSession"]), out idUsuario)
+                   && int.TryParse(Convert.ToString(Session["RolUsuarioSession"]), out idRol)
+                   && bool.TryParse(Convert.ToString(Session["EstadoUsuarioSession"]), out estadoUsuario)
                    && idUsuario > 0
-                   && idRol == 2;
+                   && idRol == 2
+                   && estadoUsuario;
         }
 
-        // RF-12: Dashboard del gerente
+        // RF-12: Dashboard del gerente.
         [HttpGet]
         public ActionResult Index()
         {
             if (!EsGerente())
             {
-                return new HttpStatusCodeResult(
-                    403, "Acceso no autorizado");
+                return RedirectToAction("Error404", "Error");
             }
 
             try
@@ -82,23 +87,23 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             }
             catch (Exception ex)
             {
-                BitacoraService.Registrar(ex, "Gerente - Index");
+                BitacoraService.Registrar(
+                    ex,
+                    "Ocurrió una excepción, GerenteController - HttpGet -> Index()");
 
-                TempData["Error"] =
-                    "Ocurrió un error inesperado. Intente de nuevo.";
+                TempData["Error"] = MensajeErrorGenerico;
 
                 return RedirectToAction("Index", "Home");
             }
         }
 
-        // RF-13: Consultar detalle del prototipo
+        // RF-13: Consultar detalle del prototipo.
         [HttpGet]
         public ActionResult Detalle(int id)
         {
             if (!EsGerente())
             {
-                return new HttpStatusCodeResult(
-                    403, "Acceso no autorizado");
+                return RedirectToAction("Error404", "Error");
             }
 
             try
@@ -122,17 +127,18 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             }
             catch (Exception ex)
             {
-                BitacoraService.Registrar(ex, "Gerente - Detalle");
+                BitacoraService.Registrar(
+                    ex,
+                    "Ocurrió una excepción, GerenteController - HttpGet -> Detalle()");
 
-                TempData["Error"] =
-                    "Ocurrió un error inesperado. Intente de nuevo.";
+                TempData["Error"] = MensajeErrorGenerico;
 
                 return RedirectToAction("Index");
             }
         }
 
-        // RF-13: Evaluar prototipo
-        // RF-11: Notificar al químico por correo
+        // RF-13: Evaluar prototipo.
+        // RF-11: Notificar al químico por correo.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Evaluar(
@@ -142,8 +148,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
         {
             if (!EsGerente())
             {
-                return new HttpStatusCodeResult(
-                    403, "Acceso no autorizado");
+                return RedirectToAction("Error404", "Error");
             }
 
             int idGerente = Convert.ToInt32(
@@ -168,7 +173,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                     400, "Decisión no válida");
             }
 
-            // Datos necesarios para enviar la notificación
+            // Datos necesarios para enviar la notificación.
             string correoQuimico = null;
             string nombreQuimico = null;
             string nombrePrototipo = null;
@@ -203,7 +208,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         string estadoActual =
                             estadoAnterior.NombreEstado;
 
-                        // Validar aprobación y devolución
+                        // Validar aprobación y devolución.
                         if (decision == "Aprobado" ||
                             decision == "Devuelto")
                         {
@@ -244,7 +249,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                                 400, "Estado destino inválido");
                         }
 
-                        // Verificar que el gerente exista
+                        // Verificar que el gerente exista.
                         bool gerenteExiste = db.TB_Usuario
                             .Any(u => u.IdUsuario == idGerente);
 
@@ -254,7 +259,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                                 403, "Usuario no válido");
                         }
 
-                        // Obtener el químico responsable
+                        // Obtener el químico responsable.
                         var quimico = db.TB_Usuario
                             .FirstOrDefault(u =>
                                 u.IdUsuario == prototipo.IdQuimico);
@@ -273,7 +278,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
 
                         DateTime fechaCambio = DateTime.Now;
 
-                        // Actualizar el prototipo
+                        // Actualizar el prototipo.
                         prototipo.IdEstadoPrototipo =
                             nuevoEstado.IdEstadoPrototipo;
 
@@ -283,7 +288,7 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                         prototipo.FechaModificacion =
                             fechaCambio;
 
-                        // Registrar historial
+                        // Registrar historial.
                         var historial = new TB_HistorialEstado
                         {
                             IdPrototipo = prototipo.IdPrototipo,
@@ -304,57 +309,64 @@ namespace ProyectoFinalBioquimia_G1.Controllers
             catch (Exception ex)
             {
                 BitacoraService.Registrar(
-                    ex, "Gerente - Evaluar");
+                    ex,
+                    "Ocurrió una excepción, GerenteController - HttpPost -> Evaluar()");
 
-                TempData["Error"] =
-                    "No se pudo completar la evaluación. Intente nuevamente.";
+                TempData["Error"] = MensajeErrorGenerico;
 
                 return RedirectToAction(
                     "Detalle", new { id });
             }
 
             // La evaluación ya quedó guardada en SQL Server.
-            // Intentar enviar el correo sin revertir la decisión.
+            // El envío del correo es independiente de la transacción.
+
             if (!string.IsNullOrWhiteSpace(correoQuimico))
             {
                 try
                 {
+                    string colorEstado;
+                    string mensajeEstado;
+
+                    switch (decision)
+                    {
+                        case "Aprobado":
+                            colorEstado = "#28a745";
+                            mensajeEstado = "Nos complace informarle que su prototipo fue aprobado.";
+                            break;
+                        case "Devuelto":
+                            colorEstado = "#fd7e14";
+                            mensajeEstado = "Su prototipo fue devuelto para que realice las correcciones indicadas.";
+                            break;
+                        default: // Cancelado
+                            colorEstado = "#dc3545";
+                            mensajeEstado = "Lamentamos informarle que su prototipo fue cancelado.";
+                            break;
+                    }
+
+                    var ruta = Path.Combine(
+                        AppDomain.CurrentDomain.BaseDirectory,
+                        "assets", "recursos", "NotificacionPrototipo.html");
+
+                    // La justificacion va de una codificada y luego se respetan los saltos de linea.
+                    string justificacionHtml = WebUtility.HtmlEncode(justificacion)
+                        .Replace("\r\n", "<br/>")
+                        .Replace("\n", "<br/>");
+
+                    var html = System.IO.File.ReadAllText(ruta, Encoding.UTF8)
+                        .Replace("{{Nombre}}", WebUtility.HtmlEncode(nombreQuimico ?? "Químico"))
+                        .Replace("{{Prototipo}}", WebUtility.HtmlEncode(nombrePrototipo ?? ""))
+                        .Replace("{{Estado}}", WebUtility.HtmlEncode(decision))
+                        .Replace("{{ColorEstado}}", colorEstado)
+                        .Replace("{{Mensaje}}", mensajeEstado)
+                        .Replace("{{Justificacion}}", justificacionHtml)
+                        .Replace("{{Anio}}", DateTime.Now.Year.ToString());
+
                     var emailService = new EmailService();
-
-                    string asunto =
-                        "Bioquimia - Prototipo " + decision;
-
-                    // Codificar datos para evitar insertar HTML
-                    // no confiable en el mensaje.
-                    string nombreSeguro =
-                        HttpUtility.HtmlEncode(nombreQuimico ?? "Químico");
-
-                    string prototipoSeguro =
-                        HttpUtility.HtmlEncode(nombrePrototipo ?? "");
-
-                    string decisionSegura =
-                        HttpUtility.HtmlEncode(decision);
-
-                    string justificacionSegura =
-                        HttpUtility.HtmlEncode(justificacion);
-
-                    string html =
-                        "<h2>Actualización de prototipo</h2>" +
-                        "<p>Estimado/a " + nombreSeguro + ",</p>" +
-                        "<p>Le informamos que el prototipo <strong>" +
-                        prototipoSeguro +
-                        "</strong> ha cambiado al estado <strong>" +
-                        decisionSegura +
-                        "</strong>.</p>" +
-                        "<p><strong>Justificación del gerente:</strong></p>" +
-                        "<p>" + justificacionSegura + "</p>" +
-                        "<p>Puede ingresar al sistema Bioquimia " +
-                        "para consultar los detalles.</p>" +
-                        "<p>Saludos,<br/>Sistema Bioquimia</p>";
 
                     await emailService.EnviarCorreo(
                         correoQuimico,
-                        asunto,
+                        "Bioquimia - Prototipo " + decision,
                         html);
 
                     TempData["Exito"] =
@@ -363,20 +375,17 @@ namespace ProyectoFinalBioquimia_G1.Controllers
                 catch (Exception ex)
                 {
                     BitacoraService.Registrar(
-                        ex, "Gerente - NotificacionCorreo");
+                        ex,
+                        "Ocurrió una excepción, GerenteController - HttpPost -> Evaluar() - envío de correo");
 
-                    TempData["Exito"] =
-                        "El prototipo fue evaluado correctamente.";
-
+                    TempData["Exito"] = "El prototipo fue evaluado correctamente.";
                     TempData["Error"] =
                         "La evaluación se guardó, pero no se pudo enviar el correo de notificación.";
                 }
             }
             else
             {
-                TempData["Exito"] =
-                    "El prototipo fue evaluado correctamente.";
-
+                TempData["Exito"] = "El prototipo fue evaluado correctamente.";
                 TempData["Error"] =
                     "No se envió la notificación porque el químico no tiene un correo registrado.";
             }
