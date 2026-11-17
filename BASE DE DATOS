@@ -13,30 +13,30 @@ GO
 
 -- Perfiles del sistema (RF-05).
 CREATE TABLE [dbo].[TB_Rol](
-    [IdRol]     [int] IDENTITY(1,1) NOT NULL,
-    [NombreRol] [varchar](100) NOT NULL,
-    CONSTRAINT [PK_TB_Rol] PRIMARY KEY CLUSTERED ([IdRol] ASC),
-    CONSTRAINT [UQ_TB_Rol_NombreRol] UNIQUE ([NombreRol])
+ [IdRol] [int] IDENTITY(1,1) NOT NULL,
+ [NombreRol] [varchar](100) NOT NULL,
+ CONSTRAINT [PK_TB_Rol] PRIMARY KEY CLUSTERED ([IdRol] ASC),
+ CONSTRAINT [UQ_TB_Rol_NombreRol] UNIQUE ([NombreRol])
 );
 GO
 
 -- Estados del prototipo 
 CREATE TABLE [dbo].[TB_EstadoPrototipo](
-    [IdEstadoPrototipo] [int] IDENTITY(1,1) NOT NULL,
-    [NombreEstado]      [varchar](50) NOT NULL,
-    CONSTRAINT [PK_TB_EstadoPrototipo] PRIMARY KEY CLUSTERED ([IdEstadoPrototipo] ASC),
-    CONSTRAINT [UQ_TB_EstadoPrototipo_NombreEstado] UNIQUE ([NombreEstado])
+ [IdEstadoPrototipo] [int] IDENTITY(1,1) NOT NULL,
+ [NombreEstado] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_TB_EstadoPrototipo] PRIMARY KEY CLUSTERED ([IdEstadoPrototipo] ASC),
+ CONSTRAINT [UQ_TB_EstadoPrototipo_NombreEstado] UNIQUE ([NombreEstado])
 );
 GO
 
 
 -- Categorías de producto (limpiadores, desinfectantes, jabones, etc.)
 CREATE TABLE [dbo].[TB_Categoria](
-    [IdCategoria]     [int] IDENTITY(1,1) NOT NULL,
-    [NombreCategoria] [nvarchar](100) NOT NULL,
-    [Estado]          [bit] NOT NULL CONSTRAINT [DF_TB_Categoria_Estado] DEFAULT (1),
-    CONSTRAINT [PK_TB_Categoria] PRIMARY KEY CLUSTERED ([IdCategoria] ASC),
-    CONSTRAINT [UQ_TB_Categoria_NombreCategoria] UNIQUE ([NombreCategoria])
+ [IdCategoria] [int] IDENTITY(1,1) NOT NULL,
+ [NombreCategoria] [nvarchar](100) NOT NULL,
+ [Estado] [bit] NOT NULL CONSTRAINT [DF_TB_Categoria_Estado] DEFAULT (1),
+ CONSTRAINT [PK_TB_Categoria] PRIMARY KEY CLUSTERED ([IdCategoria] ASC),
+ CONSTRAINT [UQ_TB_Categoria_NombreCategoria] UNIQUE ([NombreCategoria])
 );
 GO
 
@@ -44,18 +44,18 @@ GO
 -- Contrasenna se guarda sin hash (nvarchar(15)): la validación del sistema
 -- debe exigir entre 8 y 15 caracteres.
 CREATE TABLE [dbo].[TB_Usuario](
-    [IdUsuario]         [int] IDENTITY(1,1) NOT NULL,
-    [Identificacion]    [nvarchar](20)  NOT NULL,
-    [NombreCompleto]    [nvarchar](250) NOT NULL,
-    [CorreoElectronico] [nvarchar](100) NOT NULL,
-    [Contrasenna]       [nvarchar](15)  NOT NULL,
-    [Estado]            [bit] NOT NULL CONSTRAINT [DF_TB_Usuario_Estado] DEFAULT (1),
-    [IdRol]             [int] NOT NULL,
-    [FechaCreacion]     [datetime] NOT NULL CONSTRAINT [DF_TB_Usuario_FechaCreacion] DEFAULT (GETDATE()),
-    CONSTRAINT [PK_TB_Usuario] PRIMARY KEY CLUSTERED ([IdUsuario] ASC),
-    CONSTRAINT [UQ_TB_Usuario_CorreoElectronico] UNIQUE ([CorreoElectronico]),
-    CONSTRAINT [UQ_TB_Usuario_Identificacion] UNIQUE ([Identificacion]),
-    CONSTRAINT [FK_TB_Usuario_TB_Rol] FOREIGN KEY ([IdRol]) REFERENCES [dbo].[TB_Rol]([IdRol])
+ [IdUsuario] [int] IDENTITY(1,1) NOT NULL,
+ [Identificacion] [nvarchar](20) NOT NULL,
+ [NombreCompleto] [nvarchar](250) NOT NULL,
+ [CorreoElectronico] [nvarchar](100) NOT NULL,
+ [Contrasenna] [nvarchar](15) NOT NULL,
+ [Estado] [bit] NOT NULL CONSTRAINT [DF_TB_Usuario_Estado] DEFAULT (1),
+ [IdRol] [int] NOT NULL,
+ [FechaCreacion] [datetime] NOT NULL CONSTRAINT [DF_TB_Usuario_FechaCreacion] DEFAULT (GETDATE()),
+ CONSTRAINT [PK_TB_Usuario] PRIMARY KEY CLUSTERED ([IdUsuario] ASC),
+ CONSTRAINT [UQ_TB_Usuario_CorreoElectronico] UNIQUE ([CorreoElectronico]),
+ CONSTRAINT [UQ_TB_Usuario_Identificacion] UNIQUE ([Identificacion]),
+ CONSTRAINT [FK_TB_Usuario_TB_Rol] FOREIGN KEY ([IdRol]) REFERENCES [dbo].[TB_Rol]([IdRol])
 );
 GO
 
@@ -63,30 +63,30 @@ GO
 -- Token NO es único (dos usuarios podrían recibir el mismo código): se valida por usuario.
 -- Intentos cuenta los códigos incorrectos; después de 5 el código se bloquea.
 CREATE TABLE [dbo].[TB_TokenRecuperacion](
-    [IdTokenRecuperacion] [int] IDENTITY(1,1) NOT NULL,
-    [IdUsuario]           [int] NOT NULL,
-    [Token]               [nvarchar](10)  NOT NULL,
-    [FechaCreacion]       [datetime] NOT NULL CONSTRAINT [DF_TB_TokenRecuperacion_FechaCreacion] DEFAULT (GETDATE()),
-    [FechaVencimiento]    [datetime] NOT NULL,
-    [Usado]               [bit] NOT NULL CONSTRAINT [DF_TB_TokenRecuperacion_Usado] DEFAULT (0),
-    [Intentos]            [int] NOT NULL CONSTRAINT [DF_TB_TokenRecuperacion_Intentos] DEFAULT (0),
-    CONSTRAINT [PK_TB_TokenRecuperacion] PRIMARY KEY CLUSTERED ([IdTokenRecuperacion] ASC),
-    CONSTRAINT [FK_TB_TokenRecuperacion_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario]),
-    CONSTRAINT [CK_TB_TokenRecuperacion_Fechas] CHECK ([FechaVencimiento] > [FechaCreacion])
+ [IdTokenRecuperacion] [int] IDENTITY(1,1) NOT NULL,
+ [IdUsuario] [int] NOT NULL,
+ [Token] [nvarchar](10) NOT NULL,
+ [FechaCreacion] [datetime] NOT NULL CONSTRAINT [DF_TB_TokenRecuperacion_FechaCreacion] DEFAULT (GETDATE()),
+ [FechaVencimiento] [datetime] NOT NULL,
+ [Usado] [bit] NOT NULL CONSTRAINT [DF_TB_TokenRecuperacion_Usado] DEFAULT (0),
+ [Intentos] [int] NOT NULL CONSTRAINT [DF_TB_TokenRecuperacion_Intentos] DEFAULT (0),
+ CONSTRAINT [PK_TB_TokenRecuperacion] PRIMARY KEY CLUSTERED ([IdTokenRecuperacion] ASC),
+ CONSTRAINT [FK_TB_TokenRecuperacion_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario]),
+ CONSTRAINT [CK_TB_TokenRecuperacion_Fechas] CHECK ([FechaVencimiento] > [FechaCreacion])
 );
 GO
 
 -- Bitácora de errores del sistema (RNF-17). IdUsuario es opcional
 -- porque un error puede ocurrir sin sesión iniciada.
 CREATE TABLE [dbo].[TB_BitacoraError](
-    [IdBitacoraError] [int] IDENTITY(1,1) NOT NULL,
-    [FechaError]      [datetime] NOT NULL CONSTRAINT [DF_TB_BitacoraError_FechaError] DEFAULT (GETDATE()),
-    [Modulo]          [nvarchar](100) NOT NULL,
-    [Mensaje]         [nvarchar](1000) NOT NULL,
-    [Detalle]         [nvarchar](max) NULL,
-    [IdUsuario]       [int] NULL,
-    CONSTRAINT [PK_TB_BitacoraError] PRIMARY KEY CLUSTERED ([IdBitacoraError] ASC),
-    CONSTRAINT [FK_TB_BitacoraError_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario])
+ [IdBitacoraError] [int] IDENTITY(1,1) NOT NULL,
+ [FechaError] [datetime] NOT NULL CONSTRAINT [DF_TB_BitacoraError_FechaError] DEFAULT (GETDATE()),
+ [Modulo] [nvarchar](100) NOT NULL,
+ [Mensaje] [nvarchar](1000) NOT NULL,
+ [Detalle] [nvarchar](max) NULL,
+ [IdUsuario] [int] NULL,
+ CONSTRAINT [PK_TB_BitacoraError] PRIMARY KEY CLUSTERED ([IdBitacoraError] ASC),
+ CONSTRAINT [FK_TB_BitacoraError_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario])
 );
 GO
 
@@ -96,28 +96,28 @@ GO
 
 -- Empresas que hacen negocios con Bioquimia (RF-14). Eliminación lógica con Estado.
 CREATE TABLE [dbo].[TB_Empresa](
-    [IdEmpresa]         [int] IDENTITY(1,1) NOT NULL,
-    [NombreEmpresa]     [nvarchar](150) NOT NULL,
-    [Contacto]          [nvarchar](150) NULL,
-    [Telefono]          [nvarchar](20)  NULL,
-    [CorreoElectronico] [nvarchar](100) NULL,
-    [Estado]            [bit] NOT NULL CONSTRAINT [DF_TB_Empresa_Estado] DEFAULT (1),
-    [FechaCreacion]     [datetime] NOT NULL CONSTRAINT [DF_TB_Empresa_FechaCreacion] DEFAULT (GETDATE()),
-    CONSTRAINT [PK_TB_Empresa] PRIMARY KEY CLUSTERED ([IdEmpresa] ASC),
-    CONSTRAINT [UQ_TB_Empresa_NombreEmpresa] UNIQUE ([NombreEmpresa])
+ [IdEmpresa] [int] IDENTITY(1,1) NOT NULL,
+ [NombreEmpresa] [nvarchar](150) NOT NULL,
+ [Contacto] [nvarchar](150) NULL,
+ [Telefono] [nvarchar](20) NULL,
+ [CorreoElectronico] [nvarchar](100) NULL,
+ [Estado] [bit] NOT NULL CONSTRAINT [DF_TB_Empresa_Estado] DEFAULT (1),
+ [FechaCreacion] [datetime] NOT NULL CONSTRAINT [DF_TB_Empresa_FechaCreacion] DEFAULT (GETDATE()),
+ CONSTRAINT [PK_TB_Empresa] PRIMARY KEY CLUSTERED ([IdEmpresa] ASC),
+ CONSTRAINT [UQ_TB_Empresa_NombreEmpresa] UNIQUE ([NombreEmpresa])
 );
 GO
 
 -- Catálogo de ingredientes (RF-23).
 CREATE TABLE [dbo].[TB_Ingrediente](
-    [IdIngrediente]     [int] IDENTITY(1,1) NOT NULL,
-    [NombreIngrediente] [nvarchar](100) NOT NULL,
-    [Funcion]           [nvarchar](50)  NOT NULL,
-    [UnidadBase]        [varchar](10)   NOT NULL,
-    [Estado]            [bit] NOT NULL CONSTRAINT [DF_TB_Ingrediente_Estado] DEFAULT (1),
-    CONSTRAINT [PK_TB_Ingrediente] PRIMARY KEY CLUSTERED ([IdIngrediente] ASC),
-    CONSTRAINT [UQ_TB_Ingrediente_NombreIngrediente] UNIQUE ([NombreIngrediente]),
-    CONSTRAINT [CK_TB_Ingrediente_UnidadBase] CHECK ([UnidadBase] IN ('kg', 'litro'))
+ [IdIngrediente] [int] IDENTITY(1,1) NOT NULL,
+ [NombreIngrediente] [nvarchar](100) NOT NULL,
+ [Funcion] [nvarchar](50) NOT NULL,
+ [UnidadBase] [varchar](10) NOT NULL,
+ [Estado] [bit] NOT NULL CONSTRAINT [DF_TB_Ingrediente_Estado] DEFAULT (1),
+ CONSTRAINT [PK_TB_Ingrediente] PRIMARY KEY CLUSTERED ([IdIngrediente] ASC),
+ CONSTRAINT [UQ_TB_Ingrediente_NombreIngrediente] UNIQUE ([NombreIngrediente]),
+ CONSTRAINT [CK_TB_Ingrediente_UnidadBase] CHECK ([UnidadBase] IN ('kg', 'litro'))
 );
 GO
 
@@ -130,45 +130,45 @@ GO
 -- El detalle de todos los cambios queda en TB_HistorialEstado.
 -- ImagenRuta guarda la ruta del archivo de la imagen principal (por ejemplo ~/Content/Imagenes/12.jpg).
 CREATE TABLE [dbo].[TB_Prototipo](
-    [IdPrototipo]           [int] IDENTITY(1,1) NOT NULL,
-    [NombrePrototipo]       [nvarchar](150)  NOT NULL,
-    [IdCategoria]           [int] NOT NULL,
-    [Descripcion]           [nvarchar](1000) NOT NULL,
-    [CaracteristicasEnvase] [nvarchar](500)  NOT NULL,
-    [ImagenRuta]            [nvarchar](260)  NOT NULL,
-    [IdQuimico]             [int] NOT NULL,
-    [IdEstadoPrototipo]     [int] NOT NULL CONSTRAINT [DF_TB_Prototipo_IdEstadoPrototipo] DEFAULT (1),
-    [ComentarioGerente]     [nvarchar](500)  NULL,
-    [FechaCreacion]         [datetime] NOT NULL CONSTRAINT [DF_TB_Prototipo_FechaCreacion] DEFAULT (GETDATE()),
-    [FechaModificacion]     [datetime] NULL,
-    CONSTRAINT [PK_TB_Prototipo] PRIMARY KEY CLUSTERED ([IdPrototipo] ASC),
-    CONSTRAINT [UQ_TB_Prototipo_Quimico_Nombre] UNIQUE ([IdQuimico], [NombrePrototipo]),
-    CONSTRAINT [FK_TB_Prototipo_TB_Categoria] FOREIGN KEY ([IdCategoria]) REFERENCES [dbo].[TB_Categoria]([IdCategoria]),
-    CONSTRAINT [FK_TB_Prototipo_TB_Usuario] FOREIGN KEY ([IdQuimico]) REFERENCES [dbo].[TB_Usuario]([IdUsuario]),
-    CONSTRAINT [FK_TB_Prototipo_TB_EstadoPrototipo] FOREIGN KEY ([IdEstadoPrototipo]) REFERENCES [dbo].[TB_EstadoPrototipo]([IdEstadoPrototipo])
+ [IdPrototipo] [int] IDENTITY(1,1) NOT NULL,
+ [NombrePrototipo] [nvarchar](150) NOT NULL,
+ [IdCategoria] [int] NOT NULL,
+ [Descripcion] [nvarchar](1000) NOT NULL,
+ [CaracteristicasEnvase] [nvarchar](500) NOT NULL,
+ [ImagenRuta] [nvarchar](260) NOT NULL,
+ [IdQuimico] [int] NOT NULL,
+ [IdEstadoPrototipo] [int] NOT NULL CONSTRAINT [DF_TB_Prototipo_IdEstadoPrototipo] DEFAULT (1),
+ [ComentarioGerente] [nvarchar](500) NULL,
+ [FechaCreacion] [datetime] NOT NULL CONSTRAINT [DF_TB_Prototipo_FechaCreacion] DEFAULT (GETDATE()),
+ [FechaModificacion] [datetime] NULL,
+ CONSTRAINT [PK_TB_Prototipo] PRIMARY KEY CLUSTERED ([IdPrototipo] ASC),
+ CONSTRAINT [UQ_TB_Prototipo_Quimico_Nombre] UNIQUE ([IdQuimico], [NombrePrototipo]),
+ CONSTRAINT [FK_TB_Prototipo_TB_Categoria] FOREIGN KEY ([IdCategoria]) REFERENCES [dbo].[TB_Categoria]([IdCategoria]),
+ CONSTRAINT [FK_TB_Prototipo_TB_Usuario] FOREIGN KEY ([IdQuimico]) REFERENCES [dbo].[TB_Usuario]([IdUsuario]),
+ CONSTRAINT [FK_TB_Prototipo_TB_EstadoPrototipo] FOREIGN KEY ([IdEstadoPrototipo]) REFERENCES [dbo].[TB_EstadoPrototipo]([IdEstadoPrototipo])
 );
 GO
 
 -- Fórmula del prototipo: ingredientes con su porcentaje (RF-07).
 -- La suma de porcentajes = 100 se valida en la aplicación.
 CREATE TABLE [dbo].[TB_PrototipoIngrediente](
-    [IdPrototipo]   [int] NOT NULL,
-    [IdIngrediente] [int] NOT NULL,
-    [Porcentaje]    [decimal](5,2) NOT NULL,
-    CONSTRAINT [PK_TB_PrototipoIngrediente] PRIMARY KEY CLUSTERED ([IdPrototipo] ASC, [IdIngrediente] ASC),
-    CONSTRAINT [FK_TB_PrototipoIngrediente_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
-    CONSTRAINT [FK_TB_PrototipoIngrediente_TB_Ingrediente] FOREIGN KEY ([IdIngrediente]) REFERENCES [dbo].[TB_Ingrediente]([IdIngrediente]),
-    CONSTRAINT [CK_TB_PrototipoIngrediente_Porcentaje] CHECK ([Porcentaje] > 0 AND [Porcentaje] <= 100)
+ [IdPrototipo] [int] NOT NULL,
+ [IdIngrediente] [int] NOT NULL,
+ [Porcentaje] [decimal](5,2) NOT NULL,
+ CONSTRAINT [PK_TB_PrototipoIngrediente] PRIMARY KEY CLUSTERED ([IdPrototipo] ASC, [IdIngrediente] ASC),
+ CONSTRAINT [FK_TB_PrototipoIngrediente_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
+ CONSTRAINT [FK_TB_PrototipoIngrediente_TB_Ingrediente] FOREIGN KEY ([IdIngrediente]) REFERENCES [dbo].[TB_Ingrediente]([IdIngrediente]),
+ CONSTRAINT [CK_TB_PrototipoIngrediente_Porcentaje] CHECK ([Porcentaje] > 0 AND [Porcentaje] <= 100)
 );
 GO
 
 -- Relación muchos a muchos entre prototipos y empresas (RF-15).
 CREATE TABLE [dbo].[TB_PrototipoEmpresa](
-    [IdPrototipo] [int] NOT NULL,
-    [IdEmpresa]   [int] NOT NULL,
-    CONSTRAINT [PK_TB_PrototipoEmpresa] PRIMARY KEY CLUSTERED ([IdPrototipo] ASC, [IdEmpresa] ASC),
-    CONSTRAINT [FK_TB_PrototipoEmpresa_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
-    CONSTRAINT [FK_TB_PrototipoEmpresa_TB_Empresa] FOREIGN KEY ([IdEmpresa]) REFERENCES [dbo].[TB_Empresa]([IdEmpresa])
+ [IdPrototipo] [int] NOT NULL,
+ [IdEmpresa] [int] NOT NULL,
+ CONSTRAINT [PK_TB_PrototipoEmpresa] PRIMARY KEY CLUSTERED ([IdPrototipo] ASC, [IdEmpresa] ASC),
+ CONSTRAINT [FK_TB_PrototipoEmpresa_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
+ CONSTRAINT [FK_TB_PrototipoEmpresa_TB_Empresa] FOREIGN KEY ([IdEmpresa]) REFERENCES [dbo].[TB_Empresa]([IdEmpresa])
 );
 GO
 
@@ -177,18 +177,18 @@ GO
 -- Nota EF: IdEstadoAnterior e IdEstadoNuevo requieren [ForeignKey] porque
 -- no se llaman igual que la llave primaria.
 CREATE TABLE [dbo].[TB_HistorialEstado](
-    [IdHistorialEstado] [int] IDENTITY(1,1) NOT NULL,
-    [IdPrototipo]       [int] NOT NULL,
-    [IdEstadoAnterior]  [int] NULL,
-    [IdEstadoNuevo]     [int] NOT NULL,
-    [IdUsuario]         [int] NOT NULL,
-    [Justificacion]     [nvarchar](500) NULL,
-    [FechaCambio]       [datetime] NOT NULL CONSTRAINT [DF_TB_HistorialEstado_FechaCambio] DEFAULT (GETDATE()),
-    CONSTRAINT [PK_TB_HistorialEstado] PRIMARY KEY CLUSTERED ([IdHistorialEstado] ASC),
-    CONSTRAINT [FK_TB_HistorialEstado_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
-    CONSTRAINT [FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior] FOREIGN KEY ([IdEstadoAnterior]) REFERENCES [dbo].[TB_EstadoPrototipo]([IdEstadoPrototipo]),
-    CONSTRAINT [FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo] FOREIGN KEY ([IdEstadoNuevo]) REFERENCES [dbo].[TB_EstadoPrototipo]([IdEstadoPrototipo]),
-    CONSTRAINT [FK_TB_HistorialEstado_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario])
+ [IdHistorialEstado] [int] IDENTITY(1,1) NOT NULL,
+ [IdPrototipo] [int] NOT NULL,
+ [IdEstadoAnterior] [int] NULL,
+ [IdEstadoNuevo] [int] NOT NULL,
+ [IdUsuario] [int] NOT NULL,
+ [Justificacion] [nvarchar](500) NULL,
+ [FechaCambio] [datetime] NOT NULL CONSTRAINT [DF_TB_HistorialEstado_FechaCambio] DEFAULT (GETDATE()),
+ CONSTRAINT [PK_TB_HistorialEstado] PRIMARY KEY CLUSTERED ([IdHistorialEstado] ASC),
+ CONSTRAINT [FK_TB_HistorialEstado_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
+ CONSTRAINT [FK_TB_HistorialEstado_TB_EstadoPrototipo_Anterior] FOREIGN KEY ([IdEstadoAnterior]) REFERENCES [dbo].[TB_EstadoPrototipo]([IdEstadoPrototipo]),
+ CONSTRAINT [FK_TB_HistorialEstado_TB_EstadoPrototipo_Nuevo] FOREIGN KEY ([IdEstadoNuevo]) REFERENCES [dbo].[TB_EstadoPrototipo]([IdEstadoPrototipo]),
+ CONSTRAINT [FK_TB_HistorialEstado_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario])
 );
 GO
 
@@ -198,36 +198,36 @@ GO
 
 -- Tipos de prueba con su rango permitido. Obligatoria = bloquea el envío (RF-21).
 CREATE TABLE [dbo].[TB_TipoPrueba](
-    [IdTipoPrueba]     [int] IDENTITY(1,1) NOT NULL,
-    [NombreTipoPrueba] [nvarchar](100) NOT NULL,
-    [Unidad]           [nvarchar](20)  NOT NULL,
-    [ValorMinimo]      [decimal](10,2) NOT NULL,
-    [ValorMaximo]      [decimal](10,2) NOT NULL,
-    [Obligatoria]      [bit] NOT NULL CONSTRAINT [DF_TB_TipoPrueba_Obligatoria] DEFAULT (0),
-    [Estado]           [bit] NOT NULL CONSTRAINT [DF_TB_TipoPrueba_Estado] DEFAULT (1),
-    CONSTRAINT [PK_TB_TipoPrueba] PRIMARY KEY CLUSTERED ([IdTipoPrueba] ASC),
-    CONSTRAINT [UQ_TB_TipoPrueba_NombreTipoPrueba] UNIQUE ([NombreTipoPrueba]),
-    CONSTRAINT [CK_TB_TipoPrueba_Rango] CHECK ([ValorMinimo] <= [ValorMaximo])
+ [IdTipoPrueba] [int] IDENTITY(1,1) NOT NULL,
+ [NombreTipoPrueba] [nvarchar](100) NOT NULL,
+ [Unidad] [nvarchar](20) NOT NULL,
+ [ValorMinimo] [decimal](10,2) NOT NULL,
+ [ValorMaximo] [decimal](10,2) NOT NULL,
+ [Obligatoria] [bit] NOT NULL CONSTRAINT [DF_TB_TipoPrueba_Obligatoria] DEFAULT (0),
+ [Estado] [bit] NOT NULL CONSTRAINT [DF_TB_TipoPrueba_Estado] DEFAULT (1),
+ CONSTRAINT [PK_TB_TipoPrueba] PRIMARY KEY CLUSTERED ([IdTipoPrueba] ASC),
+ CONSTRAINT [UQ_TB_TipoPrueba_NombreTipoPrueba] UNIQUE ([NombreTipoPrueba]),
+ CONSTRAINT [CK_TB_TipoPrueba_Rango] CHECK ([ValorMinimo] <= [ValorMaximo])
 );
 GO
 
 -- Resultados de pruebas por prototipo. Resultado lo calcula el sistema según el rango.
 -- Cada nuevo intento es una fila nueva; el último por tipo de prueba es el vigente.
 CREATE TABLE [dbo].[TB_PruebaPrototipo](
-    [IdPruebaPrototipo] [int] IDENTITY(1,1) NOT NULL,
-    [IdPrototipo]       [int] NOT NULL,
-    [IdTipoPrueba]      [int] NOT NULL,
-    [ValorMedido]       [decimal](10,2) NOT NULL,
-    [Resultado]         [varchar](10) NOT NULL,
-    [FechaPrueba]       [date] NOT NULL,
-    [Observaciones]     [nvarchar](300) NULL,
-    [IdUsuario]         [int] NOT NULL,
-    [FechaRegistro]     [datetime] NOT NULL CONSTRAINT [DF_TB_PruebaPrototipo_FechaRegistro] DEFAULT (GETDATE()),
-    CONSTRAINT [PK_TB_PruebaPrototipo] PRIMARY KEY CLUSTERED ([IdPruebaPrototipo] ASC),
-    CONSTRAINT [FK_TB_PruebaPrototipo_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
-    CONSTRAINT [FK_TB_PruebaPrototipo_TB_TipoPrueba] FOREIGN KEY ([IdTipoPrueba]) REFERENCES [dbo].[TB_TipoPrueba]([IdTipoPrueba]),
-    CONSTRAINT [FK_TB_PruebaPrototipo_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario]),
-    CONSTRAINT [CK_TB_PruebaPrototipo_Resultado] CHECK ([Resultado] IN ('Aprobada', 'Reprobada'))
+ [IdPruebaPrototipo] [int] IDENTITY(1,1) NOT NULL,
+ [IdPrototipo] [int] NOT NULL,
+ [IdTipoPrueba] [int] NOT NULL,
+ [ValorMedido] [decimal](10,2) NOT NULL,
+ [Resultado] [varchar](10) NOT NULL,
+ [FechaPrueba] [date] NOT NULL,
+ [Observaciones] [nvarchar](300) NULL,
+ [IdUsuario] [int] NOT NULL,
+ [FechaRegistro] [datetime] NOT NULL CONSTRAINT [DF_TB_PruebaPrototipo_FechaRegistro] DEFAULT (GETDATE()),
+ CONSTRAINT [PK_TB_PruebaPrototipo] PRIMARY KEY CLUSTERED ([IdPruebaPrototipo] ASC),
+ CONSTRAINT [FK_TB_PruebaPrototipo_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
+ CONSTRAINT [FK_TB_PruebaPrototipo_TB_TipoPrueba] FOREIGN KEY ([IdTipoPrueba]) REFERENCES [dbo].[TB_TipoPrueba]([IdTipoPrueba]),
+ CONSTRAINT [FK_TB_PruebaPrototipo_TB_Usuario] FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[TB_Usuario]([IdUsuario]),
+ CONSTRAINT [CK_TB_PruebaPrototipo_Resultado] CHECK ([Resultado] IN ('Aprobada', 'Reprobada'))
 );
 GO
 
@@ -239,40 +239,40 @@ GO
 -- El estado Vigente / Por vencer / Vencido se calcula en la aplicación con FechaVencimiento.
 -- FechaAlertaEnviada evita repetir el correo de alerta (RF-25).
 CREATE TABLE [dbo].[TB_RegistroRegulatorio](
-    [IdRegistroRegulatorio]  [int] IDENTITY(1,1) NOT NULL,
-    [IdPrototipo]            [int] NOT NULL,
-    [NumeroRegistro]         [nvarchar](50) NOT NULL,
-    [FechaEmision]           [date] NOT NULL,
-    [FechaVencimiento]       [date] NOT NULL,
-    [FechaAlertaEnviada]     [datetime] NULL,
-    -- Checklist de etiquetado obligatorio
-    [EtiquetaNombreProducto] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaNombreProducto] DEFAULT (0),
-    [EtiquetaIngredientes]   [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaIngredientes] DEFAULT (0),
-    [EtiquetaAdvertencias]   [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaAdvertencias] DEFAULT (0),
-    [EtiquetaInstrucciones]  [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaInstrucciones] DEFAULT (0),
-    [EtiquetaContenidoNeto]  [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaContenidoNeto] DEFAULT (0),
-    [EtiquetaLote]           [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaLote] DEFAULT (0),
-    [EtiquetaFabricante]     [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaFabricante] DEFAULT (0),
-    [EtiquetaFechaVencimiento] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaFechaVencimiento] DEFAULT (0),
-    -- Hoja de seguridad (SDS) como campos
-    [SdsPeligros]            [nvarchar](500) NULL,
-    [SdsPrimerosAuxilios]    [nvarchar](500) NULL,
-    [SdsAlmacenamiento]      [nvarchar](500) NULL,
-    [SdsFechaRevision]       [date] NULL,
-    [FechaRegistro]          [datetime] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_FechaRegistro] DEFAULT (GETDATE()),
-    CONSTRAINT [PK_TB_RegistroRegulatorio] PRIMARY KEY CLUSTERED ([IdRegistroRegulatorio] ASC),
-    CONSTRAINT [UQ_TB_RegistroRegulatorio_IdPrototipo] UNIQUE ([IdPrototipo]),
-    CONSTRAINT [UQ_TB_RegistroRegulatorio_NumeroRegistro] UNIQUE ([NumeroRegistro]),
-    CONSTRAINT [FK_TB_RegistroRegulatorio_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
-    CONSTRAINT [CK_TB_RegistroRegulatorio_Fechas] CHECK ([FechaVencimiento] > [FechaEmision])
+ [IdRegistroRegulatorio] [int] IDENTITY(1,1) NOT NULL,
+ [IdPrototipo] [int] NOT NULL,
+ [NumeroRegistro] [nvarchar](50) NOT NULL,
+ [FechaEmision] [date] NOT NULL,
+ [FechaVencimiento] [date] NOT NULL,
+ [FechaAlertaEnviada] [datetime] NULL,
+ -- Checklist de etiquetado obligatorio
+ [EtiquetaNombreProducto] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaNombreProducto] DEFAULT (0),
+ [EtiquetaIngredientes] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaIngredientes] DEFAULT (0),
+ [EtiquetaAdvertencias] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaAdvertencias] DEFAULT (0),
+ [EtiquetaInstrucciones] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaInstrucciones] DEFAULT (0),
+ [EtiquetaContenidoNeto] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaContenidoNeto] DEFAULT (0),
+ [EtiquetaLote] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaLote] DEFAULT (0),
+ [EtiquetaFabricante] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaFabricante] DEFAULT (0),
+ [EtiquetaFechaVencimiento] [bit] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_EtiquetaFechaVencimiento] DEFAULT (0),
+ -- Hoja de seguridad (SDS) como campos
+ [SdsPeligros] [nvarchar](500) NULL,
+ [SdsPrimerosAuxilios] [nvarchar](500) NULL,
+ [SdsAlmacenamiento] [nvarchar](500) NULL,
+ [SdsFechaRevision] [date] NULL,
+ [FechaRegistro] [datetime] NOT NULL CONSTRAINT [DF_TB_RegistroRegulatorio_FechaRegistro] DEFAULT (GETDATE()),
+ CONSTRAINT [PK_TB_RegistroRegulatorio] PRIMARY KEY CLUSTERED ([IdRegistroRegulatorio] ASC),
+ CONSTRAINT [UQ_TB_RegistroRegulatorio_IdPrototipo] UNIQUE ([IdPrototipo]),
+ CONSTRAINT [UQ_TB_RegistroRegulatorio_NumeroRegistro] UNIQUE ([NumeroRegistro]),
+ CONSTRAINT [FK_TB_RegistroRegulatorio_TB_Prototipo] FOREIGN KEY ([IdPrototipo]) REFERENCES [dbo].[TB_Prototipo]([IdPrototipo]),
+ CONSTRAINT [CK_TB_RegistroRegulatorio_Fechas] CHECK ([FechaVencimiento] > [FechaEmision])
 );
 GO
 
 -- Control de la revisión diaria de vencimientos (RF-25): una sola fila.
 CREATE TABLE [dbo].[TB_ControlAlertas](
-    [IdControlAlertas] [int] IDENTITY(1,1) NOT NULL,
-    [UltimaRevision]   [date] NOT NULL,
-    CONSTRAINT [PK_TB_ControlAlertas] PRIMARY KEY CLUSTERED ([IdControlAlertas] ASC)
+ [IdControlAlertas] [int] IDENTITY(1,1) NOT NULL,
+ [UltimaRevision] [date] NOT NULL,
+ CONSTRAINT [PK_TB_ControlAlertas] PRIMARY KEY CLUSTERED ([IdControlAlertas] ASC)
 );
 GO
 
@@ -280,12 +280,12 @@ GO
    6. ÍNDICES DE APOYO PARA CONSULTAR DESDE SQL 
    ===================================================================== */
 CREATE NONCLUSTERED INDEX [IX_TB_Prototipo_IdEstadoPrototipo] ON [dbo].[TB_Prototipo]([IdEstadoPrototipo]);
-CREATE NONCLUSTERED INDEX [IX_TB_Prototipo_IdQuimico]         ON [dbo].[TB_Prototipo]([IdQuimico]);
-CREATE NONCLUSTERED INDEX [IX_TB_Prototipo_IdCategoria]       ON [dbo].[TB_Prototipo]([IdCategoria]);
+CREATE NONCLUSTERED INDEX [IX_TB_Prototipo_IdQuimico] ON [dbo].[TB_Prototipo]([IdQuimico]);
+CREATE NONCLUSTERED INDEX [IX_TB_Prototipo_IdCategoria] ON [dbo].[TB_Prototipo]([IdCategoria]);
 CREATE NONCLUSTERED INDEX [IX_TB_HistorialEstado_IdPrototipo] ON [dbo].[TB_HistorialEstado]([IdPrototipo]);
 CREATE NONCLUSTERED INDEX [IX_TB_PruebaPrototipo_IdPrototipo] ON [dbo].[TB_PruebaPrototipo]([IdPrototipo]);
 CREATE NONCLUSTERED INDEX [IX_TB_RegistroRegulatorio_FechaVencimiento] ON [dbo].[TB_RegistroRegulatorio]([FechaVencimiento]);
-CREATE NONCLUSTERED INDEX [IX_TB_BitacoraError_FechaError]    ON [dbo].[TB_BitacoraError]([FechaError]);
+CREATE NONCLUSTERED INDEX [IX_TB_BitacoraError_FechaError] ON [dbo].[TB_BitacoraError]([FechaError]);
 GO
 
 
@@ -336,30 +336,30 @@ GO
 
 -- Empresas de prueba.
 INSERT INTO [dbo].[TB_Empresa] ([NombreEmpresa], [Contacto], [Telefono], [CorreoElectronico]) VALUES
-(N'Hotel Costa Verde',        N'Marta Rojas',    N'2222-1111', N'compras@costaverde.com'),
-(N'Supermercados El Ahorro',  N'Jorge Mora',     N'2233-4455', N'proveeduria@elahorro.com'),
-(N'Clinica San Jose',         N'Ana Villalobos', N'2255-6677', N'suministros@clinicasj.com');
+(N'Hotel Costa Verde', N'Marta Rojas', N'2222-1111', N'compras@costaverde.com'),
+(N'Supermercados El Ahorro', N'Jorge Mora', N'2233-4455', N'proveeduria@elahorro.com'),
+(N'Clinica San Jose', N'Ana Villalobos', N'2255-6677', N'suministros@clinicasj.com');
 GO
 
 -- Ingredientes de prueba.
 INSERT INTO [dbo].[TB_Ingrediente] ([NombreIngrediente], [Funcion], [UnidadBase]) VALUES
-(N'Agua desionizada',                N'Solvente',          'litro'),
-(N'Lauril eter sulfato de sodio',    N'Tensoactivo',       'kg'),
-(N'Cocamidopropil betaina',          N'Tensoactivo',       'kg'),
-(N'Cloruro de sodio',                N'Espesante',         'kg'),
-(N'Fenoxietanol',                    N'Conservante',       'kg'),
-(N'Fragancia de lavanda',            N'Fragancia',         'kg'),
-(N'Acido citrico',                   N'Regulador de pH',   'kg'),
-(N'Hipoclorito de sodio',            N'Desinfectante',     'litro'),
-(N'Glicerina',                       N'Humectante',        'kg');
+(N'Agua desionizada', N'Solvente', 'litro'),
+(N'Lauril eter sulfato de sodio', N'Tensoactivo', 'kg'),
+(N'Cocamidopropil betaina', N'Tensoactivo', 'kg'),
+(N'Cloruro de sodio', N'Espesante', 'kg'),
+(N'Fenoxietanol', N'Conservante', 'kg'),
+(N'Fragancia de lavanda', N'Fragancia', 'kg'),
+(N'Acido citrico', N'Regulador de pH', 'kg'),
+(N'Hipoclorito de sodio', N'Desinfectante', 'litro'),
+(N'Glicerina', N'Humectante', 'kg');
 GO
 
 -- Tipos de prueba de prueba.
 INSERT INTO [dbo].[TB_TipoPrueba] ([NombreTipoPrueba], [Unidad], [ValorMinimo], [ValorMaximo], [Obligatoria]) VALUES
-(N'pH',          N'pH',    5.50,    8.50, 1),
-(N'Viscosidad',  N'cP',  500.00, 3000.00, 1),
-(N'Densidad',    N'g/mL',  0.95,    1.10, 1),
-(N'Espuma',      N'mm',   10.00,  100.00, 0);
+(N'pH', N'pH', 5.50, 8.50, 1),
+(N'Viscosidad', N'cP', 500.00, 3000.00, 1),
+(N'Densidad', N'g/mL', 0.95, 1.10, 1),
+(N'Espuma', N'mm', 10.00, 100.00, 0);
 GO
 
 -- =====================================================================
@@ -374,20 +374,20 @@ USE [BioquimiaDB];
 GO
 
 -- Limpieza de una corrida anterior
-DELETE h  FROM [dbo].[TB_HistorialEstado]      h  JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = h.IdPrototipo  WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
+DELETE h FROM [dbo].[TB_HistorialEstado] h JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = h.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
 DELETE pi FROM [dbo].[TB_PrototipoIngrediente] pi JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = pi.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
-DELETE pe FROM [dbo].[TB_PrototipoEmpresa]     pe JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = pe.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
+DELETE pe FROM [dbo].[TB_PrototipoEmpresa] pe JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = pe.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
 DELETE FROM [dbo].[TB_Prototipo] WHERE NombrePrototipo LIKE N'[[]PRUEBA]%';
 GO
 
-DECLARE @Laura   INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'quimico@bioquimia.com');
-DECLARE @Maria   INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'maria.quimico@bioquimia.com');
+DECLARE @Laura INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'quimico@bioquimia.com');
+DECLARE @Maria INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'maria.quimico@bioquimia.com');
 DECLARE @Gerente INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'gerente@bioquimia.com');
 
-DECLARE @Borrador  INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Borrador');
-DECLARE @Enviado   INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Enviado');
-DECLARE @Devuelto  INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Devuelto');
-DECLARE @Aprobado  INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Aprobado');
+DECLARE @Borrador INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Borrador');
+DECLARE @Enviado INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Enviado');
+DECLARE @Devuelto INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Devuelto');
+DECLARE @Aprobado INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Aprobado');
 DECLARE @Cancelado INT = (SELECT IdEstadoPrototipo FROM TB_EstadoPrototipo WHERE NombreEstado = 'Cancelado');
 
 DECLARE @Agua INT = (SELECT IdIngrediente FROM TB_Ingrediente WHERE NombreIngrediente = N'Agua desionizada');
@@ -402,8 +402,8 @@ DECLARE @Glicerina INT = (SELECT IdIngrediente FROM TB_Ingrediente WHERE NombreI
 
 DECLARE @CatLimp INT = (SELECT IdCategoria FROM TB_Categoria WHERE NombreCategoria = N'Limpiadores');
 DECLARE @CatDesi INT = (SELECT IdCategoria FROM TB_Categoria WHERE NombreCategoria = N'Desinfectantes');
-DECLARE @CatJab  INT = (SELECT IdCategoria FROM TB_Categoria WHERE NombreCategoria = N'Jabones');
-DECLARE @CatDet  INT = (SELECT IdCategoria FROM TB_Categoria WHERE NombreCategoria = N'Detergentes');
+DECLARE @CatJab INT = (SELECT IdCategoria FROM TB_Categoria WHERE NombreCategoria = N'Jabones');
+DECLARE @CatDet INT = (SELECT IdCategoria FROM TB_Categoria WHERE NombreCategoria = N'Detergentes');
 
 DECLARE @P1 INT, @P2 INT, @P3 INT, @P4 INT, @P5 INT, @P6 INT;
 
@@ -422,7 +422,7 @@ SET @P2 = SCOPE_IDENTITY();
 INSERT INTO TB_PrototipoIngrediente VALUES (@P2, @Agua, 80.00), (@P2, @Lauril, 12.00), (@P2, @Citrico, 5.00), (@P2, @Fenoxi, 3.00);
 INSERT INTO TB_HistorialEstado (IdPrototipo, IdEstadoAnterior, IdEstadoNuevo, IdUsuario, Justificacion, FechaCambio)
 VALUES (@P2, NULL, @Borrador, @Laura, NULL, DATEADD(DAY, -10, GETDATE())),
-       (@P2, @Borrador, @Enviado, @Laura, NULL, DATEADD(DAY, -8, GETDATE()));
+(@P2, @Borrador, @Enviado, @Laura, NULL, DATEADD(DAY, -8, GETDATE()));
 
 -- 3) Devuelto con justificación (Laura)
 INSERT INTO TB_Prototipo (NombrePrototipo, IdCategoria, Descripcion, CaracteristicasEnvase, ImagenRuta, IdQuimico, IdEstadoPrototipo, ComentarioGerente, FechaCreacion, FechaModificacion)
@@ -431,8 +431,8 @@ SET @P3 = SCOPE_IDENTITY();
 INSERT INTO TB_PrototipoIngrediente VALUES (@P3, @Agua, 75.00), (@P3, @Lauril, 12.00), (@P3, @Glicerina, 8.00), (@P3, @Lavanda, 3.00), (@P3, @Fenoxi, 2.00);
 INSERT INTO TB_HistorialEstado (IdPrototipo, IdEstadoAnterior, IdEstadoNuevo, IdUsuario, Justificacion, FechaCambio)
 VALUES (@P3, NULL, @Borrador, @Laura, NULL, DATEADD(DAY, -15, GETDATE())),
-       (@P3, @Borrador, @Enviado, @Laura, NULL, DATEADD(DAY, -5, GETDATE())),
-       (@P3, @Enviado, @Devuelto, @Gerente, N'El porcentaje de fragancia es muy alto; bajarlo a 0.5 % y volver a enviar.', DATEADD(DAY, -2, GETDATE()));
+(@P3, @Borrador, @Enviado, @Laura, NULL, DATEADD(DAY, -5, GETDATE())),
+(@P3, @Enviado, @Devuelto, @Gerente, N'El porcentaje de fragancia es muy alto; bajarlo a 0.5 % y volver a enviar.', DATEADD(DAY, -2, GETDATE()));
 
 -- 4) Aprobado (Laura) -> NO aparece en "En trámite", sí en el histórico
 INSERT INTO TB_Prototipo (NombrePrototipo, IdCategoria, Descripcion, CaracteristicasEnvase, ImagenRuta, IdQuimico, IdEstadoPrototipo, ComentarioGerente, FechaCreacion, FechaModificacion)
@@ -441,8 +441,8 @@ SET @P4 = SCOPE_IDENTITY();
 INSERT INTO TB_PrototipoIngrediente VALUES (@P4, @Lauril, 25.00), (@P4, @Cloruro, 60.00), (@P4, @Lavanda, 1.00), (@P4, @Citrico, 14.00);
 INSERT INTO TB_HistorialEstado (IdPrototipo, IdEstadoAnterior, IdEstadoNuevo, IdUsuario, Justificacion, FechaCambio)
 VALUES (@P4, NULL, @Borrador, @Laura, NULL, DATEADD(DAY, -40, GETDATE())),
-       (@P4, @Borrador, @Enviado, @Laura, NULL, DATEADD(DAY, -35, GETDATE())),
-       (@P4, @Enviado, @Aprobado, @Gerente, N'Cumple con la fórmula y el etiquetado.', DATEADD(DAY, -30, GETDATE()));
+(@P4, @Borrador, @Enviado, @Laura, NULL, DATEADD(DAY, -35, GETDATE())),
+(@P4, @Enviado, @Aprobado, @Gerente, N'Cumple con la fórmula y el etiquetado.', DATEADD(DAY, -30, GETDATE()));
 
 -- 5) Cancelado (María) -> de otra química, solo en el histórico
 INSERT INTO TB_Prototipo (NombrePrototipo, IdCategoria, Descripcion, CaracteristicasEnvase, ImagenRuta, IdQuimico, IdEstadoPrototipo, ComentarioGerente, FechaCreacion, FechaModificacion)
@@ -451,7 +451,7 @@ SET @P5 = SCOPE_IDENTITY();
 INSERT INTO TB_PrototipoIngrediente VALUES (@P5, @Agua, 88.00), (@P5, @Glicerina, 10.00), (@P5, @Fenoxi, 2.00);
 INSERT INTO TB_HistorialEstado (IdPrototipo, IdEstadoAnterior, IdEstadoNuevo, IdUsuario, Justificacion, FechaCambio)
 VALUES (@P5, NULL, @Borrador, @Maria, NULL, DATEADD(DAY, -25, GETDATE())),
-       (@P5, @Borrador, @Cancelado, @Gerente, N'El cliente ya no necesita este producto.', DATEADD(DAY, -20, GETDATE()));
+(@P5, @Borrador, @Cancelado, @Gerente, N'El cliente ya no necesita este producto.', DATEADD(DAY, -20, GETDATE()));
 
 -- 6) Enviado (María) -> de otra química: NO aparece en "En trámite" de Laura
 INSERT INTO TB_Prototipo (NombrePrototipo, IdCategoria, Descripcion, CaracteristicasEnvase, ImagenRuta, IdQuimico, IdEstadoPrototipo, FechaCreacion, FechaModificacion)
@@ -460,7 +460,7 @@ SET @P6 = SCOPE_IDENTITY();
 INSERT INTO TB_PrototipoIngrediente VALUES (@P6, @Agua, 94.00), (@P6, @Hipo, 6.00);
 INSERT INTO TB_HistorialEstado (IdPrototipo, IdEstadoAnterior, IdEstadoNuevo, IdUsuario, Justificacion, FechaCambio)
 VALUES (@P6, NULL, @Borrador, @Maria, NULL, DATEADD(DAY, -6, GETDATE())),
-       (@P6, @Borrador, @Enviado, @Maria, NULL, DATEADD(DAY, -4, GETDATE()));
+(@P6, @Borrador, @Enviado, @Maria, NULL, DATEADD(DAY, -4, GETDATE()));
 
 -- Relación con empresas (RF-15, para que el detalle muestre algo)
 INSERT INTO TB_PrototipoEmpresa (IdPrototipo, IdEmpresa)
@@ -469,7 +469,7 @@ GO
 
 -- Verificación: deben salir 6 prototipos
 SELECT p.IdPrototipo, p.NombrePrototipo, e.NombreEstado, u.NombreCompleto AS Quimico,
-       (SELECT SUM(Porcentaje) FROM TB_PrototipoIngrediente WHERE IdPrototipo = p.IdPrototipo) AS SumaFormula
+(SELECT SUM(Porcentaje) FROM TB_PrototipoIngrediente WHERE IdPrototipo = p.IdPrototipo) AS SumaFormula
 FROM TB_Prototipo p
 JOIN TB_EstadoPrototipo e ON e.IdEstadoPrototipo = p.IdEstadoPrototipo
 JOIN TB_Usuario u ON u.IdUsuario = p.IdQuimico
