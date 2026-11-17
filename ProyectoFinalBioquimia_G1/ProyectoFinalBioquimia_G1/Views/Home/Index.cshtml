@@ -1,87 +1,119 @@
 ﻿@{
     ViewData["Title"] = "Inicio";
+
+    const int ROL_GERENTE = 2;
+    const int ROL_QUIMICO = 1;
+
+    int rolActual = 0;
+    if (Session["RolUsuarioSession"] != null)
+    {
+        int.TryParse(Session["RolUsuarioSession"].ToString(), out rolActual);
+    }
+
+    bool esGerente = rolActual == ROL_GERENTE;
+    bool esQuimico = rolActual == ROL_QUIMICO;
+
+    string nombre = Session["NombreUsuarioSession"] != null
+        ? Session["NombreUsuarioSession"].ToString()
+        : "Usuario invitado";
+
+    // Saludo según la hora del servidor
+    int hora = DateTime.Now.Hour;
+    string saludo;
+    string iconoSaludo;
+    if (hora < 12) { saludo = "Buenos días"; iconoSaludo = "bi-sun"; }
+    else if (hora < 19) { saludo = "Buenas tardes"; iconoSaludo = "bi-cloud-sun"; }
+    else { saludo = "Buenas noches"; iconoSaludo = "bi-moon-stars"; }
+
+    string fecha = DateTime.Now.ToString("dddd, d 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-CR"));
+    fecha = char.ToUpper(fecha[0]) + fecha.Substring(1);
+
+    // Color del banner según el rol
+    string colorRol = esGerente ? "primary" : "success";
+    string nombreRol = esGerente ? "Gerente" : (esQuimico ? "Químico" : "Sin rol");
 }
 
-<!-- INICIO SECCIONES DE DEBUG, LUEGO LAS QUITAMOS -->
-<!-- DEBUG: GERENTE (azul) -->
-<div class="card border-primary m-3 shadow-sm">
-    <div class="card-header bg-primary text-white fw-bold">
-        <i class="bi bi-bug-fill me-2"></i> [DEBUG] Vistas exclusivas de GERENTE
-    </div>
-    <div class="card-body">
-        <div class="d-flex flex-wrap gap-2">
-            <a href="@Url.Action("Index", "Gerente")" class="btn btn-primary btn-sm shadow-sm">
-                <i class="bi bi-speedometer2"></i> Dashboard Gerente (Index)
-            </a>
-            <a href="@Url.Action("Index", "Empresa")" class="btn btn-primary btn-sm shadow-sm">
-                <i class="bi bi-building"></i> Empresa (Index)
-            </a>
-            <a href="@Url.Action("Crear", "Empresa")" class="btn btn-primary btn-sm shadow-sm">
-                <i class="bi bi-plus-circle"></i> Empresa (Crear)
-            </a>
-            
-            <a href="@Url.Action("Index", "Usuario")" class="btn btn-primary btn-sm shadow-sm">
-                <i class="bi bi-people"></i> Usuarios (Index)
-            </a>
-            <a href="@Url.Action("Crear", "Usuario")" class="btn btn-primary btn-sm shadow-sm">
-                <i class="bi bi-person-plus"></i> Usuarios (Crear)
+@helper Acceso(string url, string icono, string titulo, string descripcion, string color)
+{
+    <div class="col-lg-4 col-md-6 col-12">
+        <div class="small-box text-bg-@color">
+            <div class="inner">
+                <h4 class="fw-bold">@titulo</h4>
+                <p>@descripcion</p>
+            </div>
+            <i class="bi @icono small-box-icon"></i>
+            <a href="@url" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                Ir <i class="bi bi-arrow-right-circle"></i>
             </a>
         </div>
     </div>
-</div>
-
-<!-- DEBUG: MIXTO (verde) - vistas compartidas por GERENTE Y QUIMICO -->
-<div class="card border-success m-3 shadow-sm">
-    <div class="card-header bg-success text-white fw-bold">
-        <i class="bi bi-bug-fill me-2"></i> [DEBUG] Vistas MIXTAS (GERENTE y QUÍMICO)
-    </div>
-    <div class="card-body">
-        <div class="d-flex flex-wrap gap-2">
-            <a href="@Url.Action("Index", "Historico")" class="btn btn-success btn-sm shadow-sm">
-                <i class="bi bi-clock-history"></i> Histórico (Index)
-            </a>
-            <a href="@Url.Action("Index", "Ingrediente")" class="btn btn-success btn-sm shadow-sm">
-                <i class="bi bi-basket"></i> Ingrediente (Index)
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- DEBUG: QUIMICO (celeste) -->
-<div class="card border-info m-3 shadow-sm">
-    <div class="card-header bg-info text-dark fw-bold">
-        <i class="bi bi-bug-fill me-2"></i> [DEBUG] Vistas exclusivas de QUÍMICO
-    </div>
-    <div class="card-body">
-        <div class="d-flex flex-wrap gap-2">
-            <a href="@Url.Action("Crear", "Ingrediente")" class="btn btn-info btn-sm shadow-sm">
-                <i class="bi bi-plus-circle"></i> Ingrediente (Crear)
-            </a>
-
-            <a href="@Url.Action("Index", "Tramite")" class="btn btn-info btn-sm shadow-sm">
-                <i class="bi bi-file-earmark-text"></i> Trámite (Index)
-            </a>
-            <a href="@Url.Action("Index", "Prototipo")" class="btn btn-info btn-sm shadow-sm">
-                <i class="bi bi-flask"></i> Prototipos (Index)
-            </a>
-            <a href="@Url.Action("Crear", "Prototipo")" class="btn btn-info btn-sm shadow-sm">
-                <i class="bi bi-plus-circle"></i> Prototipos (Crear)
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- FIN DE SECCIONES DE DEBUG -->
+}
 
 <div class="app-content-header">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <h3 class="mb-0">
-                    Bienvenido de vuelta,
-                    @(Session["NombreUsuarioSession"] != null ? Session["NombreUsuarioSession"].ToString() : "Usuario invitado")!
-                </h3>
+
+        <!-- Banner de bienvenida -->
+        <div class="rounded-4 shadow-sm p-4 p-md-5 mb-4 text-bg-@colorRol bg-gradient">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div>
+                    <p class="mb-1 opacity-75"><i class="bi bi-calendar3 me-1"></i> @fecha</p>
+                    <h2 class="fw-bold mb-1">
+                        <i class="bi @iconoSaludo me-2"></i>@saludo, @nombre
+                    </h2>
+                    <p class="mb-0 opacity-75">¿Qué quieres hacer hoy?</p>
+                </div>
+                <span class="badge rounded-pill bg-light text-dark fs-6 px-3 py-2">
+                    <i class="bi bi-person-badge me-1"></i> @nombreRol
+                </span>
             </div>
         </div>
+
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+
+        @if (esGerente)
+        {
+            <h5 class="mb-3"><i class="bi bi-briefcase me-2"></i>Administración</h5>
+            <div class="row mb-3">
+                @Acceso(Url.Action("Index", "Gerente"), "bi-speedometer2", "Dashboard", "Resumen general del sistema", "primary")
+                @Acceso(Url.Action("Index", "Empresa"), "bi-building", "Empresas", "Consultar las empresas", "info")
+                @Acceso(Url.Action("Crear", "Empresa"), "bi-building-add", "Nueva empresa", "Registrar una empresa", "success")
+                @Acceso(Url.Action("Index", "Usuario"), "bi-people", "Usuarios", "Gestionar los usuarios", "warning")
+                @Acceso(Url.Action("Crear", "Usuario"), "bi-person-plus", "Nuevo usuario", "Crear una cuenta de acceso", "secondary")
+            </div>
+
+            <h5 class="mb-3"><i class="bi bi-grid me-2"></i>General</h5>
+            <div class="row mb-3">
+                @Acceso(Url.Action("Index", "Historico"), "bi-clock-history", "Histórico", "Revisar prototipos anteriores", "secondary")
+                @Acceso(Url.Action("Index", "Ingrediente"), "bi-basket", "Ingredientes", "Consultar los ingredientes", "success")
+            </div>
+        }
+        else if (esQuimico)
+        {
+            <h5 class="mb-3"><i class="bi bi-flask me-2"></i>Mi trabajo</h5>
+            <div class="row mb-3">
+                @Acceso(Url.Action("Crear", "Prototipo"), "bi-journal-plus", "Nuevo prototipo", "Empezar un prototipo nuevo", "primary")
+                @Acceso(Url.Action("Index", "Prototipo"), "bi-flask", "Prototipos", "Ver y editar mis prototipos", "info")
+                @Acceso(Url.Action("Index", "Tramite"), "bi-file-earmark-text", "Trámites", "Prototipos en trámite", "warning")
+            </div>
+
+            <h5 class="mb-3"><i class="bi bi-grid me-2"></i>Laboratorio</h5>
+            <div class="row mb-3">
+                @Acceso(Url.Action("Index", "Ingrediente"), "bi-basket", "Ingredientes", "Consultar los ingredientes", "success")
+                @Acceso(Url.Action("Crear", "Ingrediente"), "bi-plus-circle", "Nuevo ingrediente", "Registrar un ingrediente", "info")
+                @Acceso(Url.Action("Index", "Historico"), "bi-clock-history", "Histórico", "Revisar prototipos anteriores", "secondary")
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Tu usuario no tiene un rol asignado, consulta con el administrador.
+            </div>
+        }
+
     </div>
 </div>

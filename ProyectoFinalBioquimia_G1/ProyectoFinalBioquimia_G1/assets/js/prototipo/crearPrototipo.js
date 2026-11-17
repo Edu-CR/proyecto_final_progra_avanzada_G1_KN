@@ -1,7 +1,4 @@
-﻿
-console.log("Prototipo.js cargado correctamente");
-
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
 
     const contenedor = document.getElementById("contenedorIngredientes");
     const botonAgregar = document.getElementById("agregarIngrediente");

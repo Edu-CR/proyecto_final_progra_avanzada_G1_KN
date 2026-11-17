@@ -1,4 +1,18 @@
-﻿<!doctype html>
+﻿@{
+
+    const int ROL_GERENTE = 2;
+    const int ROL_QUIMICO = 1;
+
+    int rolActual = 0;
+    if (Session["RolUsuarioSession"] != null)
+    {
+        int.TryParse(Session["RolUsuarioSession"].ToString(), out rolActual);
+    }
+
+    bool esGerente = rolActual == ROL_GERENTE;
+    bool esQuimico = rolActual == ROL_QUIMICO;
+}
+<!doctype html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -37,12 +51,7 @@
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 
-    <!-- BARRA DE DEBUG -->
-    <div class="bg-dark text-white text-center py-1" style="font-size: 12px;">
-        [DEBUG] Id: @(Session["IdUsuarioSession"] ?? "Vacía") |
-        Nombre: @(Session["NombreUsuarioSession"] ?? "Vacía") |
-        Rol: @(Session["RolUsuarioSession"] ?? "Vacía")
-    </div>
+  
 
     <!-- Contenedor Principal (Único) -->
     <div class="app-wrapper">
@@ -53,33 +62,21 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="~/assets/img/user2-160x160.jpg"
-                                 class="user-image rounded-circle shadow"
-                                 alt="Usuario" />
-
-                            <span class="d-none d-md-inline">
-                                @(Session["NombreUsuarioSession"] ?? "Sin sesión")
-                            </span>
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span>@(Session["NombreUsuarioSession"] ?? "Sin sesión")</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <li class="user-header text-bg-primary">
-                                <img src="~/assets/img/user2-160x160.jpg"
-                                     class="rounded-circle shadow"
-                                     alt="Usuario" />
-
-                                <p>
-                                    @(Session["NombreUsuarioSession"] ?? "Sin sesión")
-                                    <small>Rol ID: @(Session["RolUsuarioSession"] ?? "N/A")</small>
-                                </p>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a href="@Url.Action("VerPerfil", "Perfil")" class="dropdown-item">
+                                    <i class="bi bi-person me-2"></i> Perfil de usuario
+                                </a>
                             </li>
-                            <li class="user-footer">
-                                <a href="@Url.Action("VerPerfil", "Perfil")" class="btn btn-outline-secondary">Perfil de usuario</a>
-
-
-                                <form action="@Url.Action("Logout", "Auth")" method="post" class="d-inline">
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form action="@Url.Action("Logout", "Auth")" method="post">
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-outline-danger float-end">
-                                        Cerrar sesión
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
                                     </button>
                                 </form>
                             </li>
@@ -92,7 +89,7 @@
         <!-- Sidebar -->
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
             <div class="sidebar-brand">
-                <a href="#" class="brand-link">
+                <a href="@Url.Action("Index", "Home")" class="brand-link">
                     <img src="~/assets/img/logoBioquimia.png"
                          alt="Logo Bioquimia"
                          class="brand-image opacity-75 shadow"
@@ -100,19 +97,7 @@
                 </a>
             </div>
 
-            <div class="sidebar-search" role="search">
-                <label for="sidebar-search-input" class="visually-hidden">Filter menu</label>
-                <input type="search"
-                       id="sidebar-search-input"
-                       class="form-control form-control-sm"
-                       placeholder="Buscar menú…"
-                       autocomplete="off"
-                       data-lte-toggle="sidebar-search"
-                       data-lte-target="#navigation" />
-                <p class="fs-7 text-secondary mt-2 mb-0" data-lte-search-empty role="status" hidden>
-                    No matching pages.
-                </p>
-            </div>
+            
 
             <div class="sidebar-wrapper">
                 <nav class="mt-2" aria-label="Main navigation">
@@ -121,47 +106,96 @@
                         data-accordion="false"
                         id="navigation">
 
+                        <!-- Inicio (todos los roles) -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-speedometer"></i>
-                                <p>Dashboard de inicio</p>
+                            <a href="@Url.Action("Index", "Home")" class="nav-link">
+                                <i class="nav-icon bi bi-house-door"></i>
+                                <p>Inicio</p>
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-pencil-square"></i>
-                                <p>Nuevo prototipo</p>
-                            </a>
-                        </li>
+                        <!--   GERENTE  -->
+                        @if (esGerente)
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Gerente")" class="nav-link">
+                                    <i class="nav-icon bi bi-speedometer2"></i>
+                                    <p>Dashboard del gerente</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Empresa")" class="nav-link">
+                                    <i class="nav-icon bi bi-building"></i>
+                                    <p>Empresas</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Crear", "Empresa")" class="nav-link">
+                                    <i class="nav-icon bi bi-building-add"></i>
+                                    <p>Nueva empresa</p>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Usuario")" class="nav-link">
+                                    <i class="nav-icon bi bi-people"></i>
+                                    <p>Usuarios del sistema</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Crear", "Usuario")" class="nav-link">
+                                    <i class="nav-icon bi bi-person-plus"></i>
+                                    <p>Nuevo usuario</p>
+                                </a>
+                            </li>
+                        }
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-envelope"></i>
-                                <p>Notificaciones al correo</p>
-                            </a>
-                        </li>
+                        <!--GERENTE Y QUÍMICO -->
+                        @if (esGerente || esQuimico)
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Historico")" class="nav-link">
+                                    <i class="nav-icon bi bi-clock-history"></i>
+                                    <p>Histórico</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Ingrediente")" class="nav-link">
+                                    <i class="nav-icon bi bi-basket"></i>
+                                    <p>Ingredientes</p>
+                                </a>
+                            </li>
+                        }
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-table"></i>
-                                <p>Catálogo de prototipos</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-graph-up"></i>
-                                <p>Reportería</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-people"></i>
-                                <p>Usuarios del sistema</p>
-                            </a>
-                        </li>
+                        <!-- QUIMICO  -->
+                        @if (esQuimico)
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Crear", "Ingrediente")" class="nav-link">
+                                    <i class="nav-icon bi bi-plus-circle"></i>
+                                    <p>Nuevo ingrediente</p>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Tramite")" class="nav-link">
+                                    <i class="nav-icon bi bi-file-earmark-text"></i>
+                                    <p>Trámites</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Prototipo")" class="nav-link">
+                                    <i class="nav-icon bi bi-flask"></i>
+                                    <p>Prototipos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Crear", "Prototipo")" class="nav-link">
+                                    <i class="nav-icon bi bi-journal-plus"></i>
+                                    <p>Nuevo prototipo</p>
+                                </a>
+                            </li>
+                        }
 
                     </ul>
                 </nav>
