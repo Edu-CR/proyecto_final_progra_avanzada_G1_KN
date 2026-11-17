@@ -22,7 +22,10 @@
                 </div>
             }
 
-            <form method="post" asp-action="Login" asp-controller="Auth" id="loginForm" novalidate>
+
+            @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { id = "loginForm", novalidate = "novalidate" }))
+            {
+
                 @Html.AntiForgeryToken()
 
                 <!-- Correo Electrónico -->
@@ -55,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            }
 
             <hr />
 

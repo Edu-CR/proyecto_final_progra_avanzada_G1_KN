@@ -22,7 +22,8 @@
             }
 
             <!-- Formulario conectado al controlador Auth y acción RecuperarContrasenia -->
-            <form method="post" asp-action="Recuperar" asp-controller="Auth" id="recuperarForm" class="needs-validation" novalidate>
+            @using (Html.BeginForm("Recuperar", "Auth", FormMethod.Post, new { id = "recuperarForm", @class = "needs-validation", novalidate = "novalidate" }))
+            {
                 @Html.AntiForgeryToken()
 
                 <!-- Correo Electrónico -->
@@ -40,7 +41,7 @@
                 <div class="d-grid gap-2 mb-3">
                     <button type="submit" class="btn btn-primary" id="btn-submit">Enviar token de recuperación al correo</button>
                 </div>
-            </form>
+            }
 
             <hr />
 

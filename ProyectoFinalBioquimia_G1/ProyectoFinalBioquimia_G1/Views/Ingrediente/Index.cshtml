@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Catálogo de ingredientes";
     string filtro = ViewBag.Filtro as string ?? "activos";
+    // Solo el químico puede crear, editar, activar o desactivar; el gerente solo consulta.
+    bool puedeEditar = ViewBag.PuedeEditar is bool && (bool)ViewBag.PuedeEditar;
 }
 
 <div class="app-content-header">
@@ -10,11 +12,14 @@
             <div class="col-sm-6">
                 <h3 class="mb-0">Catálogo de ingredientes</h3>
             </div>
-            <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
-                <a href="@Url.Action("Crear")" class="btn btn-primary">
-                    <i class="bi bi-plus-lg"></i> Nuevo ingrediente
-                </a>
-            </div>
+            @if (puedeEditar)
+            {
+                <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
+                    <a href="@Url.Action("Crear")" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i> Nuevo ingrediente
+                    </a>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -77,7 +82,10 @@
                                     <th>Función</th>
                                     <th>Unidad base</th>
                                     <th>Estado</th>
-                                    <th class="text-end">Acciones</th>
+                                    @if (puedeEditar)
+                                    {
+                                        <th class="text-end">Acciones</th>
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,35 +105,38 @@
                                                 <span class="badge text-bg-secondary">Inactivo</span>
                                             }
                                         </td>
-                                        <td class="text-end text-nowrap">
-                                            <a href="@Url.Action("Editar", new { id = item.IdIngrediente })"
-                                               class="btn btn-sm btn-outline-primary">
-                                                <i class="bi bi-pencil"></i> Editar
-                                            </a>
+                                        @if (puedeEditar)
+                                        {
+                                            <td class="text-end text-nowrap">
+                                                <a href="@Url.Action("Editar", new { id = item.IdIngrediente })"
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-pencil"></i> Editar
+                                                </a>
 
-                                            @if (item.Estado)
-                                            {
-                                                using (Html.BeginForm("Desactivar", "Ingrediente", new { id = item.IdIngrediente }, FormMethod.Post,
-                                                    new { @class = "d-inline", onsubmit = "return confirm('¿Desea desactivar este ingrediente?');" }))
+                                                @if (item.Estado)
                                                 {
-                                                    @Html.AntiForgeryToken()
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                        <i class="bi bi-slash-circle"></i> Desactivar
-                                                    </button>
+                                                    using (Html.BeginForm("Desactivar", "Ingrediente", new { id = item.IdIngrediente }, FormMethod.Post,
+                                                        new { @class = "d-inline", onsubmit = "return confirm('¿Desea desactivar este ingrediente?');" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                            <i class="bi bi-slash-circle"></i> Desactivar
+                                                        </button>
+                                                    }
                                                 }
-                                            }
-                                            else
-                                            {
-                                                using (Html.BeginForm("Activar", "Ingrediente", new { id = item.IdIngrediente }, FormMethod.Post,
-                                                    new { @class = "d-inline" }))
+                                                else
                                                 {
-                                                    @Html.AntiForgeryToken()
-                                                    <button type="submit" class="btn btn-sm btn-outline-success">
-                                                        <i class="bi bi-check-circle"></i> Activar
-                                                    </button>
+                                                    using (Html.BeginForm("Activar", "Ingrediente", new { id = item.IdIngrediente }, FormMethod.Post,
+                                                        new { @class = "d-inline" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-sm btn-outline-success">
+                                                            <i class="bi bi-check-circle"></i> Activar
+                                                        </button>
+                                                    }
                                                 }
-                                            }
-                                        </td>
+                                            </td>
+                                        }
                                     </tr>
                                 }
                             </tbody>

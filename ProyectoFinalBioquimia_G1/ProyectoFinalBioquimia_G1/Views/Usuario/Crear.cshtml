@@ -8,12 +8,7 @@
             <div class="col-sm-6">
                 <h3 class="mb-0">Crear usuario</h3>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Usuario")">Usuarios</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Crear</li>
-                </ol>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -38,7 +33,10 @@
                         </h5>
                     </div>
 
-                    <form action="@Url.Action("Crear", "Usuario")" method="post" novalidate>
+
+                    @using (Html.BeginForm("Crear", "Usuario", FormMethod.Post, new { novalidate = "novalidate" }))
+                    {
+
                         @Html.AntiForgeryToken()
 
                         <div class="card-body">
@@ -99,7 +97,7 @@
                                 <i class="bi bi-save"></i> Guardar usuario
                             </button>
                         </div>
-                    </form>
+                    }
                 </div>
 
             </div>
