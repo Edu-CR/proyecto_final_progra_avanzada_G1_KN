@@ -2,73 +2,76 @@
     ViewData["Title"] = "Inicio";
 }
 
-<!-- INICIO SECCIÓN DE DEBUG, LUEGO AHI LA QUITAMOS -->
-<div class="card bg-warning-subtle border-warning m-3 shadow-sm">
-    <div class="card-header bg-warning text-dark fw-bold">
-        <i class="bi bi-bug-fill me-2"></i> [MENÚ DE DEBUG DE RUTAS] Acceso Rápido a Vistas para testeo de roles y demás
+<!-- INICIO SECCIONES DE DEBUG, LUEGO LAS QUITAMOS -->
+<!-- DEBUG: GERENTE (azul) -->
+<div class="card border-primary m-3 shadow-sm">
+    <div class="card-header bg-primary text-white fw-bold">
+        <i class="bi bi-bug-fill me-2"></i> [DEBUG] Vistas exclusivas de GERENTE
     </div>
     <div class="card-body">
         <div class="d-flex flex-wrap gap-2">
-
-            <a href="@Url.Action("Index", "Empresa")" class="btn btn-warning btn-sm shadow-sm">
+            <a href="@Url.Action("Index", "Gerente")" class="btn btn-primary btn-sm shadow-sm">
+                <i class="bi bi-speedometer2"></i> Dashboard Gerente (Index)
+            </a>
+            <a href="@Url.Action("Index", "Empresa")" class="btn btn-primary btn-sm shadow-sm">
                 <i class="bi bi-building"></i> Empresa (Index)
             </a>
-            <a href="@Url.Action("Crear", "Empresa")" class="btn btn-warning btn-sm shadow-sm">
+            <a href="@Url.Action("Crear", "Empresa")" class="btn btn-primary btn-sm shadow-sm">
                 <i class="bi bi-plus-circle"></i> Empresa (Crear)
             </a>
-            <a href="@Url.Action("Editar", "Empresa", new { id = 1 })" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-pencil-square"></i> Empresa (Editar)
+            
+            <a href="@Url.Action("Index", "Usuario")" class="btn btn-primary btn-sm shadow-sm">
+                <i class="bi bi-people"></i> Usuarios (Index)
             </a>
-
-
-            <a href="@Url.Action("Index", "Ingrediente")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-basket"></i> Ingrediente (Index)
+            <a href="@Url.Action("Crear", "Usuario")" class="btn btn-primary btn-sm shadow-sm">
+                <i class="bi bi-person-plus"></i> Usuarios (Crear)
             </a>
-            <a href="@Url.Action("Crear", "Ingrediente")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-plus-circle"></i> Ingrediente (Crear)
-            </a>
-            <a href="@Url.Action("Editar", "Ingrediente", new { id = 1 })" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-pencil-square"></i> Ingrediente (Editar)
-            </a>
-
-            <a href="@Url.Action("Index", "Historico")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-clock-history"></i> Histórico (Index)
-            </a>
-            <a href="@Url.Action("Detalle", "Historico", new { id = 1 })" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-journal-text"></i> Histórico (Detalle)
-            </a>
-
-
-            <a href="@Url.Action("Index", "Tramite")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-file-earmark-text"></i> Trámite (Index)
-            </a>
-
-
-            <a href="@Url.Action("Login", "Auth")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-box-arrow-in-right"></i> Auth (Login)
-            </a>
-
-
-            <a href="@Url.Action("Index", "Usuario")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-box-arrow-in-right"></i> Usuarios (INDEX Y SOLO GERENTE)
-            </a>
-
-
-            <a href="@Url.Action("Index", "Prototipo")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-box-arrow-in-right"></i> Prototipos inde
-            </a>
-
-
-            <a href="@Url.Action("Index", "Gerente")" class="btn btn-warning btn-sm shadow-sm">
-                <i class="bi bi-box-arrow-in-right"></i> Dashboard del gerente (INDEX Y SOLO GERENTE)
-            </a>
-
-
-
         </div>
     </div>
 </div>
-<!-- FIN DE SECCIÓN DE DEBUG -->
+
+<!-- DEBUG: MIXTO (verde) - vistas compartidas por GERENTE Y QUIMICO -->
+<div class="card border-success m-3 shadow-sm">
+    <div class="card-header bg-success text-white fw-bold">
+        <i class="bi bi-bug-fill me-2"></i> [DEBUG] Vistas MIXTAS (GERENTE y QUÍMICO)
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="@Url.Action("Index", "Historico")" class="btn btn-success btn-sm shadow-sm">
+                <i class="bi bi-clock-history"></i> Histórico (Index)
+            </a>
+            <a href="@Url.Action("Index", "Ingrediente")" class="btn btn-success btn-sm shadow-sm">
+                <i class="bi bi-basket"></i> Ingrediente (Index)
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- DEBUG: QUIMICO (celeste) -->
+<div class="card border-info m-3 shadow-sm">
+    <div class="card-header bg-info text-dark fw-bold">
+        <i class="bi bi-bug-fill me-2"></i> [DEBUG] Vistas exclusivas de QUÍMICO
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="@Url.Action("Crear", "Ingrediente")" class="btn btn-info btn-sm shadow-sm">
+                <i class="bi bi-plus-circle"></i> Ingrediente (Crear)
+            </a>
+
+            <a href="@Url.Action("Index", "Tramite")" class="btn btn-info btn-sm shadow-sm">
+                <i class="bi bi-file-earmark-text"></i> Trámite (Index)
+            </a>
+            <a href="@Url.Action("Index", "Prototipo")" class="btn btn-info btn-sm shadow-sm">
+                <i class="bi bi-flask"></i> Prototipos (Index)
+            </a>
+            <a href="@Url.Action("Crear", "Prototipo")" class="btn btn-info btn-sm shadow-sm">
+                <i class="bi bi-plus-circle"></i> Prototipos (Crear)
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FIN DE SECCIONES DE DEBUG -->
 
 <div class="app-content-header">
     <div class="container-fluid">
@@ -80,133 +83,5 @@
                 </h3>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="app-content">
-    <div class="container-fluid">
-
-        <!-- Tarjetas de resumen -->
-        <div class="row mb-4">
-            <div class="col-lg-3 col-6">
-                <div class="small-box text-bg-primary">
-                    <div class="inner">
-                        <h3>5</h3>
-                        <p>Prototipos Activos</p>
-                    </div>
-                    <i class="bi bi-flask small-box-icon"></i>
-                </div>
-            </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box text-bg-warning">
-                    <div class="inner">
-                        <h3>2</h3>
-                        <p>Pendientes de Aprobación</p>
-                    </div>
-                    <i class="bi bi-clock-history small-box-icon"></i>
-                </div>
-            </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box text-bg-success">
-                    <div class="inner">
-                        <h3>3</h3>
-                        <p>Aprobados este mes</p>
-                    </div>
-                    <i class="bi bi-check-circle small-box-icon"></i>
-                </div>
-            </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box text-bg-info">
-                    <div class="inner">
-                        <h3>12</h3>
-                        <p>Usuarios Activos</p>
-                    </div>
-                    <i class="bi bi-people small-box-icon"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tabla de prototipos -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Información más reciente de los prototipos</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-primary btn-sm">
-                                <i class="bi bi-plus-lg"></i> Nuevo Prototipo
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 195px;">Imagen</th>
-                                    <th class="text-center">Producto</th>
-                                    <th class="text-center">Cliente</th>
-                                    <th class="text-center">Estado</th>
-                                    <th class="text-center">Fecha</th>
-                                    <th class="text-center" style="width:195px;">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center"><img src="~/assets/img/prototipos/antibacterial.jpg" width="135" class="rounded shadow-sm" /></td>
-                                    <td class="text-center"><strong>Jabón antibacterial</strong></td>
-                                    <td class="text-center">Walmart</td>
-                                    <td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
-                                    <td class="text-center">20/09/2026</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><img src="~/assets/img/prototipos/abrillantador.jpg" width="135" class="rounded shadow-sm" /></td>
-                                    <td class="text-center"><strong>Abrillantador para Muebles</strong></td>
-                                    <td class="text-center">Santa Ceci Market</td>
-                                    <td class="text-center"><span class="badge text-bg-warning">En Revisión</span></td>
-                                    <td class="text-center">22/09/2026</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><img src="~/assets/img/prototipos/desengrasante.jpg" width="135" class="rounded shadow-sm" /></td>
-                                    <td class="text-center"><strong>Desengrasante Tsunami</strong></td>
-                                    <td class="text-center">Walmart</td>
-                                    <td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
-                                    <td class="text-center">18/09/2026</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><img src="~/assets/img/prototipos/detergente.jpg" width="135" class="rounded shadow-sm" /></td>
-                                    <td class="text-center"><strong>Detergente Líquido</strong></td>
-                                    <td class="text-center">Auto Mercado</td>
-                                    <td class="text-center"><span class="badge text-bg-warning">En Revisión</span></td>
-                                    <td class="text-center">24/09/2026</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><img src="~/assets/img/prototipos/lavaplatos.jpg" width="135" class="rounded shadow-sm" /></td>
-                                    <td class="text-center"><strong>Lavaplatos Tsunami</strong></td>
-                                    <td class="text-center">Walmart</td>
-                                    <td class="text-center"><span class="badge text-bg-success">Aprobado</span></td>
-                                    <td class="text-center">15/09/2026</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
