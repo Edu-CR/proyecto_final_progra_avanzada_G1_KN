@@ -288,6 +288,8 @@ CREATE NONCLUSTERED INDEX [IX_TB_RegistroRegulatorio_FechaVencimiento] ON [dbo].
 CREATE NONCLUSTERED INDEX [IX_TB_BitacoraError_FechaError] ON [dbo].[TB_BitacoraError]([FechaError]);
 GO
 
+USE [BioquimiaDB];
+GO
 
 /* =====================================================================
    7. DATOS INICIALES (obligatorios para que el sistema funcione)
@@ -374,6 +376,8 @@ USE [BioquimiaDB];
 GO
 
 -- Limpieza de una corrida anterior
+DELETE pr FROM [dbo].[TB_PruebaPrototipo] pr JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = pr.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
+DELETE rr FROM [dbo].[TB_RegistroRegulatorio] rr JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = rr.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
 DELETE h FROM [dbo].[TB_HistorialEstado] h JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = h.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
 DELETE pi FROM [dbo].[TB_PrototipoIngrediente] pi JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = pi.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
 DELETE pe FROM [dbo].[TB_PrototipoEmpresa] pe JOIN [dbo].[TB_Prototipo] p ON p.IdPrototipo = pe.IdPrototipo WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%';
@@ -477,6 +481,130 @@ WHERE p.NombrePrototipo LIKE N'[[]PRUEBA]%'
 ORDER BY p.IdPrototipo;
 GO
 
+-- Pruebas de laboratorio y registros regulatorios de los prototipos de prueba
+USE [BioquimiaDB];
+GO
+
+DECLARE @Laura INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'quimico@bioquimia.com');
+DECLARE @Maria INT = (SELECT IdUsuario FROM TB_Usuario WHERE CorreoElectronico = N'maria.quimico@bioquimia.com');
+
+DECLARE @pH INT = (SELECT IdTipoPrueba FROM TB_TipoPrueba WHERE NombreTipoPrueba = N'pH');
+DECLARE @Visc INT = (SELECT IdTipoPrueba FROM TB_TipoPrueba WHERE NombreTipoPrueba = N'Viscosidad');
+DECLARE @Dens INT = (SELECT IdTipoPrueba FROM TB_TipoPrueba WHERE NombreTipoPrueba = N'Densidad');
+DECLARE @Espuma INT = (SELECT IdTipoPrueba FROM TB_TipoPrueba WHERE NombreTipoPrueba = N'Espuma');
+
+DECLARE @P1 INT = (SELECT IdPrototipo FROM TB_Prototipo WHERE NombrePrototipo = N'[PRUEBA] Lavaplatos limón');
+DECLARE @P2 INT = (SELECT IdPrototipo FROM TB_Prototipo WHERE NombrePrototipo = N'[PRUEBA] Desengrasante industrial');
+DECLARE @P3 INT = (SELECT IdPrototipo FROM TB_Prototipo WHERE NombrePrototipo = N'[PRUEBA] Jabón antibacterial');
+DECLARE @P4 INT = (SELECT IdPrototipo FROM TB_Prototipo WHERE NombrePrototipo = N'[PRUEBA] Detergente en polvo');
+DECLARE @P5 INT = (SELECT IdPrototipo FROM TB_Prototipo WHERE NombrePrototipo = N'[PRUEBA] Abrillantador de pisos');
+DECLARE @P6 INT = (SELECT IdPrototipo FROM TB_Prototipo WHERE NombrePrototipo = N'[PRUEBA] Cloro desinfectante');
+
+-- Pruebas: Lavaplatos (faltan pruebas obligatorias)
+INSERT INTO TB_PruebaPrototipo (IdPrototipo, IdTipoPrueba, ValorMedido, Resultado, FechaPrueba, Observaciones, IdUsuario) VALUES
+(@P1, @pH,   6.80,    'Aprobada', CAST(DATEADD(DAY, -2, GETDATE()) AS date), NULL, @Laura),
+(@P1, @Visc, 1200.00, 'Aprobada', CAST(DATEADD(DAY, -2, GETDATE()) AS date), NULL, @Laura);
+
+-- Pruebas: Desengrasante (el pH se repitió)
+INSERT INTO TB_PruebaPrototipo (IdPrototipo, IdTipoPrueba, ValorMedido, Resultado, FechaPrueba, Observaciones, IdUsuario) VALUES
+(@P2, @pH,     8.90,   'Reprobada', CAST(DATEADD(DAY, -9, GETDATE()) AS date), N'pH muy alto, se ajustó la fórmula.', @Laura),
+(@P2, @pH,     8.10,   'Aprobada',  CAST(DATEADD(DAY, -8, GETDATE()) AS date), NULL, @Laura),
+(@P2, @Visc,   850.00, 'Aprobada',  CAST(DATEADD(DAY, -8, GETDATE()) AS date), NULL, @Laura),
+(@P2, @Dens,   1.02,   'Aprobada',  CAST(DATEADD(DAY, -8, GETDATE()) AS date), NULL, @Laura),
+(@P2, @Espuma, 45.00,  'Aprobada',  CAST(DATEADD(DAY, -8, GETDATE()) AS date), NULL, @Laura);
+
+-- Pruebas: Jabón antibacterial
+INSERT INTO TB_PruebaPrototipo (IdPrototipo, IdTipoPrueba, ValorMedido, Resultado, FechaPrueba, Observaciones, IdUsuario) VALUES
+(@P3, @pH,     7.00,    'Aprobada',  CAST(DATEADD(DAY, -6, GETDATE()) AS date), NULL, @Laura),
+(@P3, @Visc,   1800.00, 'Aprobada',  CAST(DATEADD(DAY, -6, GETDATE()) AS date), NULL, @Laura),
+(@P3, @Dens,   1.03,    'Aprobada',  CAST(DATEADD(DAY, -6, GETDATE()) AS date), NULL, @Laura),
+(@P3, @Espuma, 8.00,    'Reprobada', CAST(DATEADD(DAY, -6, GETDATE()) AS date), N'Poca espuma.', @Laura);
+
+-- Pruebas: Detergente en polvo
+INSERT INTO TB_PruebaPrototipo (IdPrototipo, IdTipoPrueba, ValorMedido, Resultado, FechaPrueba, Observaciones, IdUsuario) VALUES
+(@P4, @pH,     7.50,    'Aprobada', CAST(DATEADD(DAY, -37, GETDATE()) AS date), NULL, @Laura),
+(@P4, @Visc,   2500.00, 'Aprobada', CAST(DATEADD(DAY, -37, GETDATE()) AS date), NULL, @Laura),
+(@P4, @Dens,   1.05,    'Aprobada', CAST(DATEADD(DAY, -37, GETDATE()) AS date), NULL, @Laura),
+(@P4, @Espuma, 85.00,   'Aprobada', CAST(DATEADD(DAY, -37, GETDATE()) AS date), NULL, @Laura);
+
+-- Pruebas: Abrillantador (María)
+INSERT INTO TB_PruebaPrototipo (IdPrototipo, IdTipoPrueba, ValorMedido, Resultado, FechaPrueba, Observaciones, IdUsuario) VALUES
+(@P5, @pH,   7.00, 'Aprobada', CAST(DATEADD(DAY, -23, GETDATE()) AS date), NULL, @Maria),
+(@P5, @Dens, 1.01, 'Aprobada', CAST(DATEADD(DAY, -23, GETDATE()) AS date), NULL, @Maria);
+
+-- Pruebas: Cloro desinfectante (María)
+INSERT INTO TB_PruebaPrototipo (IdPrototipo, IdTipoPrueba, ValorMedido, Resultado, FechaPrueba, Observaciones, IdUsuario) VALUES
+(@P6, @pH,   8.40,   'Aprobada', CAST(DATEADD(DAY, -5, GETDATE()) AS date), NULL, @Maria),
+(@P6, @Visc, 520.00, 'Aprobada', CAST(DATEADD(DAY, -5, GETDATE()) AS date), NULL, @Maria),
+(@P6, @Dens, 1.05,   'Aprobada', CAST(DATEADD(DAY, -5, GETDATE()) AS date), NULL, @Maria);
+
+-- Registro regulatorio: Detergente en polvo (vigente, completo)
+INSERT INTO TB_RegistroRegulatorio
+(IdPrototipo, NumeroRegistro, FechaEmision, FechaVencimiento, FechaAlertaEnviada,
+ EtiquetaNombreProducto, EtiquetaIngredientes, EtiquetaAdvertencias, EtiquetaInstrucciones,
+ EtiquetaContenidoNeto, EtiquetaLote, EtiquetaFabricante, EtiquetaFechaVencimiento,
+ SdsPeligros, SdsPrimerosAuxilios, SdsAlmacenamiento, SdsFechaRevision)
+VALUES
+(@P4, N'REG-2026-0001', CAST(DATEADD(DAY, -60, GETDATE()) AS date), CAST(DATEADD(DAY, 305, GETDATE()) AS date), NULL,
+ 1, 1, 1, 1, 1, 1, 1, 1,
+ N'Irritante para ojos y piel. No ingerir.',
+ N'Enjuagar con abundante agua. Si se ingiere, buscar atención médica.',
+ N'Guardar en un lugar fresco y seco, fuera del alcance de los niños.',
+ CAST(DATEADD(DAY, -60, GETDATE()) AS date));
+
+-- Registro regulatorio: Desengrasante (por vencer)
+INSERT INTO TB_RegistroRegulatorio
+(IdPrototipo, NumeroRegistro, FechaEmision, FechaVencimiento, FechaAlertaEnviada,
+ EtiquetaNombreProducto, EtiquetaIngredientes, EtiquetaAdvertencias, EtiquetaInstrucciones,
+ EtiquetaContenidoNeto, EtiquetaLote, EtiquetaFabricante, EtiquetaFechaVencimiento,
+ SdsPeligros, SdsPrimerosAuxilios, SdsAlmacenamiento, SdsFechaRevision)
+VALUES
+(@P2, N'REG-2026-0002', CAST(DATEADD(DAY, -345, GETDATE()) AS date), CAST(DATEADD(DAY, 20, GETDATE()) AS date), NULL,
+ 1, 1, 1, 1, 1, 1, 1, 1,
+ N'Corrosivo en contacto prolongado con la piel. Usar guantes.',
+ N'Lavar la zona con agua y jabón.',
+ N'Mantener el envase cerrado y en un lugar ventilado.',
+ CAST(DATEADD(DAY, -345, GETDATE()) AS date));
+
+-- Registro regulatorio: Jabón antibacterial (por vencer, alerta ya enviada, etiquetado incompleto)
+INSERT INTO TB_RegistroRegulatorio
+(IdPrototipo, NumeroRegistro, FechaEmision, FechaVencimiento, FechaAlertaEnviada,
+ EtiquetaNombreProducto, EtiquetaIngredientes, EtiquetaAdvertencias, EtiquetaInstrucciones,
+ EtiquetaContenidoNeto, EtiquetaLote, EtiquetaFabricante, EtiquetaFechaVencimiento,
+ SdsPeligros, SdsPrimerosAuxilios, SdsAlmacenamiento, SdsFechaRevision)
+VALUES
+(@P3, N'REG-2026-0003', CAST(DATEADD(DAY, -355, GETDATE()) AS date), CAST(DATEADD(DAY, 10, GETDATE()) AS date), DATEADD(DAY, -1, GETDATE()),
+ 1, 1, 1, 1, 1, 0, 1, 1,
+ N'Puede irritar la piel sensible.',
+ N'Enjuagar con agua.',
+ NULL,
+ CAST(DATEADD(DAY, -355, GETDATE()) AS date));
+
+-- Registro regulatorio: Abrillantador (vencido)
+INSERT INTO TB_RegistroRegulatorio
+(IdPrototipo, NumeroRegistro, FechaEmision, FechaVencimiento, FechaAlertaEnviada,
+ EtiquetaNombreProducto, EtiquetaIngredientes, EtiquetaAdvertencias, EtiquetaInstrucciones,
+ EtiquetaContenidoNeto, EtiquetaLote, EtiquetaFabricante, EtiquetaFechaVencimiento,
+ SdsPeligros, SdsPrimerosAuxilios, SdsAlmacenamiento, SdsFechaRevision)
+VALUES
+(@P5, N'REG-2025-0045', CAST(DATEADD(DAY, -400, GETDATE()) AS date), CAST(DATEADD(DAY, -35, GETDATE()) AS date), DATEADD(DAY, -65, GETDATE()),
+ 1, 1, 1, 1, 1, 1, 1, 1,
+ N'No ingerir. Evitar contacto con los ojos.',
+ N'Enjuagar con abundante agua.',
+ N'Guardar a temperatura ambiente.',
+ CAST(DATEADD(DAY, -400, GETDATE()) AS date));
+
+-- Registro regulatorio: Cloro desinfectante (vigente, sin hoja de seguridad)
+INSERT INTO TB_RegistroRegulatorio
+(IdPrototipo, NumeroRegistro, FechaEmision, FechaVencimiento, FechaAlertaEnviada,
+ EtiquetaNombreProducto, EtiquetaIngredientes, EtiquetaAdvertencias, EtiquetaInstrucciones,
+ EtiquetaContenidoNeto, EtiquetaLote, EtiquetaFabricante, EtiquetaFechaVencimiento,
+ SdsPeligros, SdsPrimerosAuxilios, SdsAlmacenamiento, SdsFechaRevision)
+VALUES
+(@P6, N'REG-2026-0004', CAST(DATEADD(DAY, -30, GETDATE()) AS date), CAST(DATEADD(DAY, 335, GETDATE()) AS date), NULL,
+ 1, 1, 0, 1, 1, 0, 0, 0,
+ NULL, NULL, NULL, NULL);
+GO
 
 /* =====================================================================
    9. DROPS
